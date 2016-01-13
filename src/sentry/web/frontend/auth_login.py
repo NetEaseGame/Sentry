@@ -157,6 +157,8 @@ import urllib2
 import cookielib
 import base64
 from sentry.models import User
+import hmac
+import hashlib
 
 def redirect_url(root_url, next_url):
     # Step 1

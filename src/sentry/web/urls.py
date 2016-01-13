@@ -115,7 +115,7 @@ if settings.DEBUG:
         url(r'^debug/trigger-error/$',
             DebugTriggerErrorView.as_view()),
     )
-
+from sentry.web.frontend.auth_login import openid_login_callback #add openid login callback
 urlpatterns += patterns(
     '',
     # Store endpoints first since they are the most active
@@ -144,6 +144,8 @@ urlpatterns += patterns(
         name='sentry-auth-link-identity'),
     url(r'^auth/login/$', AuthLoginView.as_view(),
         name='sentry-login'),
+    url(r'^auth/login/$', openid_login_callback,
+        name='sentry-openid-success'), #add by hzwangzhiwei openid success callback
     url(r'^auth/login/(?P<organization_slug>[^/]+)/$', AuthOrganizationLoginView.as_view(),
         name='sentry-auth-organization'),
     url(r'^auth/sso/$', AuthProviderLoginView.as_view(),

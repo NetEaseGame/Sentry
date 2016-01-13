@@ -1,3 +1,4 @@
+#coding=utf-8
 from __future__ import absolute_import
 
 from django.conf import settings
@@ -152,7 +153,7 @@ class AuthLoginView(BaseView):
 
 
 ########################################
-#openid登陆
+#openid login
 ########################################
 import urllib
 import urllib2

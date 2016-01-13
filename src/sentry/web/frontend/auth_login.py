@@ -245,13 +245,11 @@ def openid_login_callback(request):
     login_user = User.objects.filter(username__iexact=email)
     if login_user.exists():
         login_user = login_user[0]
-        print 'user_exist'
         login_user.password="sentry_netease_openid_pwd"
     else:
         #不存在数据，则增加数据数用户表
         login_user = User(username=email, name=fullname, email=email, password="sentry_netease_openid_pwd")
-        login_user = login_user.save()
-        print 'user added'
+        login_user.save() #save to db
     # HACK: grab whatever the first backend is and assume it works
     login_user.backend = settings.AUTHENTICATION_BACKENDS[0]
 
@@ -266,6 +264,5 @@ def openid_login_index(request):
     # TODO add openid, 在这个地方跳转到openid的位置 by hzwangzhiwei @20160113
     location, mac_key = redirect_url('http://' + request.get_host() + '/', auth.get_login_redirect(request))
     request.session['mac_key'] = mac_key
-    print location
     return HttpResponseRedirect(location) #跳转到openid登陆
 ########################################

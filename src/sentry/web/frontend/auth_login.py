@@ -251,12 +251,12 @@ def openid_login_callback(request):
         login_user = User(username=email, name=fullname, email=email, password="sentry_netease_openid_pwd")
         login_user.save()
     # HACK: grab whatever the first backend is and assume it works
-    # user.backend = settings.AUTHENTICATION_BACKENDS[0]
+    user.backend = settings.AUTHENTICATION_BACKENDS[0]
 
     auth.login(request, login_user)
     # can_register should only allow a single registration
-    # request.session.pop('can_register', None)
-    # request.session.pop('needs_captcha', None)
+    request.session.pop('can_register', None)
+    request.session.pop('needs_captcha', None)
     return HttpResponseRedirect(next_url)
 
 

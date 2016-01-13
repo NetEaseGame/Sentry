@@ -53,66 +53,62 @@ class AuthLoginView(BaseView):
         )
 
     def handle_basic_auth(self, request):
-        # can_register = features.has('auth:register') or request.session.get('can_register')
+        can_register = features.has('auth:register') or request.session.get('can_register')
 
-        # op = request.POST.get('op')
+        op = request.POST.get('op')
 
-        # # Detect that we are on the register page by url /register/ and
-        # # then activate the register tab by default.
-        # if not op and '/register' in request.path_info and can_register:
-        #     op = 'register'
+        # Detect that we are on the register page by url /register/ and
+        # then activate the register tab by default.
+        if not op and '/register' in request.path_info and can_register:
+            op = 'register'
 
-        # login_form = self.get_login_form(request)
-        # if can_register:
-        #     register_form = self.get_register_form(request)
-        # else:
-        #     register_form = None
+        login_form = self.get_login_form(request)
+        if can_register:
+            register_form = self.get_register_form(request)
+        else:
+            register_form = None
 
-        # if can_register and register_form.is_valid():
-        #     user = register_form.save()
+        if can_register and register_form.is_valid():
+            user = register_form.save()
 
-        #     # HACK: grab whatever the first backend is and assume it works
-        #     user.backend = settings.AUTHENTICATION_BACKENDS[0]
+            # HACK: grab whatever the first backend is and assume it works
+            user.backend = settings.AUTHENTICATION_BACKENDS[0]
 
-        #     auth.login(request, user)
+            auth.login(request, user)
 
-        #     # can_register should only allow a single registration
-        #     request.session.pop('can_register', None)
+            # can_register should only allow a single registration
+            request.session.pop('can_register', None)
 
-        #     request.session.pop('needs_captcha', None)
+            request.session.pop('needs_captcha', None)
 
-        #     return self.redirect(auth.get_login_redirect(request))
+            return self.redirect(auth.get_login_redirect(request))
 
-        # elif login_form.is_valid():
-        #     auth.login(request, login_form.get_user())
+        elif login_form.is_valid():
+            auth.login(request, login_form.get_user())
 
-        #     request.session.pop('needs_captcha', None)
+            request.session.pop('needs_captcha', None)
 
-        #     return self.redirect(auth.get_login_redirect(request))
+            return self.redirect(auth.get_login_redirect(request))
 
-        # elif request.POST and not request.session.get('needs_captcha'):
-        #     auth.log_auth_failure(request, request.POST.get('username'))
-        #     request.session['needs_captcha'] = 1
-        #     login_form = self.get_login_form(request)
-        #     login_form.errors.pop('captcha', None)
-        #     if can_register:
-        #         register_form = self.get_register_form(request)
-        #         register_form.errors.pop('captcha', None)
+        elif request.POST and not request.session.get('needs_captcha'):
+            auth.log_auth_failure(request, request.POST.get('username'))
+            request.session['needs_captcha'] = 1
+            login_form = self.get_login_form(request)
+            login_form.errors.pop('captcha', None)
+            if can_register:
+                register_form = self.get_register_form(request)
+                register_form.errors.pop('captcha', None)
 
-        # request.session.set_test_cookie()
+        request.session.set_test_cookie()
 
-        # context = {
-        #     'op': op or 'login',
-        #     'login_form': login_form,
-        #     'register_form': register_form,
-        #     'CAN_REGISTER': can_register,
-        # }
-        #TODO add openid, 在这个地方跳转到openid的位置 by hzwangzhiwei @20160113
-        location, mac_key = redirect_url('http://' + request.get_host() + '/', auth.get_login_redirect(request))
-        request.session['mac_key'] = mac_key
-        print location
-        return HttpResponseRedirect(location) #跳转到openid登陆
-        # return self.respond('sentry/login.html', context)
+        context = {
+            'op': op or 'login',
+            'login_form': login_form,
+            'register_form': register_form,
+            'CAN_REGISTER': can_register,
+        }
+        
+        return self.respond('sentry/login.html', context)
 
     def handle_sso(self, request):
         org = request.POST.get('organization')
@@ -260,4 +256,12 @@ def openid_login_callback(request):
     # request.session.pop('can_register', None)
     # request.session.pop('needs_captcha', None)
     return HttpResponseRedirect(next_url)
+
+
+def openid_login_index(request):
+    # TODO add openid, 在这个地方跳转到openid的位置 by hzwangzhiwei @20160113
+    location, mac_key = redirect_url('http://' + request.get_host() + '/', auth.get_login_redirect(request))
+    request.session['mac_key'] = mac_key
+    print location
+    return HttpResponseRedirect(location) #跳转到openid登陆
 ########################################

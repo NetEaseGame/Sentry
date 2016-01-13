@@ -28,19 +28,20 @@ _LOGIN_URL = None
 
 def get_login_url(reset=False):
     global _LOGIN_URL
+    #update by hzwangzhiwei @20160113
+    # if _LOGIN_URL is None or reset:
+    #     # if LOGIN_URL resolves force login_required to it instead of our own
+    #     # XXX: this must be done as late as possible to avoid idempotent requirements
+    #     try:
+    #         resolve(settings.LOGIN_URL)
+    #     except Exception:
+    #         _LOGIN_URL = settings.SENTRY_LOGIN_URL
+    #     else:
+    #         _LOGIN_URL = settings.LOGIN_URL
 
-    if _LOGIN_URL is None or reset:
-        # if LOGIN_URL resolves force login_required to it instead of our own
-        # XXX: this must be done as late as possible to avoid idempotent requirements
-        try:
-            resolve(settings.LOGIN_URL)
-        except Exception:
-            _LOGIN_URL = settings.SENTRY_LOGIN_URL
-        else:
-            _LOGIN_URL = settings.LOGIN_URL
-
-        if _LOGIN_URL is None:
-            _LOGIN_URL = reverse('sentry-login')
+    #     if _LOGIN_URL is None:
+    #         _LOGIN_URL = reverse('sentry-login')
+    _LOGIN_URL = '/auth/openid-login/'
     return _LOGIN_URL
 
 

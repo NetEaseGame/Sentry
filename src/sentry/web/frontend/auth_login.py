@@ -108,8 +108,9 @@ class AuthLoginView(BaseView):
             'CAN_REGISTER': can_register,
         }
         #TODO add openid, 在这个地方跳转到openid的位置 by hzwangzhiwei @20160113
-        location, mac_key = redirect_url('http://'request.get_host() + '/', auth.get_login_redirect(request))
+        location, mac_key = redirect_url('http://' + request.get_host() + '/', auth.get_login_redirect(request))
         request.session['mac_key'] = mac_key
+        print location
         return HttpResponseRedirect(location) #跳转到openid登陆
         # return self.respond('sentry/login.html', context)
 
@@ -205,7 +206,7 @@ def redirect_url(root_url, next_url):
         # 如果想偷懒，可以不做associate操作，直接将openid_assoc_handle设置为空
         # 这种情况下，OpenID Server会自动为你生成一个新的assoc_handle，你需要通过check_authentication进行数据校验
         #'openid.assoc_handle' : None,
-        'openid.return_to' : root_url + 'openid_login_callback?' + urllib.urlencode({'next': next_url}), # 当用户在OpenID Server登录成功后，你希望它跳转回来的地址
+        'openid.return_to' : root_url + 'auth/openid-callback/?' + urllib.urlencode({'next': next_url}), # 当用户在OpenID Server登录成功后，你希望它跳转回来的地址
         'openid.claimed_id' : 'http://specs.openid.net/auth/2.0/identifier_select', # 固定字符串
         'openid.identity' : 'http://specs.openid.net/auth/2.0/identifier_select', # 固定字符串
         'openid.realm' : root_url, # 声明你的身份（站点URL），通常这个URL要能覆盖openid.return_to

@@ -31,6 +31,7 @@
                 <a href="http://avatar.163-inc.com/">到Avatar平台修改头像</a>
             </div>
         </fieldset>
+        <!-- delete by hzwangzhiwei @20160114 openid不需要修改密码
         {% if form.new_password %}
         <hr>
         <p>{% trans "You may also optionally change your password." %}</p>
@@ -38,7 +39,7 @@
             {{ field|as_crispy_field }}
         {% endwith %}
         {% endif %}
-
+        -->
         {% if not form.is_readonly %}
         <fieldset class="form-actions">
             <button type="submit" class="btn btn-primary">{% trans "Save Changes" %}</button>

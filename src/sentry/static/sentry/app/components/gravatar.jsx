@@ -27,8 +27,10 @@ const Gravatar = React.createClass({
     // };
 
     // url += '?' + $.param(query);
-    //update by hzwangzhiwei
-    url = "http://avatar.163-inc.com/api/" + this.props.email + "/" + this.props.size;
+    let url = 'http://avatar.163-inc.com/api/';
+    url += this.props.email;
+    url += '/';
+    url += this.props.size;
     return url;
   },
 

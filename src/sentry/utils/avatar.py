@@ -15,15 +15,16 @@ from sentry.utils.hashlib import md5
 
 
 def get_gravatar_url(email, size=None, default='mm'):
-    gravatar_url = "%s/avatar/%s" % (settings.SENTRY_GRAVATAR_BASE_URL,
-                                     md5(email.lower()).hexdigest())
+    # gravatar_url = "%s/avatar/%s" % (settings.SENTRY_GRAVATAR_BASE_URL,
+    #                                  md5(email.lower()).hexdigest())
 
-    properties = {}
-    if size:
-        properties['s'] = str(size)
-    if default:
-        properties['d'] = default
-    if properties:
-        gravatar_url += "?" + urllib.urlencode(properties)
-
+    # properties = {}
+    # if size:
+    #     properties['s'] = str(size)
+    # if default:
+    #     properties['d'] = default
+    # if properties:
+    #     gravatar_url += "?" + urllib.urlencode(properties)
+    #update by hzwangzhiwei, for avatar
+    gravatar_url = "http://avatar.163-inc.com/api/" + email + "/" + str(size)
     return gravatar_url

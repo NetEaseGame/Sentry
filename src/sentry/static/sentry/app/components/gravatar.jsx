@@ -17,17 +17,18 @@ const Gravatar = React.createClass({
   },
 
   buildGravatarUrl() {
-    let url = 'https://secure.gravatar.com/avatar/';
+    // let url = 'https://secure.gravatar.com/avatar/';
 
-    url += MD5(this.props.email.toLowerCase());
+    // url += MD5(this.props.email.toLowerCase());
 
-    let query = {
-      s: this.props.size || undefined,
-      d: this.props.default || undefined
-    };
+    // let query = {
+    //   s: this.props.size || undefined,
+    //   d: this.props.default || undefined
+    // };
 
-    url += '?' + $.param(query);
-
+    // url += '?' + $.param(query);
+    //update by hzwangzhiwei
+    url = "http://avatar.163-inc.com/api/" + this.props.email + "/" + this.props.size;
     return url;
   },
 

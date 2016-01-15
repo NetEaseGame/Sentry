@@ -6,7 +6,8 @@
 {% block title %}{% trans "Login" %} | {{ block.super }}{% endblock %}
 
 {% block auth_main %}
-  <ul class="nav nav-tabs auth-toggle">
+  <a href="/">NetEase OpenID登陆</a>
+  <!-- <ul class="nav nav-tabs auth-toggle">
     <li{% if op == "login" %} class="active"{% endif %}>
       <a href="#login" data-toggle="tab">{% trans "Login" %}</a>
     </li>
@@ -73,5 +74,5 @@
         </div>
       </form>
     </div>
-  </div>
+  </div>-->
 {% endblock %}

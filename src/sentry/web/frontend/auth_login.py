@@ -265,4 +265,7 @@ def openid_login_index(request):
     location, mac_key = redirect_url('http://' + request.get_host() + '/', auth.get_login_redirect(request))
     request.session['mac_key'] = mac_key
     return HttpResponseRedirect(location) #跳转到openid登陆
+
+def openid_org_login_index(request, organization_slug):
+    openid_login_index(request)
 ########################################

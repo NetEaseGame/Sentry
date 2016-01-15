@@ -115,7 +115,7 @@ if settings.DEBUG:
         url(r'^debug/trigger-error/$',
             DebugTriggerErrorView.as_view()),
     )
-from sentry.web.frontend.auth_login import openid_login_callback, openid_login_index #add openid login callback
+from sentry.web.frontend.auth_login import openid_login_callback, openid_login_index, openid_org_login_index #add openid login callback
 urlpatterns += patterns(
     '',
     # Store endpoints first since they are the most active
@@ -140,16 +140,16 @@ urlpatterns += patterns(
         name='sentry-error-page-embed'),
 
     # Auth
-    url(r'^auth/link/(?P<organization_slug>[^/]+)/$', AuthOrganizationLoginView.as_view(),
+    url(r'^auth/link/(?P<organization_slug>[^/]+)/$', openid_org_login_index, #AuthOrganizationLoginView.as_view(),
         name='sentry-auth-link-identity'),
-    url(r'^auth/login/$', AuthLoginView.as_view(),
+    url(r'^auth/login/$', openid_login_index, #AuthLoginView.as_view(),
         name='sentry-login'),
     url(r'^auth/openid-callback/$', openid_login_callback,
         name='sentry-openid-success'), #add by hzwangzhiwei openid success callback
     url(r'^auth/openid-login/$', openid_login_index,
         name='sentry-openid-login'), #add by hzwangzhiwei openid success callback
 
-    url(r'^auth/login/(?P<organization_slug>[^/]+)/$', AuthOrganizationLoginView.as_view(),
+    url(r'^auth/login/(?P<organization_slug>[^/]+)/$', openid_org_login_index, #AuthOrganizationLoginView.as_view(),
         name='sentry-auth-organization'),
     url(r'^auth/sso/$', AuthProviderLoginView.as_view(),
         name='sentry-auth-sso'),

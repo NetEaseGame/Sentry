@@ -104,7 +104,6 @@ DEFAULT_SORT_OPTION = 'date'
 
 # Setup languages for only available locales
 LANGUAGE_MAP = dict(settings.LANGUAGES)
-LANGUAGE_MAP['cs'] = 'Simplified Chinese' #update by hzwangzhiwei @20160115 reaplease cs == china
 LANGUAGES = [(k, LANGUAGE_MAP[k]) for k in get_all_languages() if k in LANGUAGE_MAP]
 
 # TODO(dcramer): We eventually want to make this user-editable

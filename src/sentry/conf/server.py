@@ -606,7 +606,7 @@ SENTRY_FEATURES = {
 
 # Default time zone for localization in the UI.
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
-SENTRY_DEFAULT_TIME_ZONE = 'UTC'
+SENTRY_DEFAULT_TIME_ZONE = 'Asia/Shanghai' #update by hzwangzhiwei @20160118, default timezone
 
 # Enable the Sentry Debugger (Beta)
 SENTRY_DEBUGGER = False

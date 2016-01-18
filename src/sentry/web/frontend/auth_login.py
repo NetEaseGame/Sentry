@@ -235,7 +235,7 @@ def openid_login_callback(request):
             SIGNED_CONTENT, hashlib.sha256 ).digest())
     
     if SIGNED_CONTENT_SIG != OPENID_RESPONSE['openid.sig'][0]:
-        return render_template('error.html', message='认证失败，请重新登录验证')
+        return '认证失败，请重新登录验证'
     
     request.session.pop('mac_key', None) 
     email = request.GET.get('openid.sreg.email', '')
@@ -245,10 +245,11 @@ def openid_login_callback(request):
     login_user = User.objects.filter(username__iexact=email)
     if login_user.exists():
         login_user = login_user[0]
-        login_user.password="sentry_netease_openid_pwd"
+        login_user.set_password("sentry_netease_openid_pwd")
     else:
         #不存在数据，则增加数据数用户表
-        login_user = User(username=email, name=fullname, email=email, password="sentry_netease_openid_pwd")
+        login_user = User(username=email, name=fullname, email=email)
+        login_user.set_password("sentry_netease_openid_pwd")
         login_user.save() #save to db
     # HACK: grab whatever the first backend is and assume it works
     login_user.backend = settings.AUTHENTICATION_BACKENDS[0]

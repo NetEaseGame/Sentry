@@ -92,8 +92,8 @@ def delete_team(object_id, continuous=True, **kwargs):
 def delete_project(object_id, continuous=True, **kwargs):
     from sentry.models import (
         Project, ProjectKey, ProjectStatus, TagKey, TagValue, GroupTagKey,
-        GroupTagValue, Activity, EventMapping, Group, GroupRuleStatus,
-        GroupHash, GroupSeen,
+        GroupTagValue, Activity, EventMapping, Group, GroupEmailThread,
+        GroupRuleStatus, GroupHash, GroupMeta, GroupSeen, UserReport
     )
 
     try:
@@ -111,7 +111,8 @@ def delete_project(object_id, continuous=True, **kwargs):
     # XXX: remove keys first to prevent additional data from flowing in
     model_list = (
         ProjectKey, TagKey, TagValue, GroupTagKey, GroupTagValue, EventMapping,
-        Activity, GroupRuleStatus, GroupHash, GroupSeen,
+        Activity, GroupRuleStatus, GroupHash, GroupSeen, UserReport,
+        GroupEmailThread
     )
     for model in model_list:
         has_more = bulk_delete_objects(model, project_id=p.id, logger=logger)
@@ -119,6 +120,15 @@ def delete_project(object_id, continuous=True, **kwargs):
             if continuous:
                 delete_project.delay(object_id=object_id, countdown=15)
             return
+
+    # TODO(dcramer): GroupMeta has no project relation so we cant easily bulk
+    # delete today
+    has_more = delete_objects([GroupMeta], relation={'group__project': p},
+                              logger=logger)
+    if has_more:
+        if continuous:
+            delete_project.delay(object_id=object_id, countdown=15)
+        return
 
     has_more = delete_events(relation={'project_id': p.id}, logger=logger)
     if has_more:
@@ -141,8 +151,8 @@ def delete_project(object_id, continuous=True, **kwargs):
 @retry
 def delete_group(object_id, continuous=True, **kwargs):
     from sentry.models import (
-        EventMapping, Group, GroupHash, GroupRuleStatus, GroupStatus,
-        GroupTagKey, GroupTagValue, GroupEmailThread,
+        EventMapping, Group, GroupHash, GroupMeta, GroupRuleStatus, GroupStatus,
+        GroupTagKey, GroupTagValue, GroupEmailThread, UserReport
     )
 
     try:
@@ -154,8 +164,8 @@ def delete_group(object_id, continuous=True, **kwargs):
         group.update(status=GroupStatus.DELETION_IN_PROGRESS)
 
     bulk_model_list = (
-        GroupHash, GroupRuleStatus, GroupTagValue, GroupTagKey,
-        EventMapping, GroupEmailThread,
+        GroupHash, GroupMeta, GroupRuleStatus, GroupTagValue, GroupTagKey,
+        EventMapping, GroupEmailThread, UserReport
     )
     for model in bulk_model_list:
         has_more = bulk_delete_objects(model, group_id=object_id, logger=logger)

@@ -268,5 +268,5 @@ def openid_login_index(request):
     return HttpResponseRedirect(location) #跳转到openid登陆
 
 def openid_org_login_index(request, organization_slug):
-    openid_login_index(request)
+    return openid_login_index(request)
 ########################################

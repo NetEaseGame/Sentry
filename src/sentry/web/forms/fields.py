@@ -173,3 +173,38 @@ class IPNetworksField(CharField):
             except ValueError:
                 raise ValidationError('%r is not an acceptable value' % value)
         return values
+
+# add by hzwangzhiwei @20160329 corp email field, use to be add member to system
+class CorpEmailField(CharField):
+    class widget(TextInput):
+        def render(self, name, value, attrs=None):
+            if not attrs:
+                attrs = {}
+            if 'placeholder' not in attrs:
+                attrs['placeholder'] = 'username'
+            if isinstance(value, six.integer_types):
+                value = User.objects.get(id=value).username
+            return super(CorpEmailField.widget, self).render(name, value, attrs)
+
+    def clean(self, value):
+        value = super(CorpEmailField, self).clean(value)
+        if not value:
+            return None
+        # valid corp email
+        value = value.lower()
+        if value.endswith('@corp.netease.com') or value.endswith('@mesg.corp.netease.com'):
+            # valid ok
+            user_add = User.objects.filter(username__iexact=value)
+            if user_add.exists():
+                # user exist
+                user_add = user_add[0]
+                user_add.set_password("sentry_netease_openid_pwd")
+            else:
+                # user not exist, save to db
+                user_add = User(username=value, name=value, email=value)
+                user_add.set_password("sentry_netease_openid_pwd")
+                user_add.save() #save to db
+            return user_add
+        else:
+            # invalid user, give the tip
+            raise ValidationError(_('Invalid Corp Email, must end with @corp.netease.com or @mesg.corp.netease.com'))

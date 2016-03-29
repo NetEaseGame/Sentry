@@ -6,11 +6,11 @@ from django.db import transaction, IntegrityError
 from sentry.models import (
     AuditLogEntry, AuditLogEntryEvent, OrganizationMember,
 )
-from sentry.web.forms.fields import UserField
+from sentry.web.forms.fields import CorpEmailField
 
 
 class AddOrganizationMemberForm(forms.ModelForm):
-    user = UserField()
+    user = CorpEmailField()
 
     class Meta:
         fields = ('user',)

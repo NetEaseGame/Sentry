@@ -691,7 +691,7 @@ SENTRY_INTERFACES = {
 SENTRY_ALLOW_PUBLIC_PROJECTS = True
 
 # Can users be invited to organizations?
-SENTRY_ENABLE_INVITES = True
+SENTRY_ENABLE_INVITES = False # update by hzwangzhiwei @20160329, to make add member convenient
 
 # Default to not sending the Access-Control-Allow-Origin header on api/store
 SENTRY_ALLOW_ORIGIN = None

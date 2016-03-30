@@ -3502,14 +3502,6 @@ msgstr "函数"
 msgid "Source Map"
 msgstr "源映射"
 
-#: static/sentry/app/components/events/interfaces/frame.jsx:90
-msgid "in"
-msgstr "位置"
-
-#: static/sentry/app/components/events/interfaces/frame.jsx:101
-msgid "at line"
-msgstr "行"
-
 #: static/sentry/app/components/events/interfaces/frame.jsx:118
 msgid "application"
 msgstr "应用"

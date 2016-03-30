@@ -24,9 +24,9 @@ const Footer = React.createClass({
           <div className="pull-right">
             <a href={config.urlPrefix + '/api/'}>{t('API')}</a>
             <a href={config.urlPrefix + '/docs/'}>{t('Docs')}</a>
-            <a href="https://github.com/getsentry/sentry">{t('Contribute')}</a>
+            <a className="hidden_hzwangzhiwei" href="https://github.com/getsentry/sentry">{t('Contribute')}</a>
           </div>
-          <div className="version pull-left">
+          <div className="version pull-left hidden_hzwangzhiwei">
             {'Sentry'} {config.version.current}
           </div>
           <a href="/" className="icon-sentry-logo"></a>

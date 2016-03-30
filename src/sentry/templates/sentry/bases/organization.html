@@ -55,7 +55,7 @@
     {% endif %}
     {% if ACCESS.org_delete %}
       {% feature organizations:sso organization %}
-      <li class="{% block org_auth_settings_nav %}{% endblock %}">
+      <li class="{% block org_auth_settings_nav %}{% endblock %} hidden_hzwangzhiwei">
         <a href="{% url 'sentry-organization-auth-settings' organization.slug %}">
           {% trans "Auth" %}
         </a>
@@ -63,7 +63,7 @@
       {% endfeature %}
     {% endif %}
     {% if ACCESS.org_write %}
-      <li class="{% block org_apikeys_nav %}{% endblock %}">
+      <li class="{% block org_apikeys_nav %}{% endblock %} hidden_hzwangzhiwei">
         <a href="{% url 'sentry-organization-api-keys' organization.slug %}">
           {% trans "API Keys" %}
         </a>

@@ -3517,3 +3517,7 @@ msgstr "应用"
 #: static/sentry/app/components/events/interfaces/frame.jsx:194
 msgid "Toggle context"
 msgstr "显示/隐藏上下文"
+
+#: static/sentry/app/components/projectHeader/projectSelector.jsx:189
+msgid "Select a project"
+msgstr "选择一个项目"

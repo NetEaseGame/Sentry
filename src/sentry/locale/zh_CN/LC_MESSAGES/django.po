@@ -1454,12 +1454,12 @@ msgstr "统计"
 
 #: templates/sentry/bases/organization.html:32
 msgid "My Issues"
-msgstr ""
+msgstr "我的Issue"
 
 #: templates/sentry/bases/organization.html:34
 #: static/sentry/app/components/organizations/homeSidebar.jsx:43
 msgid "Assigned to Me"
-msgstr ""
+msgstr "分配给我"
 
 #: templates/sentry/bases/organization.html:35
 #: static/sentry/app/components/organizations/homeSidebar.jsx:44
@@ -1469,7 +1469,7 @@ msgstr "书签"
 #: templates/sentry/bases/organization.html:36
 #: static/sentry/app/components/organizations/homeSidebar.jsx:45
 msgid "History"
-msgstr ""
+msgstr "历史"
 
 #: templates/sentry/events/replay_request.html:6
 #: static/sentry/app/components/events/interfaces/requestActions.jsx:18
@@ -1553,7 +1553,7 @@ msgstr "用户名:"
 
 #: templates/sentry/partial/interfaces/user_email.html:31
 msgid "Email:"
-msgstr "Email:"
+msgstr "邮箱:"
 
 #: templates/sentry/plugins/site_configuration.html:5
 msgid "Changes to your configuration were saved successfully."

@@ -68,10 +68,10 @@ const HomeSidebar = React.createClass({
                 </li>
               }
               {features.has('sso') && access.has('org:write') &&
-                <li><a href={urlPrefix + '/auth/'}>{t('Auth')}</a></li>
+                <li className="hidden_hzwangzhiwei"><a href={urlPrefix + '/auth/'}>{t('Auth')}</a></li>
               }
               {access.has('org:write') &&
-                <li><a href={urlPrefix + '/api-keys/'}>{t('API Keys')}</a></li>
+                <li className="hidden_hzwangzhiwei"><a href={urlPrefix + '/api-keys/'}>{t('API Keys')}</a></li>
               }
               {access.has('org:write') &&
                 <li><a href={urlPrefix + '/audit-log/'}>{t('Audit Log')}</a></li>

@@ -3482,30 +3482,6 @@ msgstr "Cookies"
 msgid "Headers"
 msgstr "标头"
 
-#: static/sentry/app/components/events/interfaces/frame.jsx:49
-msgid "Original Filename"
-msgstr "原始文件名"
-
-#: static/sentry/app/components/events/interfaces/frame.jsx:50
-msgid "Line Number"
-msgstr "行号"
-
-#: static/sentry/app/components/events/interfaces/frame.jsx:51
-msgid "Column Number"
-msgstr "列号"
-
-#: static/sentry/app/components/events/interfaces/frame.jsx:52
-msgid "Function"
-msgstr "函数"
-
-#: static/sentry/app/components/events/interfaces/frame.jsx:53
-msgid "Source Map"
-msgstr "源映射"
-
-#: static/sentry/app/components/events/interfaces/frame.jsx:118
-msgid "application"
-msgstr "应用"
-
 #: static/sentry/app/components/events/interfaces/frame.jsx:194
 msgid "Toggle context"
 msgstr "显示/隐藏上下文"

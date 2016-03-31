@@ -328,8 +328,8 @@ class BuildJavascriptCommand(Command):
             log.info('skipped integration docs (already downloaded)')
         else:
             log.info('downloading integration docs')
-            from sentry.utils.integrationdocs import sync_docs
-            sync_docs()
+            # from sentry.utils.integrationdocs import sync_docs
+            # sync_docs() # commented by hzwangzhiwei @20160331
 
         self.update_manifests()
 

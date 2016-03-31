@@ -40,7 +40,8 @@ def get_server_hostname():
     return urlparse(options.get('system.url-prefix')).hostname
 
 
-def is_valid_url(url):
+# add default paramter
+def is_valid_url(url, can_cross_domain = False):
     """
     Tests a URL to ensure it doesn't appear to be a blacklisted IP range.
     """
@@ -50,7 +51,7 @@ def is_valid_url(url):
 
     server_hostname = get_server_hostname()
 
-    if parsed.hostname == server_hostname:
+    if not can_cross_domain and parsed.hostname == server_hostname:
         return True
 
     try:
@@ -58,7 +59,7 @@ def is_valid_url(url):
     except socket.gaierror:
         return False
 
-    if ip_address == server_hostname:
+    if not can_cross_domain and ip_address == server_hostname:
         return True
 
     ip_network = IPNetwork(ip_address)
@@ -70,23 +71,26 @@ def is_valid_url(url):
 
 
 class BlacklistAdapter(HTTPAdapter):
+    def __init__(self, can_cross_domain = False):
+        self.can_cross_domain = can_cross_domain
+
     def send(self, request, *args, **kwargs):
-        if not is_valid_url(request.url):
+        if not is_valid_url(request.url, self.can_cross_domain):
             raise RestrictedIPAddress('%s matches the URL blacklist' % (request.url,))
         return super(BlacklistAdapter, self).send(request, *args, **kwargs)
 
 
-def build_session():
+def build_session(can_cross_domain = False):
     session = requests.Session()
     session.headers.update({'User-Agent': USER_AGENT})
-    session.mount('https://', BlacklistAdapter())
-    session.mount('http://', BlacklistAdapter())
+    session.mount('https://', BlacklistAdapter(can_cross_domain))
+    session.mount('http://', BlacklistAdapter(can_cross_domain))
     return session
 
 
 def safe_urlopen(url, method=None, params=None, data=None, json=None,
                  headers=None, allow_redirects=False, timeout=30,
-                 verify_ssl=True, user_agent=None):
+                 verify_ssl=True, user_agent=None, can_cross_domain=False):
     """
     A slightly safer version of ``urlib2.urlopen`` which prevents redirection
     and ensures the URL isn't attempting to hit a blacklisted IP range.
@@ -94,7 +98,7 @@ def safe_urlopen(url, method=None, params=None, data=None, json=None,
     if user_agent is not None:
         warnings.warn('user_agent is no longer used with safe_urlopen')
 
-    session = build_session()
+    session = build_session(can_cross_domain)
 
     kwargs = {}
 

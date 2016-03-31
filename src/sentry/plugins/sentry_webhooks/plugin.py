@@ -75,6 +75,7 @@ class WebHooksPlugin(notify.NotificationPlugin):
             json=payload,
             timeout=self.timeout,
             verify_ssl=False,
+            can_cross_domain=True
         )
 
     def notify_users(self, group, event, fail_silently=False):

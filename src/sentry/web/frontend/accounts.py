@@ -146,9 +146,9 @@ def appearance_settings(request):
     from django.conf import settings
 
     options = UserOption.objects.get_all_values(user=request.user, project=None)
-
+    # update by hzwangzhiwei @20160406, default locale
     form = AppearanceSettingsForm(request.user, request.POST or None, initial={
-        'language': options.get('language') or request.LANGUAGE_CODE,
+        'language': options.get('language') or settings.SENTRY_DEFAULT_USER_LOCALE,
         'stacktrace_order': int(options.get('stacktrace_order', -1) or -1),
         'timezone': options.get('timezone') or settings.SENTRY_DEFAULT_TIME_ZONE,
         'clock_24_hours': options.get('clock_24_hours') or False,

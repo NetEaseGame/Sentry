@@ -32,9 +32,9 @@ class UserSerializer(Serializer):
                 stacktrace_order = 'newestFirst'
             elif stacktrace_order == 1:
                 stacktrace_order = 'newestLast'
-
+            # update by hzwangzhiwei @20160406, default locale
             d['options'] = {
-                'language': options.get('language') or 'en',
+                'language': options.get('language') or settings.SENTRY_DEFAULT_USER_LOCALE,
                 'stacktraceOrder': stacktrace_order,
                 'timezone': options.get('timezone') or settings.SENTRY_DEFAULT_TIME_ZONE,
                 'clock24Hours': options.get('clock_24_hours') or False,

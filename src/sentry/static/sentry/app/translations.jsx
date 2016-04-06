@@ -18,7 +18,7 @@ export const translations = (function() {
 })();
 
 export function getTranslations(language) {
-  return translations[language] || translations.en;
+  return translations[language] || translations['zh-cn']; // update by hzwangzhiwei @20160406 default locale
 }
 
 export function translationsExist(language) {

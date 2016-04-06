@@ -31,7 +31,7 @@ export function setLocale(locale) {
   });
 }
 
-setLocale('en');
+setLocale('zh-cn'); // update by hzwangzhiwei @20160406 default locale
 
 function formatForReact(formatString, args) {
   let rv = [];

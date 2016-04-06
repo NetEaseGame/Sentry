@@ -197,8 +197,10 @@ const AssigneeSelector = React.createClass({
     }
 
     let tooltipTitle = null;
+    let user_name = ''; // update by hzwangzhiwei @20160406
     if (assignedTo) {
       tooltipTitle = userDisplayName(assignedTo);
+      user_name = userDisplayName(assignedTo, true);
     }
 
     return (
@@ -237,6 +239,7 @@ const AssigneeSelector = React.createClass({
               </li>
             </DropdownLink>
           }
+          <div className="assign_name_hzwangzhiwei">{user_name}</div>
         </div>
       </div>
     );

@@ -129,6 +129,8 @@ const StreamGroup = React.createClass({
                 <TimeSince date={data.lastSeen} />
                 &nbsp;&mdash;&nbsp;
                 <TimeSince date={data.firstSeen} suffix="old" />
+                &nbsp; / &nbsp;
+                <strong>Server: <span className="server_name_span_hzwangzhiwei">{data.tags.server_name}</span></strong>
               </li>
               {data.numComments !== 0 &&
                 <li>

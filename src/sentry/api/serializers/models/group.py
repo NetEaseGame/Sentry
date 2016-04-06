@@ -113,6 +113,12 @@ class GroupSerializer(Serializer):
         permalink = absolute_uri(reverse('sentry-group', args=[
             obj.organization.slug, obj.project.slug, obj.id]))
 
+        # add by hzwangzhiwei @ 20160406 for show 'server_name' instead of 'USER'
+        server_name = obj.get_unique_tags('server_name')[0] or ['', 0, '', '']
+        server_name = server_name[0]
+        tags_dict = {}
+        tags_dict['server_name'] = server_name
+
         return {
             'id': str(obj.id),
             'shareId': obj.get_share_id(),
@@ -138,6 +144,7 @@ class GroupSerializer(Serializer):
             'isBookmarked': attrs['is_bookmarked'],
             'hasSeen': attrs['has_seen'],
             'annotations': attrs['annotations'],
+            'tags': tags_dict
         }
 
 

@@ -114,8 +114,8 @@ class GroupSerializer(Serializer):
             obj.organization.slug, obj.project.slug, obj.id]))
 
         # add by hzwangzhiwei @ 20160406 for show 'server_name' instead of 'USER'
-        server_name = obj.get_unique_tags('server_name')[0] or ['', 0, '', '']
-        server_name = server_name[0]
+        server_name = obj.get_unique_tags('server_name') or [['', 0, '', '']]
+        server_name = server_name[0][0]
         tags_dict = {}
         tags_dict['server_name'] = server_name
 

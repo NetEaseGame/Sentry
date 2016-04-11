@@ -33,12 +33,12 @@ const RedmineId = React.createClass({
   showRedmineIdInput() {
     let redmine_id = prompt("Input the Redmine Issue ID(输入Redmine上的对应的单号)：", "");
     // TODO check the input is number
-    let redmine_id = parseInt(redmine_id);
+    redmine_id = parseInt(redmine_id);
     if (isNaN(redmine_id)) {
       alert("Redmine Issue ID must be a Number(Redmine单号应该是一个数字)!");
       return ;
     }
-    
+
     this.setState({
       redmineId: redmine_id,
     });

@@ -168,7 +168,7 @@ const StreamGroup = React.createClass({
         <div className="col-md-1 col-xs-2 event-count align-right">
           <Count value={data.count} />
         </div>
-        <div className="col-md-1 col-xs-2 event-users align-right">
+        <div className="col-md-1 col-xs-2 event-users align-right redmine_col">
           <RedmineId redmineId={data.redmineId} redmineURL={data.project.redmine} />
         </div>
       </li>

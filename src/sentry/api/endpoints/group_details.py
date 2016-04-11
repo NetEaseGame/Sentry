@@ -58,6 +58,7 @@ class GroupSerializer(serializers.Serializer):
     hasSeen = serializers.BooleanField()
     assignedTo = UserField()
     snoozeDuration = serializers.IntegerField()
+    redmineId = serializers.CharField()
 
 
 class GroupDetailsEndpoint(GroupEndpoint):
@@ -248,6 +249,13 @@ class GroupDetailsEndpoint(GroupEndpoint):
         # even if that membership is not SSO linked
         if result.get('assignedTo') and not group.project.member_set.filter(user=result['assignedTo']).exists():
             return Response({'detail': 'Cannot assign to non-team member'}, status=400)
+
+        if result.get('redmineId'):
+            Group.objects.filter(
+                id=group.id,
+            ).update(
+                redmine_id=result.get('redmineId'),
+            )
 
         if result.get('status') == 'resolved':
             now = timezone.now()

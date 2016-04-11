@@ -11,7 +11,6 @@ const RedmineId = React.createClass({
 
   formatRedmineId(redmine_id){
       redmine_id = parseInt(redmine_id, 10);
-      // add by hzwangzhiwei @20160411 
       if (isNaN(redmine_id)) {
         return '';
       }
@@ -19,6 +18,7 @@ const RedmineId = React.createClass({
   },
 
   redmineIssueUrl(redmine_id, redmine_url) {
+    // TODO parse redmine url
     return redmine_url + redmine_id;
   },
 
@@ -32,8 +32,11 @@ const RedmineId = React.createClass({
 
   showRedmineIdInput() {
     let redmine_id = prompt("Input the Redmine Issue ID(输入Redmine上的对应的单号)：", "");
+    if (redmine_id == '' || redmine_id == null) {
+      return; // do nothing
+    }
     // TODO check the input is number
-    redmine_id = parseInt(redmine_id);
+    redmine_id = parseInt(redmine_id, 10);
     if (isNaN(redmine_id)) {
       alert("Redmine Issue ID must be a Number(Redmine单号应该是一个数字)!");
       return ;

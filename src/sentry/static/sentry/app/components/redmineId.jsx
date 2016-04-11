@@ -2,7 +2,6 @@ import React from 'react';
 
 const RedmineId = React.createClass({
   propTypes: {
-    redmineId: React.PropTypes.any.isRequired
   },
 
   shouldComponentUpdate(nextProps, nextState) {

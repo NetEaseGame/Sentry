@@ -9,23 +9,34 @@ const RedmineId = React.createClass({
   mixins: [
     ApiMixin
   ],
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return this.props.redmineId !== nextProps.redmineId;
-    return this.props.redmineURL !== nextProps.redmineURL;
+  getInitialState() {
+    return {
+      redmineId: this.props.redmineId,
+      redmineURL: this.props.redmineURL
+    };
   },
-
-  formatRedmineId(redmine_id){
-      redmine_id = parseInt(redmine_id, 10);
+  shouldComponentUpdate(nextProps, nextState) {
+    return this.state.redmineId !== nextState.redmineId || this.state.redmineURL !== nextState.redmineURL;
+  },
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.id != this.props.id) {
+      this.setState({
+        redmineId: this.props.redmineId,
+        redmineURL: this.props.redmineURL
+      });
+    }
+  },
+  formatRedmineId(){
+      let redmine_id = parseInt(this.state.redmineId, 10);
       if (isNaN(redmine_id)) {
-        return '';
+        return 'unset';
       }
       return '' + redmine_id;
   },
 
-  redmineIssueUrl(redmine_id, redmine_url) {
+  redmineIssueUrl() {
     // TODO parse redmine url
-    return redmine_url + redmine_id;
+    return this.state.redmineURL + this.state.redmineId;
   },
 
   showEditIcon(e) {
@@ -57,10 +68,10 @@ const RedmineId = React.createClass({
   render() {
     return (
       <span onMouseOver={this.showEditIcon} onMouseOut={this.hideEditIcon}>
-        <a title="{this.formatRedmineId(this.props.redmineId)}" 
-           href="{this.redmineIssueUrl(this.props.redmineId, this.props.redmineURL)}" 
+        <a title="{this.formatRedmineId()}" 
+           href="{this.redmineIssueUrl()}" 
            target="_blank"
-           className="redmineIdLink">{this.formatRedmineId(this.props.redmineId)}</a>
+           className="redmineIdLink">{this.formatRedmineId()}</a>
         &nbsp;&nbsp;
         <span ref="redmineEditIcon" onClick={this.showRedmineIdInput} className="icon fa fa-pencil-square-o redmineEditIcon hidden_hzwangzhiwei"></span>
       </span>

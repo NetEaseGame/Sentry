@@ -23,18 +23,36 @@ const RedmineId = React.createClass({
   },
 
   showEditIcon(e) {
-    this.refs.redmineEditIcon.className = 'icon fa fa-pencil-square-o';
+    this.refs.redmineEditIcon.className = 'icon fa fa-pencil-square-o redmineEditIcon';
   },
 
   hideEditIcon(e) {
-    this.refs.redmineEditIcon.className = 'icon fa fa-pencil-square-o hidden_hzwangzhiwei';
+    this.refs.redmineEditIcon.className = 'icon fa fa-pencil-square-o redmineEditIcon hidden_hzwangzhiwei';
+  },
+
+  showRedmineIdInput() {
+    let redmine_id = prompt("Input the Redmine Issue ID(输入Redmine上的对应的单号)：", "");
+    // TODO check the input is number
+    let redmine_id = parseInt(redmine_id);
+    if (isNaN(redmine_id)) {
+      alert("Redmine Issue ID must be a Number(Redmine单号应该是一个数字)!");
+      return ;
+    }
+    
+    this.setState({
+      redmineId: redmine_id,
+    });
   },
 
   render() {
     return (
       <span onMouseOver={this.showEditIcon} onMouseOut={this.hideEditIcon}>
-        <a href="{this.redmineIssueUrl(this.props.redmineId, this.props.redmineURL)}" target="_blank">{this.formatRedmineId(this.props.redmineId)}</a>
-        <span ref="redmineEditIcon" className="icon fa fa-pencil-square-o hidden_hzwangzhiwei"></span>
+        <a title="{this.formatRedmineId(this.props.redmineId)}" 
+           href="{this.redmineIssueUrl(this.props.redmineId, this.props.redmineURL)}" 
+           target="_blank"
+           className="redmineIdLink">{this.formatRedmineId(this.props.redmineId)}</a>
+        &nbsp;&nbsp;
+        <span ref="redmineEditIcon" onClick={this.showRedmineIdInput} className="icon fa fa-pencil-square-o redmineEditIcon hidden_hzwangzhiwei"></span>
       </span>
     );
   }

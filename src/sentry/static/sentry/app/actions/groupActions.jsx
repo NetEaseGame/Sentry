@@ -16,7 +16,10 @@ let GroupActions = Reflux.createActions([
   'updateSuccess',
   'merge',
   'mergeError',
-  'mergeSuccess'
+  'mergeSuccess',
+  'updateRedmineId',
+  'updateRedmineIdSuccess',
+  'updateRedmineIdError',
 ]);
 
 

@@ -200,6 +200,25 @@ export class Client {
       }
     }, options);
   }
+  
+  // add by hzwangzhiwei @20160411
+  updateRedmineId(params, options) {
+    let path = '/issues/' + params.id + '/';
+    let id = this.uniqueId();
+
+    GroupActions.updateRedmineId(id, params.id, {redmine_id: params.redmine_id});
+
+    return this._wrapRequest(path, {
+      method: 'PUT',
+      data: {redmine_id: params.redmine_id},
+      success: (response) => {
+        GroupActions.updateRedmineIdSuccess(id, params.id, response);
+      },
+      error: (error) => {
+        GroupActions.updateRedmineIdError(id, params.id, error);
+      }
+    }, options);
+  }
 
   joinTeam(params, options) {
     let path = '/organizations/' + params.orgId + '/members/' + (params.memberId || 'me') + '/teams/' + params.teamId + '/';

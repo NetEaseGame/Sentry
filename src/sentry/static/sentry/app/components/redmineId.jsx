@@ -1,8 +1,14 @@
 import React from 'react';
+import ApiMixin from '../mixins/apiMixin';
 
 const RedmineId = React.createClass({
   propTypes: {
+    id: React.PropTypes.string.isRequired
   },
+
+  mixins: [
+    ApiMixin
+  ],
 
   shouldComponentUpdate(nextProps, nextState) {
     return this.props.redmineId !== nextProps.redmineId;
@@ -44,10 +50,8 @@ const RedmineId = React.createClass({
       }
     }
     // TODO ajax to save to DB, then change state
-    
-    this.setState({
-      redmineId: redmine_id,
-    });
+    this.api.updateRedmineId({id: this.props.id, redmine_id: redmine_id});
+    this.setState({redmineId: redmine_id});
   },
 
   render() {

@@ -22,13 +22,19 @@ const RedmineId = React.createClass({
     return redmine_url + redmine_id;
   },
 
-  toEditView(e) {
-    console.log(e);
+  showEditIcon(e) {
+    this.refs.redmineEditIcon.className = 'icon fa fa-pencil-square-o';
   },
+
+  hideEditIcon(e) {
+    this.refs.redmineEditIcon.className = 'icon fa fa-pencil-square-o hidden_hzwangzhiwei';
+  },
+
   render() {
     return (
-      <span onDoubleClick={this.toEditView}>
+      <span onMouseOver={this.showEditIcon} onMouseOut={this.hideEditIcon}>
         <a href="{this.redmineIssueUrl(this.props.redmineId, this.props.redmineURL)}" target="_blank">{this.formatRedmineId(this.props.redmineId)}</a>
+        <span ref="redmineEditIcon" className="icon fa fa-pencil-square-o hidden_hzwangzhiwei"></span>
       </span>
     );
   }

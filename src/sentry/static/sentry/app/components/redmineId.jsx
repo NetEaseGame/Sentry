@@ -17,12 +17,17 @@ const RedmineId = React.createClass({
       }
       return '' + redmine_id;
   },
+
   redmineIssueUrl(redmine_id, redmine_url) {
     return redmine_url + redmine_id;
-  }
+  },
+
+  toEditView(e) {
+    console.log(e);
+  },
   render() {
     return (
-      <span>
+      <span onDoubleClick={this.toEditView}>
         <a href="{this.redmineIssueUrl(this.props.redmineId, this.props.redmineURL)}" target="_blank">{this.formatRedmineId(this.props.redmineId)}</a>
       </span>
     );

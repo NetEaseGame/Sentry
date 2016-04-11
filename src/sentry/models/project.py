@@ -74,6 +74,7 @@ class Project(Model):
     """
     slug = models.SlugField(null=True)
     name = models.CharField(max_length=200)
+    redmine = models.CharField(max_length=200) # add by hzwangzhiwei @20160411 for redmine
     organization = FlexibleForeignKey('sentry.Organization')
     team = FlexibleForeignKey('sentry.Team')
     public = models.BooleanField(default=False)

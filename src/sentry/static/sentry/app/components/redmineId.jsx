@@ -6,6 +6,7 @@ const RedmineId = React.createClass({
 
   shouldComponentUpdate(nextProps, nextState) {
     return this.props.redmineId !== nextProps.redmineId;
+    return this.props.redmineURL !== nextProps.redmineURL;
   },
 
   formatRedmineId(redmine_id){
@@ -16,10 +17,14 @@ const RedmineId = React.createClass({
       }
       return '' + redmine_id;
   },
-
+  redmineIssueUrl(redmine_id, redmine_url) {
+    return redmine_url + redmine_id;
+  }
   render() {
     return (
-      <span>{this.formatRedmineId(this.props.redmineId)}</span>
+      <span>
+        <a href="{this.redmineIssueUrl(this.props.redmineId, this.props.redmineURL)}" target="_blank">{this.formatRedmineId(this.props.redmineId)}</a>
+      </span>
     );
   }
 });

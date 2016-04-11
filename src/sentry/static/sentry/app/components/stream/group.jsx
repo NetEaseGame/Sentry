@@ -4,6 +4,7 @@ import Reflux from 'reflux';
 import {Link} from 'react-router';
 
 import AssigneeSelector from '../assigneeSelector';
+import RedmineId from '../redmineId'; // add by hzwangzhiwei @20160411
 import Count from '../count';
 import GroupChart from './groupChart';
 import GroupCheckBox from './groupCheckBox';
@@ -168,7 +169,7 @@ const StreamGroup = React.createClass({
           <Count value={data.count} />
         </div>
         <div className="col-md-1 col-xs-2 event-users align-right">
-          <Count value={data.redmineId} />
+          <RedmineId redmineId={data.redmineId} />
         </div>
       </li>
     );

@@ -28,7 +28,7 @@ class EditProjectForm(forms.ModelForm):
         help_text=_('A unique ID used to identify this project.'),
     )
     team = CustomTypedChoiceField(choices=(), coerce=int, required=False)
-    redmine = forms.CharField(label=_('Redmine URL'), max_length=200,
+    redmine = forms.CharField(label=_('Redmine URL'), max_length=200, required=False, 
         widget=forms.TextInput(attrs={'placeholder': _('Redmine URL')})) # add by hzwangzhiwei @20160411
     origins = OriginsField(label=_('Allowed Domains'), required=False,
         help_text=_('Separate multiple entries with a newline.'))
@@ -71,7 +71,7 @@ class EditProjectForm(forms.ModelForm):
         help_text=_('Separate multiple entries with a newline.'))
 
     class Meta:
-        fields = ('name', 'team', 'slug')
+        fields = ('name', 'team', 'slug', 'redmine')
         model = Project
 
     def __init__(self, request, organization, team_list, data, instance, *args, **kwargs):
@@ -141,6 +141,14 @@ class EditProjectForm(forms.ModelForm):
             raise forms.ValidationError('Another project is already using that slug')
         return slug
 
+    def clean_redmine(self):
+        redmine = self.cleaned_data.get('redmine')
+        if not redmine:
+            return 
+        if not redmine.startswith('http://'): # TODO, url format
+            raise forms.ValidationError('Redmine URL should be a valid URL, start with http://')
+        return redmine
+
 
 class ProjectSettingsView(ProjectView):
     required_scope = 'project:write'
@@ -182,7 +190,7 @@ class ProjectSettingsView(ProjectView):
         if form.is_valid():
             project = form.save()
             for opt in ('origins', 'resolve_age', 'scrub_data', 'sensitive_fields',
-                        'scrape_javascript', 'scrub_ip_address', 'token', 'blacklisted_ips', 'redmine'): # update by hzwangzhiwei @20160411
+                        'scrape_javascript', 'scrub_ip_address', 'token', 'blacklisted_ips'):
                 value = form.cleaned_data.get(opt)
                 if value is None:
                     project.delete_option('sentry:%s' % (opt,))

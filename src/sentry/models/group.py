@@ -123,6 +123,8 @@ class Group(Model):
     is_public = models.NullBooleanField(default=False, null=True)
     data = GzippedDictField(blank=True, null=True)
 
+    redmine_id = models.CharField(max_length=8) # add by hzwangzhiwei @20160411
+
     objects = GroupManager()
 
     class Meta:

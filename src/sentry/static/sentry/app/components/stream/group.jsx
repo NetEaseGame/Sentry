@@ -83,7 +83,7 @@ const StreamGroup = React.createClass({
 
   render() {
     let data = this.state.data;
-    let userCount = data.userCount;
+    // let userCount = data.userCount;
 
     let className = 'group row';
     if (data.isBookmarked) {
@@ -168,7 +168,7 @@ const StreamGroup = React.createClass({
           <Count value={data.count} />
         </div>
         <div className="col-md-1 col-xs-2 event-users align-right">
-          <Count value={userCount} />
+          <Count value={data.redmineId} />
         </div>
       </li>
     );

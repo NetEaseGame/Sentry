@@ -135,6 +135,7 @@ class GroupSerializer(Serializer):
             'status': status_label,
             'statusDetails': status_details,
             'isPublic': obj.is_public,
+            'redmineId': obj.redmine_id, # add by hzwangzhiwei @20160411 redmine id
             'project': {
                 'name': obj.project.name,
                 'slug': obj.project.slug,

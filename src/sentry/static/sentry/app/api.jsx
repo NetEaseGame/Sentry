@@ -200,17 +200,17 @@ export class Client {
       }
     }, options);
   }
-  
+
   // add by hzwangzhiwei @20160411
   updateRedmineId(params, options) {
     let path = '/issues/' + params.id + '/';
     let id = this.uniqueId();
 
-    GroupActions.updateRedmineId(id, params.id, {redmine_id: params.redmine_id});
+    GroupActions.updateRedmineId(id, params.id, {redmine_id: params.redmineId});
 
     return this._wrapRequest(path, {
       method: 'PUT',
-      data: {redmine_id: params.redmine_id},
+      data: {redmineId: params.redmineId},
       success: (response) => {
         GroupActions.updateRedmineIdSuccess(id, params.id, response);
       },

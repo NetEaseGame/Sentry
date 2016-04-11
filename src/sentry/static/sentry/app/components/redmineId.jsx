@@ -50,7 +50,7 @@ const RedmineId = React.createClass({
       }
     }
     // TODO ajax to save to DB, then change state
-    this.api.updateRedmineId({id: this.props.id, redmine_id: redmine_id});
+    this.api.updateRedmineId({id: this.props.id, redmineId: redmine_id});
     this.setState({redmineId: redmine_id});
   },
 

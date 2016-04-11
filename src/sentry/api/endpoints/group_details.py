@@ -250,7 +250,7 @@ class GroupDetailsEndpoint(GroupEndpoint):
         if result.get('assignedTo') and not group.project.member_set.filter(user=result['assignedTo']).exists():
             return Response({'detail': 'Cannot assign to non-team member'}, status=400)
 
-        if result.get('redmineId'):
+        if 'redmineId' in result:
             Group.objects.filter(
                 id=group.id,
             ).update(

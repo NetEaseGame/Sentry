@@ -36,7 +36,7 @@ const RedmineId = React.createClass({
 
   redmineIssueUrl() {
     // TODO parse redmine url: http://h11.pm.netease.com/projects/h11-bugs/issues/new
-    let reg = new RegExp("^http://");     
+    let reg = new RegExp("^http://");
     if (reg.test(this.state.redmineURL)) {
       //start with http://
       let pos = this.state.redmineURL.indexOf("/", 8);
@@ -46,7 +46,9 @@ const RedmineId = React.createClass({
         return false;
       }
       root = this.state.redmineURL.substring(0, pos);
-
+      if (this.formatRedmineId() === 'unset') {
+        return false;
+      }
       return root + '/issues/' + this.state.redmineId;
     }
     return false;
@@ -80,10 +82,11 @@ const RedmineId = React.createClass({
 
   render() {
     let issue_url = this.redmineIssueUrl()
+    if (issue_url === false) issue_url = '#';
     return (
       <span onMouseOver={this.showEditIcon} onMouseOut={this.hideEditIcon}>
         <a title={this.formatRedmineId()} 
-           href={this.redmineIssueUrl() || '#'} 
+           href={issue_url} 
            target="_blank"
            className="redmineIdLink">{this.formatRedmineId()}</a>
         &nbsp;&nbsp;

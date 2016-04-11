@@ -35,8 +35,21 @@ const RedmineId = React.createClass({
   },
 
   redmineIssueUrl() {
-    // TODO parse redmine url
-    return this.state.redmineURL + this.state.redmineId;
+    // TODO parse redmine url: http://h11.pm.netease.com/projects/h11-bugs/issues/new
+    let reg = new RegExp("^http://");     
+    if (reg.test(this.state.redmineURL)) {
+      //start with http://
+      let pos = this.state.redmineURL.indexOf("/", 8);
+      let root = '';
+      if (pos == -1) {
+        // can not find /
+        return false;
+      }
+      root = this.state.redmineURL.substring(0, pos);
+
+      return root + '/issues/' + this.state.redmineId;
+    }
+    return false;
   },
 
   showEditIcon(e) {
@@ -60,16 +73,17 @@ const RedmineId = React.createClass({
         return ;
       }
     }
-    // TODO ajax to save to DB, then change state
+    // ajax to save to DB, then change state
     this.api.updateRedmineId({id: this.props.id, redmineId: redmine_id});
     this.setState({redmineId: redmine_id});
   },
 
   render() {
+    let issue_url = this.redmineIssueUrl()
     return (
       <span onMouseOver={this.showEditIcon} onMouseOut={this.hideEditIcon}>
-        <a title="{this.formatRedmineId()}" 
-           href="{this.redmineIssueUrl()}" 
+        <a title={this.formatRedmineId()} 
+           href={this.redmineIssueUrl() || '#'} 
            target="_blank"
            className="redmineIdLink">{this.formatRedmineId()}</a>
         &nbsp;&nbsp;

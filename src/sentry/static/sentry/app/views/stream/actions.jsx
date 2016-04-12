@@ -139,11 +139,15 @@ const StreamActions = React.createClass({
   // add by hzwangzhiwei @20140412 copy trace and open redmine URL
   onCopyToRedmine(evt) {
     console.log(evt);
+    this.actionSelectedGroups((itemIds) => {
+      console.log(itemIds);
+    });
   },
   render() {
     // TODO(mitsuhiko): very unclear how to translate this
     let numIssues = SelectedGroupStore.getSelectedIds().size;
-    let redmine_class_name = "btn btn-default btn-sm hidden-xs copy-to-redmine";
+    let redmine_class_name = "btn btn-default btn-sm hidden-xs copy-to-redmine tip copy_btns_hzwangzhiwei";
+    let redmine_copy_text = '';
     if (!this.state.anySelected) {
        redmine_class_name += " disabled";
     }
@@ -360,11 +364,12 @@ const StreamActions = React.createClass({
             <div className="btn-group">
               <a className={redmine_class_name}
                  title="Copy to Redmine"
+                 data-clipboard-text={redmine_copy_text}
                  onClick={this.onCopyToRedmine}>
-                  <span className="icon fa fa-share-square-o"></span>
+                <span className="icon fa fa-share-square-o"></span>
               </a>
             </div>
-            
+
           </div>
           <div className="hidden-sm stream-actions-assignee col-md-1"></div>
           <div className="stream-actions-level col-md-1 hidden-xs"></div>

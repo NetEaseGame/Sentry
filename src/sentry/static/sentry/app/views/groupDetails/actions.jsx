@@ -109,9 +109,8 @@ const GroupActions = React.createClass({
     }
     let copyredmineClassName = 'btn btn-default btn-sm copy_btns_hzwangzhiwei tip'; // add by hzwangzhiwei @20160412
     let copyTraceText = "[Sentry]" + group.title + "\n";
-    copyTraceText += copyTraceText + "来源：" + group.culprit + "\n";
-    copyTraceText += copyTraceText + "详细：" + group.permalink;
-    conosole.log(copyTraceText);
+    copyTraceText += "来源：" + group.culprit + "\n\n";
+    copyTraceText += "详细：" + group.permalink;
 
     let snoozeClassName = 'group-snooze btn btn-default btn-sm';
     if (group.status === 'muted') {

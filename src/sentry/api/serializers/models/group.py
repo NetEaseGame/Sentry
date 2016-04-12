@@ -139,7 +139,7 @@ class GroupSerializer(Serializer):
             'project': {
                 'name': obj.project.name,
                 'slug': obj.project.slug,
-                'redmine': obj.project.redmine or "unset"  # add by hzwangzhiwei @20160411 redmine URL
+                'redmine': obj.project.redmine  # add by hzwangzhiwei @20160411 redmine URL
             },
             'numComments': obj.num_comments,
             'assignedTo': attrs['assigned_to'],

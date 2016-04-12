@@ -76,11 +76,16 @@ const RedmineId = React.createClass({
     let issue_url = this.redmineIssueUrl()
     if (issue_url === false) issue_url = '#';
     return (
-      <span>
-        <a title={this.formatRedmineId()} 
-           href={issue_url} 
-           target="_blank"
-           className="redmineIdLink">{this.formatRedmineId()}</a>
+       <span>
+        { issue_url &&
+          <a title={this.formatRedmineId()}
+            href={issue_url}
+            target="_blank"
+            className="redmineIdLink">{this.formatRedmineId()}</a>
+        }
+        { (issue_url === false) &&
+          <span className="redmineIdLink">{this.formatRedmineId()}</span>
+        }
         &nbsp;&nbsp;
         <span ref="redmineEditIcon" onClick={this.showRedmineIdInput} className="icon fa fa-pencil-square-o redmineEditIcon"></span>
       </span>

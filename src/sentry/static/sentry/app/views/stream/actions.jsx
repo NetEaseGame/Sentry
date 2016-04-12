@@ -364,7 +364,7 @@ const StreamActions = React.createClass({
             </ul>
           </div>
           <div className="stream-actions-count align-right col-md-1 col-sm-2 col-xs-2">{t('Events')}</div>
-          <div className="stream-actions-users align-right col-md-1 col-sm-2 col-xs-2">{t('Users')}</div>
+          <div className="stream-actions-users align-right col-md-1 col-sm-2 col-xs-2">Redmine</div>
         </div>
         {!this.props.allResultsVisible && this.state.pageSelected &&
           <div className="row stream-select-all-notice" >

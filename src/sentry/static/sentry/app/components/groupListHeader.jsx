@@ -13,7 +13,7 @@ const GroupListHeader = React.createClass({
             {t('Last 24 hours')}
           </div>
           <div className="stream-actions-count align-right col-md-1 col-sm-2 col-xs-2">{t('events')}</div>
-          <div className="stream-actions-users align-right col-md-1 col-sm-2 col-xs-2">{t('redmine')}</div>
+          <div className="stream-actions-users align-right col-md-1 col-sm-2 col-xs-2">Redmine</div>
         </div>
       </div>
     );

@@ -121,7 +121,12 @@ const StreamActions = React.createClass({
   },
 
   onSelectedGroupChange() {
+    let copytexts = '';
+    this.actionSelectedGroups((itemIds) => {
+      copytexts += itemIds;
+    });
     this.setState({
+      copytexts: copytexts,
       pageSelected: SelectedGroupStore.allSelected(),
       multiSelected: SelectedGroupStore.multiSelected(),
       anySelected: SelectedGroupStore.anySelected(),
@@ -139,18 +144,12 @@ const StreamActions = React.createClass({
   // add by hzwangzhiwei @20140412 copy trace and open redmine URL
   onCopyToRedmine(evt) {
     console.log(evt);
-    let texts = '';
-    this.actionSelectedGroups((itemIds) => {
-      console.log(itemIds);
-      texts += itemIds;
-    });
-    evt.offsetParent.setAttribute("data-clipboard-text", texts);
   },
   render() {
     // TODO(mitsuhiko): very unclear how to translate this
     let numIssues = SelectedGroupStore.getSelectedIds().size;
     let redmine_class_name = "btn btn-default btn-sm hidden-xs copy-to-redmine tip copy_btns_hzwangzhiwei";
-    let redmine_copy_text = '';
+    let redmine_copy_text = this.state.copytexts;
     if (!this.state.anySelected) {
        redmine_class_name += " disabled";
     }

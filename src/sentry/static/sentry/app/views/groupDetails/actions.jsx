@@ -94,7 +94,7 @@ const GroupActions = React.createClass({
     if (group.isBookmarked) {
       bookmarkClassName += ' active';
     }
-    let copyredmineClassName = 'btn btn-default btn-sm copyredmineClassName'; // add by hzwangzhiwei @20160412
+    let copyredmineClassName = 'btn btn-default btn-sm copy_btns_hzwangzhiwei'; // add by hzwangzhiwei @20160412
     let copyTraceText = 'test 剪切板';
 
     let snoozeClassName = 'group-snooze btn btn-default btn-sm';

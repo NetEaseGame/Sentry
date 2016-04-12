@@ -28,7 +28,7 @@ class EditProjectForm(forms.ModelForm):
         help_text=_('A unique ID used to identify this project.'),
     )
     team = CustomTypedChoiceField(choices=(), coerce=int, required=False)
-    redmine = forms.CharField(label=_('Redmine URL (http://qadoc.nie.netease.com/?/article/28)'), max_length=200, required=False, 
+    redmine = forms.CharField(label=_('Redmine URL ( HOW to: http://qadoc.nie.netease.com/?/article/28 )'), max_length=200, required=False, 
         widget=forms.TextInput(attrs={'placeholder': _('eg. http://h11.pm.netease.com/projects/h11-bugs/issues/new')})) # add by hzwangzhiwei @20160411
     origins = OriginsField(label=_('Allowed Domains'), required=False,
         help_text=_('Separate multiple entries with a newline.'))

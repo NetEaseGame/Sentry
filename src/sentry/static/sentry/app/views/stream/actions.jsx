@@ -356,7 +356,6 @@ const StreamActions = React.createClass({
                 )}
               </a>
             </div>
-            { false &&
             <div className="btn-group">
               <a className={redmine_class_name}
                  title="Copy to Redmine"
@@ -364,7 +363,6 @@ const StreamActions = React.createClass({
                   <span className="icon fa fa-share-square-o"></span>
               </a>
             </div>
-            }
           </div>
           <div className="hidden-sm stream-actions-assignee col-md-1"></div>
           <div className="stream-actions-level col-md-1 hidden-xs"></div>

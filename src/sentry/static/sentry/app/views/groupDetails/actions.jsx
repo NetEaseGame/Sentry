@@ -68,6 +68,11 @@ const GroupActions = React.createClass({
     this.onUpdate({isBookmarked: !this.getGroup().isBookmarked});
   },
 
+  // add by hzwangzhiwei @20140412 copy trace and open redmine URL
+  onCopyToRedmine(evt) {
+    console.log(evt);
+  },
+
   onSnooze(duration) {
     this.onUpdate({
       status: 'muted',
@@ -90,6 +95,7 @@ const GroupActions = React.createClass({
       bookmarkClassName += ' active';
     }
     let copyredmineClassName = 'btn btn-default btn-sm'; // add by hzwangzhiwei @20160412
+    let copyTraceText = 'test 剪切板';
 
     let snoozeClassName = 'group-snooze btn btn-default btn-sm';
     if (group.status === 'muted') {
@@ -183,6 +189,7 @@ const GroupActions = React.createClass({
         <div className="btn-group">
           <a className={copyredmineClassName}
              title={t('Copy to Redmine')}
+             data-clipboard-text={copyTraceText}
              onClick={this.onCopyToRedmine}>
             <span className="fa fa-share-square-o" />
           </a>

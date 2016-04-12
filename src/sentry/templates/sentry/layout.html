@@ -34,7 +34,7 @@
   {% block scripts %}
   <script src="{% asset_url "sentry" "dist/vendor.js" %}" crossorigin="anonymous"></script>
   <script src="{% asset_url "sentry" "dist/app.js" %}" crossorigin="anonymous"></script>
-
+  <script src="https://cdn.jsdelivr.net/clipboard.js/1.5.8/clipboard.min.js"></script>
   <script>
     for (var n in window.exports) {
       window[n] = window.exports[n];

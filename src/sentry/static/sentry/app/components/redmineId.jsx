@@ -74,7 +74,6 @@ const RedmineId = React.createClass({
 
   render() {
     let issue_url = this.redmineIssueUrl()
-    if (issue_url === false) issue_url = '#';
     return (
        <span>
         { issue_url &&

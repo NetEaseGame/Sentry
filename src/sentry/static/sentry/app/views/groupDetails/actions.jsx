@@ -68,9 +68,22 @@ const GroupActions = React.createClass({
     this.onUpdate({isBookmarked: !this.getGroup().isBookmarked});
   },
 
+  getRedmineUrl() {
+    let group = this.getGroup();
+    let redmine_url = group.project.redmine;
+    if (redmine_url) return redmine_url;
+    return false;
+  },
+
   // add by hzwangzhiwei @20140412 copy trace and open redmine URL
   onCopyToRedmine(evt) {
-    console.log(evt);
+    let redmine_url = this.getRedmineUrl(); 
+    if (redmine_url) {
+      window.open(redmine_url);
+    }
+    else {
+      // do thing
+    }
   },
 
   onSnooze(duration) {
@@ -94,7 +107,7 @@ const GroupActions = React.createClass({
     if (group.isBookmarked) {
       bookmarkClassName += ' active';
     }
-    let copyredmineClassName = 'btn btn-default btn-sm copy_btns_hzwangzhiwei'; // add by hzwangzhiwei @20160412
+    let copyredmineClassName = 'btn btn-default btn-sm copy_btns_hzwangzhiwei tip'; // add by hzwangzhiwei @20160412
     let copyTraceText = 'test 剪切板';
 
     let snoozeClassName = 'group-snooze btn btn-default btn-sm';
@@ -188,7 +201,7 @@ const GroupActions = React.createClass({
         </div>
         <div className="btn-group">
           <a className={copyredmineClassName}
-             title={t('Copy to Redmine')}
+             title={t('Copy Trace to Redmine')}
              data-clipboard-text={copyTraceText}
              onClick={this.onCopyToRedmine}>
             <span className="fa fa-share-square-o" />

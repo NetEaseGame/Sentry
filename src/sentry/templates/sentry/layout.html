@@ -303,7 +303,30 @@
 
     slideShow();
 
-    new Clipboard('.copy_btns_hzwangzhiwei');
+    // add by hzwangzhiwei @ 20160412
+    var frame_func = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function(func) {
+      window.setTimeout(func, 1000 / 60);
+    };
+
+    var rendered_attr = 'copy_btns_hzwangzhiwei-rendered';
+    function render_copy_btns_hzwangzhiwei() {
+      var copy_btns = document.querySelectorAll('.copy_btns_hzwangzhiwei');
+      var copy_btn;
+      var rendered_temp;
+      for (var i = 0; i < copy_btns.length; i++) {
+        copy_btn = copy_btns[i];
+        rendered_temp = copy_btn.getAttribute(rendered_attr) || '';
+
+        //没有渲染，则渲染
+        if (! rendered_temp) {
+          new Clipboard(copy_btn);
+          //处理完成之后标记为处理
+          copy_btn.setAttribute(rendered_attr, '1');
+        }
+      }
+      frame_func(render_copy_btns_hzwangzhiwei);
+    }
+    // end add by hzwangzhiwei, render copy button
   });
   </script>
   {% endblock %}

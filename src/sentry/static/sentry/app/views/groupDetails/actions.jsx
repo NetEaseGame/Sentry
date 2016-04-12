@@ -89,6 +89,7 @@ const GroupActions = React.createClass({
     if (group.isBookmarked) {
       bookmarkClassName += ' active';
     }
+    let copyredmineClassName = 'btn btn-default btn-sm'; // add by hzwangzhiwei @20160412
 
     let snoozeClassName = 'group-snooze btn btn-default btn-sm';
     if (group.status === 'muted') {
@@ -177,6 +178,13 @@ const GroupActions = React.createClass({
              title={t('Bookmark')}
              onClick={this.onToggleBookmark}>
             <span className="icon-bookmark" />
+          </a>
+        </div>
+        <div className="btn-group">
+          <a className={copyredmineClassName}
+             title={t('Copy to Redmine')}
+             onClick={this.onCopyToRedmine}>
+            <span className="fa fa-share-square-o" />
           </a>
         </div>
         <div className="btn-group">

@@ -30,7 +30,7 @@ const StreamActions = React.createClass({
   getInitialState() {
     return {
       datePickerActive: false,
-      copytexts: '',
+
       anySelected: false,
       multiSelected: false, // more than one selected
       pageSelected: false, // all on current page selected (e.g. 25)
@@ -121,12 +121,7 @@ const StreamActions = React.createClass({
   },
 
   onSelectedGroupChange() {
-    let copytexts = '';
-    this.actionSelectedGroups((itemIds) => {
-      copytexts += itemIds;
-    });
     this.setState({
-      copytexts: copytexts,
       pageSelected: SelectedGroupStore.allSelected(),
       multiSelected: SelectedGroupStore.multiSelected(),
       anySelected: SelectedGroupStore.anySelected(),
@@ -144,12 +139,18 @@ const StreamActions = React.createClass({
   // add by hzwangzhiwei @20140412 copy trace and open redmine URL
   onCopyToRedmine(evt) {
     console.log(evt);
+    let texts = '';
+    this.actionSelectedGroups((itemIds) => {
+      console.log(itemIds);
+      texts += itemIds;
+    });
+    evt.offsetParent.setAttribute("data-clipboard-text", texts);
   },
   render() {
     // TODO(mitsuhiko): very unclear how to translate this
     let numIssues = SelectedGroupStore.getSelectedIds().size;
     let redmine_class_name = "btn btn-default btn-sm hidden-xs copy-to-redmine tip copy_btns_hzwangzhiwei";
-    // let redmine_copy_text = this.state.copytexts;
+    let redmine_copy_text = 'Test';
     if (!this.state.anySelected) {
        redmine_class_name += " disabled";
     }
@@ -362,15 +363,17 @@ const StreamActions = React.createClass({
                 )}
               </a>
             </div>
-
+            
+            {false &&
             <div className="btn-group">
               <a className={redmine_class_name}
                 title="Copy to Redmine"
-                data-clipboard-text={this.state.copytexts}
+                data-clipboard-text={redmine_copy_text}
                 onClick={this.onCopyToRedmine}>
                   <span className="icon fa fa-share-square-o"></span>
               </a>
             </div>
+            }
 
           </div>
           <div className="hidden-sm stream-actions-assignee col-md-1"></div>

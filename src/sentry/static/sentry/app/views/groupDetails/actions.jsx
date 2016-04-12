@@ -70,7 +70,6 @@ const GroupActions = React.createClass({
 
   getRedmineUrl() {
     let group = this.getGroup();
-    console.log(group);
     let redmine_url = group.project.redmine;
     if (redmine_url) return redmine_url;
     return false;

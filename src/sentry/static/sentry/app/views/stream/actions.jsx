@@ -138,7 +138,6 @@ const StreamActions = React.createClass({
   },
   // add by hzwangzhiwei @20140412 copy trace and open redmine URL
   onCopyToRedmine(evt) {
-    console.log(evt);
     let texts = '';
     this.actionSelectedGroups((itemIds) => {
       console.log(itemIds);

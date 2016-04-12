@@ -146,7 +146,7 @@ class EditProjectForm(forms.ModelForm):
         if not redmine:
             return 
         if not redmine.startswith('http://'): # TODO, url format
-            raise forms.ValidationError('Redmine URL should be a valid URL, start with http://')
+            raise forms.ValidationError('Redmine URL不合法，怎么填写请看：<a target="_blank" href="http://qadoc.nie.netease.com/?/article/28">http://qadoc.nie.netease.com/?/article/28</a>')
         return redmine
 
 

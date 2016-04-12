@@ -35,7 +35,7 @@ const RedmineId = React.createClass({
   },
 
   redmineIssueUrl() {
-    // TODO parse redmine url: http://h11.pm.netease.com/projects/h11-bugs/issues/new
+    // parse redmine url: http://h11.pm.netease.com/projects/h11-bugs/issues/new
     let reg = new RegExp("^http://");
     if (reg.test(this.state.redmineURL)) {
       //start with http://

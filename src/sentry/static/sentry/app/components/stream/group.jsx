@@ -101,7 +101,7 @@ const StreamGroup = React.createClass({
     }
 
     className += ' level-' + data.level;
-    className + = ' group_issue_row'; // add by hzwangzhiwei @20160412
+    className += ' group_issue_row'; // add by hzwangzhiwei @20160412
     let {id, orgId, projectId} = this.props;
 
     return (

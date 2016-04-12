@@ -30,7 +30,7 @@ const StreamActions = React.createClass({
   getInitialState() {
     return {
       datePickerActive: false,
-
+      copytexts: '',
       anySelected: false,
       multiSelected: false, // more than one selected
       pageSelected: false, // all on current page selected (e.g. 25)
@@ -149,7 +149,7 @@ const StreamActions = React.createClass({
     // TODO(mitsuhiko): very unclear how to translate this
     let numIssues = SelectedGroupStore.getSelectedIds().size;
     let redmine_class_name = "btn btn-default btn-sm hidden-xs copy-to-redmine tip copy_btns_hzwangzhiwei";
-    let redmine_copy_text = this.state.copytexts;
+    // let redmine_copy_text = this.state.copytexts;
     if (!this.state.anySelected) {
        redmine_class_name += " disabled";
     }
@@ -366,7 +366,7 @@ const StreamActions = React.createClass({
             <div className="btn-group">
               <a className={redmine_class_name}
                 title="Copy to Redmine"
-                data-clipboard-text={redmine_copy_text}
+                data-clipboard-text={this.state.copytexts}
                 onClick={this.onCopyToRedmine}>
                   <span className="icon fa fa-share-square-o"></span>
               </a>

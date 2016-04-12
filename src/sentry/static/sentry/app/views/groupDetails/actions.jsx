@@ -78,7 +78,6 @@ const GroupActions = React.createClass({
   // add by hzwangzhiwei @20140412 copy trace and open redmine URL
   onCopyToRedmine(evt) {
     let redmine_url = this.getRedmineUrl();
-    console.log(redmine_url);
     if (redmine_url) {
       window.open(redmine_url);
     }
@@ -109,7 +108,10 @@ const GroupActions = React.createClass({
       bookmarkClassName += ' active';
     }
     let copyredmineClassName = 'btn btn-default btn-sm copy_btns_hzwangzhiwei tip'; // add by hzwangzhiwei @20160412
-    let copyTraceText = 'test 剪切板';
+    let copyTraceText = "[Sentry]" + group.title + "\n";
+    copyTraceText += copyTraceText + "来源：" + group.culprit + "\n";
+    copyTraceText += copyTraceText + "详细：" + group.permalink;
+    conosole.log(copyTraceText);
 
     let snoozeClassName = 'group-snooze btn btn-default btn-sm';
     if (group.status === 'muted') {

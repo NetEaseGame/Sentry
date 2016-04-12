@@ -54,14 +54,6 @@ const RedmineId = React.createClass({
     return false;
   },
 
-  showEditIcon(e) {
-    this.refs.redmineEditIcon.className = 'icon fa fa-pencil-square-o redmineEditIcon';
-  },
-
-  hideEditIcon(e) {
-    this.refs.redmineEditIcon.className = 'icon fa fa-pencil-square-o redmineEditIcon hidden_hzwangzhiwei';
-  },
-
   showRedmineIdInput() {
     let redmine_id = prompt("Input the Redmine Issue ID(输入Redmine上的对应的单号)：", "");
     if (redmine_id == null) {
@@ -84,13 +76,13 @@ const RedmineId = React.createClass({
     let issue_url = this.redmineIssueUrl()
     if (issue_url === false) issue_url = '#';
     return (
-      <span onMouseOver={this.showEditIcon} onMouseOut={this.hideEditIcon}>
+      <span>
         <a title={this.formatRedmineId()} 
            href={issue_url} 
            target="_blank"
            className="redmineIdLink">{this.formatRedmineId()}</a>
         &nbsp;&nbsp;
-        <span ref="redmineEditIcon" onClick={this.showRedmineIdInput} className="icon fa fa-pencil-square-o redmineEditIcon hidden_hzwangzhiwei"></span>
+        <span ref="redmineEditIcon" onClick={this.showRedmineIdInput} className="icon fa fa-pencil-square-o redmineEditIcon"></span>
       </span>
     );
   }

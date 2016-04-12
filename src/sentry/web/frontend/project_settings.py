@@ -29,7 +29,7 @@ class EditProjectForm(forms.ModelForm):
     )
     team = CustomTypedChoiceField(choices=(), coerce=int, required=False)
     redmine = forms.CharField(label=_('Redmine URL'), max_length=200, required=False, 
-        widget=forms.TextInput(attrs={'placeholder': _('Redmine URL')})) # add by hzwangzhiwei @20160411
+        widget=forms.TextInput(attrs={'placeholder': _('eg. http://h11.pm.netease.com/projects/h11-bugs/issues/new')})) # add by hzwangzhiwei @20160411
     origins = OriginsField(label=_('Allowed Domains'), required=False,
         help_text=_('Separate multiple entries with a newline.'))
     token = forms.CharField(label=_('Security token'), required=True,
@@ -146,7 +146,7 @@ class EditProjectForm(forms.ModelForm):
         if not redmine:
             return 
         if not redmine.startswith('http://'): # TODO, url format
-            raise forms.ValidationError('Redmine URL不合法，怎么填写请看：<a target="_blank" href="http://qadoc.nie.netease.com/?/article/28">http://qadoc.nie.netease.com/?/article/28</a>')
+            raise forms.ValidationError('Redmine URL must a valid url, Detail to see: <a target="_blank" href="http://qadoc.nie.netease.com/?/article/28">http://qadoc.nie.netease.com/?/article/28</a>')
         return redmine
 
 

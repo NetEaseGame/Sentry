@@ -139,9 +139,12 @@ const StreamActions = React.createClass({
   // add by hzwangzhiwei @20140412 copy trace and open redmine URL
   onCopyToRedmine(evt) {
     console.log(evt);
+    let texts = '';
     this.actionSelectedGroups((itemIds) => {
       console.log(itemIds);
+      texts += itemIds;
     });
+    evt.offsetParent.setAttribute("data-clipboard-text", texts);
   },
   render() {
     // TODO(mitsuhiko): very unclear how to translate this
@@ -363,10 +366,10 @@ const StreamActions = React.createClass({
 
             <div className="btn-group">
               <a className={redmine_class_name}
-                 title="Copy to Redmine"
-                 data-clipboard-text={redmine_copy_text}
-                 onClick={this.onCopyToRedmine}>
-                <span className="icon fa fa-share-square-o"></span>
+                title="Copy to Redmine"
+                data-clipboard-text={redmine_copy_text}
+                onClick={this.onCopyToRedmine}>
+                  <span className="icon fa fa-share-square-o"></span>
               </a>
             </div>
 

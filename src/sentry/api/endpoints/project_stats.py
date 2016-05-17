@@ -53,14 +53,19 @@ class ProjectStatsEndpoint(ProjectEndpoint, StatsMixin):
         # if action is "stat", then get the stats category
         action = request.GET.get('action', '')
         if action == 'stat':
-            proj_id = request.GET.get('proj_id', '')
-            from sentry.models import Group
-            raw_sql = 'select count(id) as cnt, status from sentry_groupedmessage where project_id = %s group by status;' % proj_id
-            raw_querySet = Group.objects.raw(raw_sql)
             status_map = ['UNRESOLVED', 'RESOLVED', 'MUTED', 'PENDING_DELETION', 'DELETION_IN_PROGRESS', 'PENDING_MERGE']
-            stats = {}
+            stats = {'TOTAL': 0} # result
+            for x in status_map:
+                stats[x] = 0
+
+            from sentry.models import Group
+            raw_sql = 'select count(id) as cnt, status from sentry_groupedmessage where project_id = %s group by status;' % project.id
+            raw_querySet = Group.objects.raw(raw_sql)
+            
+            cnt = 0
             for r in raw_querySet:
                 status = int(r.get('status', 0))
+                cnt += r.get('cnt', 0)
                 if status <= 5:
                     stats[status_map[status]] = r.get('cnt', 0)
 

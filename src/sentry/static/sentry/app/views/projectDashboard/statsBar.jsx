@@ -52,6 +52,7 @@ const TeamStatsBar = React.createClass({
   },
 
   render() {
+    console.log(this.state.statsData);
     return (
       <div className="row team-stats">
         <div className="col-md-3 stat-column">

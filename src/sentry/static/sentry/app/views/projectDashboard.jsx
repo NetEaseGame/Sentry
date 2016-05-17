@@ -97,6 +97,16 @@ const ProjectDashboard = React.createClass({
     });
     return '/projects/' + params.orgId + '/' + params.projectId + '/issues/?' + qs;
   },
+  // 统计分类数据
+  console.log(params),
+  getTotalStatIssuesEndpoint() {
+    let params = this.props.params;
+    let qs = jQuery.param({
+      action: 'stat',
+      proj_id: params.projectId
+    });
+    return '/projects/' + params.orgId + '/' + params.projectId + '/stats/?' + qs;
+  },
 
   render() {
     let {statsPeriod} = this.state;
@@ -106,6 +116,9 @@ const ProjectDashboard = React.createClass({
     let url = `/${orgId}/${projectId}/dashboard/`;
     let routeQuery = this.props.location.query;
 
+    // 总数统计
+    let totalStatData = this.getTotalStatIssuesEndpoint();
+    console.log(totalStatData);
     return (
       <div>
         <div>
@@ -144,6 +157,9 @@ const ProjectDashboard = React.createClass({
         <ProjectChart
             dateSince={dateSince}
             resolution={resolution} />
+        <div className="row">
+          当前项目Trace数量总共: <strong>230</strong> 条，未指派处理人: <strong>230</strong> 条。
+        </div>
         <div className="row">
           <div className="col-md-6">
             <EventList

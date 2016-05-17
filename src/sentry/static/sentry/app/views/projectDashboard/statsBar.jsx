@@ -56,17 +56,17 @@ const TeamStatsBar = React.createClass({
       return "";
     }
     else {
-      let rate = ((this.state.statsData.RESOLVED + this.state.statsData.MUTED) * 100 / this.state.statsData.TOTAL).toFixed(2);
+      return ((this.state.statsData.RESOLVED + this.state.statsData.MUTED) * 100 / this.state.statsData.TOTAL).toFixed(2);
     }
   },
 
   render() {
     let rate = this.done_rate();
-    let classname = '';
+    let classname = 'col-md-3 stat-column align-right bad';
     if (rate == "" || rate >= 0.8) {
       classname = 'col-md-3 stat-column align-right good';
     }
-    else if (rate >=0.6 && rate <= 0.8) {
+    else if (rate >=0.5 && rate <= 0.8) {
       classname = 'col-md-3 stat-column align-right mid';
     }
     else {

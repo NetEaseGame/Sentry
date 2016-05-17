@@ -58,7 +58,7 @@ const TeamStatsBar = React.createClass({
     else {
       let rate = ((this.state.statsData.RESOLVED + this.state.statsData.MUTED) * 100 / this.state.statsData.TOTAL).toFixed(2);
     }
-  }
+  },
 
   render() {
     let rate = this.done_rate();

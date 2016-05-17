@@ -59,16 +59,15 @@ class ProjectStatsEndpoint(ProjectEndpoint, StatsMixin):
                 stats[x] = 0
 
             from sentry.models import Group
-            raw_sql = 'select count(id) as cnt, status from sentry_groupedmessage where project_id = %s group by status;' % project.id
-            raw_querySet = Group.objects.raw(raw_sql)
-            
-            cnt = 0
-            for r in raw_querySet:
+            from django.db.models import Count
+            statsQuerySet = Group.objects.filter(project_id=project.id).values('status').annotate(cnt=Count('status'))       
+            total = 0
+            for r in statsQuerySet:
                 status = int(r.get('status', 0))
-                cnt += r.get('cnt', 0)
+                total += r.get('cnt', 0)
                 if status <= 5:
                     stats[status_map[status]] = r.get('cnt', 0)
-
+            stats['TOTAL'] = total
             return Response(stats)
 
         stat = request.GET.get('stat', 'received')

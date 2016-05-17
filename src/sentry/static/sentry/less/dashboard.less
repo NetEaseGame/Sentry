@@ -12,7 +12,7 @@
     padding: 20px 20px 18px;
     line-height: 1;
 
-    &.good, &.bad {
+    &.good, &.mid, &.bad {
       color: #fff;
       .count-label {
         opacity: .7;
@@ -21,6 +21,10 @@
 
     &.good {
       background: @green;
+    }
+
+    &.mid {
+      background: @yellow;
     }
 
     &.bad {

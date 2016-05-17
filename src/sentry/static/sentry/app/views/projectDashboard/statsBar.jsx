@@ -51,24 +51,48 @@ const TeamStatsBar = React.createClass({
     });
   },
 
+  done_rate() {
+    if (this.state.statsData.TOTAL == 0) {
+      return "";
+    }
+    else {
+      let rate = ((this.state.statsData.RESOLVED + this.state.statsData.MUTED) * 100 / this.state.statsData.TOTAL).toFixed(2);
+    }
+  }
+
   render() {
-    console.log(this.state.statsData);
+    let rate = this.done_rate();
+    let classname = '';
+    if (rate == "" || rate >= 0.8) {
+      classname = 'col-md-3 stat-column align-right good';
+    }
+    else if (rate >=0.6 && rate <= 0.8) {
+      classname = 'col-md-3 stat-column align-right mid';
+    }
+    else {
+      classname = 'col-md-3 stat-column align-right bad';
+    }
+
+    if (rate != "") {
+      rate = rate + " %";
+    }
+
     return (
       <div className="row team-stats">
         <div className="col-md-3 stat-column">
-          <span className="count">{this.state.statsData.total || 0}</span>
+          <span className="count">{this.state.statsData.TOTAL || 0}</span>
           <span className="count-label">{t('Total Count')}</span>
         </div>
         <div className="col-md-3 stat-column">
-          <span className="count">{this.state.statsData.total || 0}</span>
+          <span className="count">{this.state.statsData.RESOLVED || 0}</span>
           <span className="count-label">{t('Solved Count')}</span>
         </div>
         <div className="col-md-3 stat-column">
-          <span className="count">{this.state.statsData.total || 0}</span>
+          <span className="count">{this.state.statsData.MUTED || 0}</span>
           <span className="count-label">{t('Ignore Count')}</span>
         </div>
-        <div className="col-md-3 stat-column align-right bad">
-          <span className="count">{this.state.statsData.total || 0}%</span>
+        <div className={classname}>
+          <span className="count">{rate}</span>
           <span className="count-label">{t('Done rate')}</span>
         </div>
       </div>

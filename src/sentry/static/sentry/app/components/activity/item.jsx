@@ -126,7 +126,17 @@ const ActivityItem = React.createClass({
         });
       case 'assigned':
         let assignee;
-        if (data.assignee === item.user.id) {
+        // 存在user，说明是人工操作的assignee
+        if (item.user) {
+          if (data.assignee === item.user.id) {
+            return tct('[author] assigned [link:an issue] to themselves', {
+              author: author,
+              link: <Link to={`/${orgId}/${project.slug}/issues/${issue.id}/`} />
+            });
+          }
+        }
+        else {
+          // 是由webhook系统处理的
           return tct('[author] assigned [link:an issue] to themselves', {
             author: author,
             link: <Link to={`/${orgId}/${project.slug}/issues/${issue.id}/`} />
@@ -176,7 +186,6 @@ const ActivityItem = React.createClass({
 
   render() {
     let item = this.props.item;
-    console.log(item);
     let bubbleClassName = 'activity-item-bubble';
     if (this.state.clipped) {
       bubbleClassName += ' clipped';

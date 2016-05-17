@@ -3,6 +3,7 @@ import React from 'react';
 import {Link} from 'react-router';
 
 import EventList from './projectDashboard/eventList';
+import TeamStatsBar from './projectDashboard/statsBar';
 import ProjectState from '../mixins/projectState';
 import ProjectChart from './projectDashboard/chart';
 import {t} from '../locale';
@@ -98,9 +99,10 @@ const ProjectDashboard = React.createClass({
     return '/projects/' + params.orgId + '/' + params.projectId + '/issues/?' + qs;
   },
   // 统计分类数据
-  console.log(params),
+  
   getTotalStatIssuesEndpoint() {
     let params = this.props.params;
+    console.log(params);
     let qs = jQuery.param({
       action: 'stat',
       proj_id: params.projectId
@@ -157,9 +159,8 @@ const ProjectDashboard = React.createClass({
         <ProjectChart
             dateSince={dateSince}
             resolution={resolution} />
-        <div className="row">
-          当前项目Trace数量总共: <strong>230</strong> 条，未指派处理人: <strong>230</strong> 条。
-        </div>
+        <TeamStatsBar
+          endpoint={this.getTotalStatIssuesEndpoint()} />
         <div className="row">
           <div className="col-md-6">
             <EventList

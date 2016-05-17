@@ -63,10 +63,10 @@ const TeamStatsBar = React.createClass({
   render() {
     let rate = this.done_rate();
     let classname = 'col-md-3 stat-column align-right bad';
-    if (rate == "" || rate >= 0.8) {
+    if (rate == "" || rate >= 80) {
       classname = 'col-md-3 stat-column align-right good';
     }
-    else if (rate >=0.5 && rate <= 0.8) {
+    else if (rate >=50 && rate <= 80) {
       classname = 'col-md-3 stat-column align-right mid';
     }
     else {

@@ -102,7 +102,6 @@ const ProjectDashboard = React.createClass({
   
   getTotalStatIssuesEndpoint() {
     let params = this.props.params;
-    console.log(params);
     let qs = jQuery.param({
       action: 'stat',
       proj_id: params.projectId
@@ -118,9 +117,6 @@ const ProjectDashboard = React.createClass({
     let url = `/${orgId}/${projectId}/dashboard/`;
     let routeQuery = this.props.location.query;
 
-    // 总数统计
-    let totalStatData = this.getTotalStatIssuesEndpoint();
-    console.log(totalStatData);
     return (
       <div>
         <div>

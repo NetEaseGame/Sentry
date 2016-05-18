@@ -68,7 +68,7 @@ const GroupActivity = React.createClass({
         return t('%s first saw this issue', author);
       case 'assigned':
         let assignee;
-        if (data.assignee === item.user.id) {
+        if ((! item.user) || data.assignee === item.user.id) {
           assignee = 'themselves';
           return t('%s assigned this event to themselves', author);
         } else {
@@ -82,10 +82,10 @@ const GroupActivity = React.createClass({
             return t('%s assigned this event to an unknown user', author);
           }
         }
-        return t('%(author)s assigned this event to %(assignee)s', {
-          author: author,
-          assignee: assignee.email
-        });
+        // return t('%(author)s assigned this event to %(assignee)s', {
+        //   author: author,
+        //   assignee: assignee.email
+        // });
       case 'unassigned':
         return t('%s unassigned this issue', author);
       case 'merge':

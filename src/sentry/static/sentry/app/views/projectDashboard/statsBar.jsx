@@ -93,7 +93,7 @@ const TeamStatsBar = React.createClass({
         </div>
         <div className={classname}>
           <span className="count">{rate}</span>
-          <span className="count-label">{t('Done rate')}</span>
+          <span className="count-label">{t('Processed rate')}</span>
         </div>
       </div>
     );

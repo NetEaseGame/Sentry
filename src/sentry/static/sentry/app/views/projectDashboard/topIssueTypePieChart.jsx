@@ -1,3 +1,4 @@
+import jQuery from 'jquery';
 import React from 'react';
 import ApiMixin from '../../mixins/apiMixin';
 import LoadingError from '../../components/loadingError';
@@ -9,7 +10,8 @@ import ReactEcharts from 'react-echarts-component';
 const TopIssueTypePieChart = React.createClass({
   propTypes: {
     endpoint: React.PropTypes.string.isRequired,
-    cnt: React.PropTypes.string.isRequired
+    cnt: React.PropTypes.string.isRequired,
+    params: React.PropTypes.object.isRequired
   },
 
   mixins: [
@@ -98,11 +100,19 @@ const TopIssueTypePieChart = React.createClass({
     };
     return testOption;
   },
+  getIssueFilterUrl(typeName) {
+    let params = this.props.params;
+    let qs = jQuery.param({
+      query: typeName
+    });
+    return '/' + params.orgId + '/' + params.projectId + '/?' + qs;
+  },
   // Top Type图表加事件
   addClickEventToTopTypeChart(chart) {
-    console.log(chart);
-    chart.on('pieToggleSelect', function(params) {
-      console.log(params);
+    chart.on('click', function(params) {
+      if (params && params.name) {
+        window.open(this.getIssueFilterUrl(params.name), "_blank")
+      }
     });
   },
 

@@ -1,3 +1,4 @@
+import jQuery from 'jquery';
 import React from 'react';
 import ApiMixin from '../../mixins/apiMixin';
 import LoadingError from '../../components/loadingError';
@@ -9,7 +10,8 @@ import ReactEcharts from 'react-echarts-component';
 const TopIssuePersonPieChart = React.createClass({
   propTypes: {
     endpoint: React.PropTypes.string.isRequired,
-    cnt: React.PropTypes.string.isRequired
+    cnt: React.PropTypes.string.isRequired,
+    params: React.PropTypes.object.isRequired
   },
 
   mixins: [
@@ -98,12 +100,31 @@ const TopIssuePersonPieChart = React.createClass({
     };
     return testOption;
   },
-
+  getEmailByName(name) {
+    for (var e in this.state.statsData) {
+      e = this.state.statsData[e];
+      if (e['name'] == name) {
+        return e['email'];
+      }
+    }
+    return null;
+  },
+  getIssueFilterUrl(email) {
+    let params = this.props.params;
+    let qs = jQuery.param({
+      query: "assigned:" + email
+    });
+    return '/' + params.orgId + '/' + params.projectId + '/?' + qs;
+  },
   // Top Person图表加事件
   addClickEventToTopPersonChart(chart) {
-    console.log(chart);
-    chart.on('pieToggleSelect', function(params) {
-      console.log(params);
+    chart.on('click', function(params) {
+      if (params && params.name) {
+        let email = this.getEmailByName(name);
+        if (email) {
+          window.open(this.getIssueFilterUrl(email), "_blank")
+        }
+      }
     });
   },
   render() {

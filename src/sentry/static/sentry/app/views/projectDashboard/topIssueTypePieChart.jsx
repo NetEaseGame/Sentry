@@ -56,8 +56,10 @@ const TopIssueTypePieChart = React.createClass({
   // 将statData转为echart option
   getOption() {
     let legend_data = [];
+    let series_data = [];
     for (var e in this.state.statsData) {
       legend_data.push(e['name'])
+      series_data.push({'name': e['name'], 'value': e['value']})
     }
     let testOption = {
         title : {
@@ -73,22 +75,20 @@ const TopIssueTypePieChart = React.createClass({
             left: 'left',
             data: legend_data
         },
-        series : [
-            {
-                name: 'Trace类型',
-                type: 'pie',
-                radius : '55%',
-                center: ['50%', '60%'],
-                data:this.state.statsData,
-                itemStyle: {
-                    emphasis: {
-                        shadowBlur: 10,
-                        shadowOffsetX: 0,
-                        shadowColor: 'rgba(0, 0, 0, 0.5)'
-                    }
+        series : [{
+            name: 'Trace类型',
+            type: 'pie',
+            radius : '55%',
+            center: ['50%', '60%'],
+            data: series_data,
+            itemStyle: {
+                emphasis: {
+                    shadowBlur: 10,
+                    shadowOffsetX: 0,
+                    shadowColor: 'rgba(0, 0, 0, 0.5)'
                 }
             }
-        ]
+        }]
     };
     return testOption;
   },

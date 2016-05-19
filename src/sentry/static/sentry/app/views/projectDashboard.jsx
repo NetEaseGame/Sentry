@@ -197,13 +197,13 @@ const ProjectDashboard = React.createClass({
         <div className="row">
           <div className="col-md-6">
             <TopIssueTypePieChart
-              endpoint={this.getTopIssueTypesEndpoint(15)}
-              cnt="15" />
+              endpoint={this.getTopIssueTypesEndpoint(10)}
+              cnt="10" />
           </div>
           <div className="col-md-6">
             <TopIssuePersonPieChart
-              endpoint={this.getTopIssuePersonsEndpoint(15)}
-              cnt="15" />
+              endpoint={this.getTopIssuePersonsEndpoint(10)}
+              cnt="10" />
           </div>
         </div>
       </div>

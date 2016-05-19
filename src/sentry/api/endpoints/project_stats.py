@@ -93,7 +93,6 @@ class ProjectStatsEndpoint(ProjectEndpoint, StatsMixin):
             cursor.execute(raw_sql, [project.id, cnt])
             raw_querySet = dictFetchAll(cursor)
             for s in raw_querySet:
-                print s
                 stats.append({'name': s.get('issue_type', ''), 'value': s.get('cnt', 0)})
 
             return Response(stats)
@@ -108,12 +107,11 @@ class ProjectStatsEndpoint(ProjectEndpoint, StatsMixin):
             stats = []
             cursor = connection.cursor()
             # select
-            raw_sql = "select id, substring_index(message, ': ',1) as issue_type, count(id) as cnt from sentry_groupedmessage where project_id = %s group by issue_type order by cnt desc limit %s;"
+            raw_sql = "select sentry_groupasignee.id, first_name, count(user_id) as cnt from sentry_groupasignee join auth_user on sentry_groupasignee.user_id = auth_user.id where project_id = %s group by user_id order by cnt desc limit %s;"
             cursor.execute(raw_sql, [project.id, cnt])
             raw_querySet = dictFetchAll(cursor)
             for s in raw_querySet:
-                print s
-                stats.append({'name': s.get('issue_type', ''), 'value': s.get('cnt', 0)})
+                stats.append({'name': s.get('first_name', ''), 'value': s.get('cnt', 0)})
 
             return Response(stats)
 

@@ -67,6 +67,10 @@ const TopIssuePersonPieChart = React.createClass({
       statsDict[e['name']] = e['value'];
     }
     let testOption = {
+        ext: {
+          'url': '/' + this.props.params.orgId + '/' + this.props.params.projectId + '/?',
+          'statsData': this.state.statsData
+        },
         title : {
             text: 'Trace指派人 TOP ' + this.props.cnt + "占比情况",
             x:'center'
@@ -119,10 +123,24 @@ const TopIssuePersonPieChart = React.createClass({
   // Top Person图表加事件
   addClickEventToTopPersonChart(chart) {
     chart.on('click', function(params) {
+      function getEmailByName(name) {
+        for (var e in this.state.statsData) {
+          e = this.state.statsData[e];
+          if (e['name'] == name) {
+            return e['email'];
+          }
+        }
+        return null;
+      }
+
       if (params && params.name) {
-        let email = this.getEmailByName(name);
+        let email = this.getEmailByName(params.name);
         if (email) {
-          window.open(this.getIssueFilterUrl(email), "_blank")
+          let option = chart.getOption();
+          let qs = jQuery.param({
+            query: "assigned:" + email
+          });
+          window.open(option.ext.url + qs, "_blank")
         }
       }
     });

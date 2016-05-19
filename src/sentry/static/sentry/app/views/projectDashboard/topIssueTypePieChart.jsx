@@ -67,6 +67,9 @@ const TopIssueTypePieChart = React.createClass({
       statsDict[e['name']] = e['value'];
     }
     let testOption = {
+        ext: {
+          'url': '/' + params.orgId + '/' + params.projectId + '/?'
+        },
         title : {
             text: 'Trace类型 TOP ' + this.props.cnt + "占比情况",
             x:'center'
@@ -100,18 +103,15 @@ const TopIssueTypePieChart = React.createClass({
     };
     return testOption;
   },
-  getIssueFilterUrl(typeName) {
-    let params = this.props.params;
-    let qs = jQuery.param({
-      query: typeName
-    });
-    return '/' + params.orgId + '/' + params.projectId + '/?' + qs;
-  },
   // Top Type图表加事件
   addClickEventToTopTypeChart(chart) {
     chart.on('click', function(params) {
       if (params && params.name) {
-        window.open(this.getIssueFilterUrl(params.name), "_blank")
+        let option = chart.getOption();
+        let qs = jQuery.param({
+          query: params.name
+        });
+        window.open(option.ext.url + qs, "_blank")
       }
     });
   },

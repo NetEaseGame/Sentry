@@ -6,7 +6,7 @@ import {t} from '../../locale';
 
 import ReactEcharts from 'react-echarts-component';
 
-const TopIssueTypePieChart = React.createClass({
+const TopIssuePersonPieChart = React.createClass({
   propTypes: {
     endpoint: React.PropTypes.string.isRequired,
     cnt: React.PropTypes.string.isRequired
@@ -109,4 +109,4 @@ const TopIssueTypePieChart = React.createClass({
     );
   }
 });
-export default TopIssueTypePieChart;
+export default TopIssuePersonPieChart;

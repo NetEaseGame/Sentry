@@ -7,6 +7,7 @@ import TeamStatsBar from './projectDashboard/statsBar';
 import ProjectState from '../mixins/projectState';
 import ProjectChart from './projectDashboard/chart';
 import TopIssueTypePieChart from './projectDashboard/topIssueTypePieChart';
+import TopIssuePersonPieChart from './projectDashboard/topIssuePersonPieChart';
 import {t} from '../locale';
 
 
@@ -120,6 +121,17 @@ const ProjectDashboard = React.createClass({
     return '/projects/' + params.orgId + '/' + params.projectId + '/stats/?' + qs;
   },
 
+  // 统计出错的程序员榜
+  getTopIssuePersonsEndpoint(n) {
+    let params = this.props.params;
+    let qs = jQuery.param({
+      action: 'topIssuePerson',
+      proj_id: params.projectId,
+      cnt: n
+    });
+    return '/projects/' + params.orgId + '/' + params.projectId + '/stats/?' + qs;
+  },
+
   render() {
     let {statsPeriod} = this.state;
     let dateSince = this.getStatsPeriodBeginTimestamp(statsPeriod);
@@ -185,11 +197,13 @@ const ProjectDashboard = React.createClass({
         <div className="row">
           <div className="col-md-6">
             <TopIssueTypePieChart
-              endpoint={this.getTopIssueTypesEndpoint(15)} />
+              endpoint={this.getTopIssueTypesEndpoint(15)}
+              cnt="15" />
           </div>
           <div className="col-md-6">
-            <TopIssueTypePieChart
-              endpoint={this.getTopIssueTypesEndpoint(15)} />
+            <TopIssuePersonPieChart
+              endpoint={this.getTopIssuePersonsEndpoint(15)}
+              cnt="15" />
           </div>
         </div>
       </div>

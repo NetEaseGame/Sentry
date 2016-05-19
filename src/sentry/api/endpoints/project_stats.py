@@ -50,6 +50,7 @@ class ProjectStatsEndpoint(ProjectEndpoint, StatsMixin):
                                    values.
         :auth: required
         """
+        # add by hzwangzhiwei
         # if action is "stat", then get the stats category
         action = request.GET.get('action', '')
         if action == 'stat':
@@ -60,7 +61,7 @@ class ProjectStatsEndpoint(ProjectEndpoint, StatsMixin):
 
             from sentry.models import Group
             from django.db.models import Count
-            statsQuerySet = Group.objects.filter(project_id=project.id).values('status').annotate(cnt=Count('status'))       
+            statsQuerySet = Group.objects.filter(project_id=project.id).values('status').annotate(cnt=Count('status'))
             total = 0
             for r in statsQuerySet:
                 status = int(r.get('status', 0))
@@ -68,6 +69,41 @@ class ProjectStatsEndpoint(ProjectEndpoint, StatsMixin):
                 if status <= 5:
                     stats[status_map[status]] = r.get('cnt', 0)
             stats['TOTAL'] = total
+            return Response(stats)
+
+        elif action == 'topIssueType':
+            cnt = 15
+            try:
+                cnt = int(request.GET.get('cnt', ''))
+            except:
+                cnt = 15
+
+            stats = []
+            from sentry.models import Group
+            #  select substring_index(message, ': ',1) as issue_type, count(id) as cnt from sentry_groupedmessage where project_id = 2 group by issue_type order by cnt desc limit 10;
+            raw_sql = "select substring_index(message, ': ',1) as issue_type, count(id) as cnt from sentry_groupedmessage where project_id = 2 group by issue_type order by cnt desc limit " + str(cnt) + ";"
+            raw_querySet = Group.objects.raw(raw_sql)
+            for s in raw_querySet:
+                print s
+                stats.append({'name': s.get('issue_type', ''), 'value': s.get('cnt', 0)})
+
+            return Response(stats)
+
+        elif action == 'topIssuePerson':
+            cnt = 15
+            try:
+                cnt = int(request.GET.get('cnt', ''))
+            except:
+                cnt = 15
+
+            stats = []
+            from sentry.models import Group
+            #  select substring_index(message, ': ',1) as issue_type, count(id) as cnt from sentry_groupedmessage where project_id = 2 group by issue_type order by cnt desc limit 10;
+            raw_sql = "select substring_index(message, ': ',1) as issue_type, count(id) as cnt from sentry_groupedmessage where project_id = 2 group by issue_type order by cnt desc limit " + str(cnt) + ";"
+            raw_querySet = Group.objects.raw(raw_sql)
+            for s in raw_querySet:
+                print s
+                stats.append({'name': s.get('issue_type', ''), 'value': s.get('cnt', 0)})
             return Response(stats)
 
         stat = request.GET.get('stat', 'received')

@@ -7,6 +7,8 @@ from sentry.api.base import DocSection, StatsMixin
 from sentry.api.bases.project import ProjectEndpoint
 from sentry.utils.apidocs import scenario, attach_scenarios
 
+from django.db import connection
+import MySQLdb
 
 @scenario('RetrieveEventCountsProjcet')
 def retrieve_event_counts_project(runner):
@@ -79,8 +81,7 @@ class ProjectStatsEndpoint(ProjectEndpoint, StatsMixin):
                 cnt = 15
 
             stats = []
-            from django.db import connection,transaction
-            cursor = connection.cursor()
+            cursor = connection.cursor(cursorclass = MySQLdb.cursors.DictCursor)
             # select
             raw_sql = "select id, substring_index(message, ': ',1) as issue_type, count(id) as cnt from sentry_groupedmessage where project_id = 2 group by issue_type order by cnt desc limit %s;"
             cursor.execute(raw_sql ,[cnt])
@@ -99,8 +100,7 @@ class ProjectStatsEndpoint(ProjectEndpoint, StatsMixin):
                 cnt = 15
 
             stats = []
-            from django.db import connection,transaction
-            cursor = connection.cursor()
+            cursor = connection.cursor(cursorclass = MySQLdb.cursors.DictCursor)
             # select
             raw_sql = "select id, substring_index(message, ': ',1) as issue_type, count(id) as cnt from sentry_groupedmessage where project_id = 2 group by issue_type order by cnt desc limit %s;"
             cursor.execute(raw_sql ,[cnt])

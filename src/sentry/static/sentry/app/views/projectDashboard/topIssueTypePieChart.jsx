@@ -68,7 +68,7 @@ const TopIssueTypePieChart = React.createClass({
     }
     let testOption = {
         ext: {
-          'url': '/' + params.orgId + '/' + params.projectId + '/?'
+          'url': '/' + this.props.params.orgId + '/' + this.props.params.projectId + '/?'
         },
         title : {
             text: 'Trace类型 TOP ' + this.props.cnt + "占比情况",
@@ -111,7 +111,7 @@ const TopIssueTypePieChart = React.createClass({
         let qs = jQuery.param({
           query: params.name
         });
-        window.open(option.ext.url + qs, "_blank")
+        window.open(option.ext.url + qs, "_blank");
       }
     });
   },

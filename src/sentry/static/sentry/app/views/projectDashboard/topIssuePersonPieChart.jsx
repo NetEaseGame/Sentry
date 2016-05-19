@@ -125,7 +125,7 @@ const TopIssuePersonPieChart = React.createClass({
           let qs = jQuery.param({
             query: "assigned:" + email
           });
-          window.open(option.ext.url + qs, "_blank")
+          window.open(option.ext.url + qs, "_blank");
         }
       }
     });

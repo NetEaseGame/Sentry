@@ -60,7 +60,7 @@ const TopIssuePersonPieChart = React.createClass({
     let legend_data = [];
     let series_data = [];
     let statsDict = {};
-    for (var e in this.state.statsData) {
+    for (let e in this.state.statsData) {
       e = this.state.statsData[e];
       legend_data.push(e['name']);
       series_data.push({'name': e['name'], 'value': e['value']});
@@ -104,27 +104,11 @@ const TopIssuePersonPieChart = React.createClass({
     };
     return testOption;
   },
-  getEmailByName(name) {
-    for (var e in this.state.statsData) {
-      e = this.state.statsData[e];
-      if (e['name'] == name) {
-        return e['email'];
-      }
-    }
-    return null;
-  },
-  getIssueFilterUrl(email) {
-    let params = this.props.params;
-    let qs = jQuery.param({
-      query: "assigned:" + email
-    });
-    return '/' + params.orgId + '/' + params.projectId + '/?' + qs;
-  },
   // Top Person图表加事件
   addClickEventToTopPersonChart(chart) {
     chart.on('click', function(params) {
       function getEmailByName(name) {
-        for (var e in this.state.statsData) {
+        for (let e in this.state.statsData) {
           e = this.state.statsData[e];
           if (e['name'] == name) {
             return e['email'];
@@ -134,9 +118,20 @@ const TopIssuePersonPieChart = React.createClass({
       }
 
       if (params && params.name) {
-        let email = this.getEmailByName(params.name);
+        let option = chart.getOption();
+        let statsData = option.ext.statsData;
+        
+        let name = params.name;
+        let email = null;
+        
+        for (let e in statsData) {
+          e = statsData[e];
+          if (e['name'] == name) {
+            email = e['email'];
+            break;
+          }
+        }
         if (email) {
-          let option = chart.getOption();
           let qs = jQuery.param({
             query: "assigned:" + email
           });

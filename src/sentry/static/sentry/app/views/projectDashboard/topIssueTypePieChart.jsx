@@ -60,7 +60,7 @@ const TopIssueTypePieChart = React.createClass({
     let legend_data = [];
     let series_data = [];
     let statsDict = {};
-    for (var e in this.state.statsData) {
+    for (let e in this.state.statsData) {
       e = this.state.statsData[e];
       legend_data.push(e['name']);
       series_data.push({'name': e['name'], 'value': e['value']});

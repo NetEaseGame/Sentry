@@ -56,7 +56,7 @@ const TopIssuePersonPieChart = React.createClass({
   // 将statData转为echart option
   getOption() {
     let legend_data = [];
-    this.state.statsData.forEach(function(e) {
+    this.state.statsData.map(function(e) {
       legend_data.push(e['name'])
     });
     // [

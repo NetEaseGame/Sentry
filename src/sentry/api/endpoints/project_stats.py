@@ -89,8 +89,8 @@ class ProjectStatsEndpoint(ProjectEndpoint, StatsMixin):
             stats = []
             cursor = connection.cursor()
             # select
-            raw_sql = "select id, substring_index(message, ': ',1) as issue_type, count(id) as cnt from sentry_groupedmessage where project_id = 2 group by issue_type order by cnt desc limit %s;"
-            cursor.execute(raw_sql, [cnt])
+            raw_sql = "select id, substring_index(message, ': ',1) as issue_type, count(id) as cnt from sentry_groupedmessage where project_id = %s group by issue_type order by cnt desc limit %s;"
+            cursor.execute(raw_sql, [project.id, cnt])
             raw_querySet = dictFetchAll(cursor)
             for s in raw_querySet:
                 print s
@@ -108,8 +108,8 @@ class ProjectStatsEndpoint(ProjectEndpoint, StatsMixin):
             stats = []
             cursor = connection.cursor()
             # select
-            raw_sql = "select id, substring_index(message, ': ',1) as issue_type, count(id) as cnt from sentry_groupedmessage where project_id = 2 group by issue_type order by cnt desc limit %s;"
-            cursor.execute(raw_sql, [cnt])
+            raw_sql = "select id, substring_index(message, ': ',1) as issue_type, count(id) as cnt from sentry_groupedmessage where project_id = %s group by issue_type order by cnt desc limit %s;"
+            cursor.execute(raw_sql, [project.id, cnt])
             raw_querySet = dictFetchAll(cursor)
             for s in raw_querySet:
                 print s

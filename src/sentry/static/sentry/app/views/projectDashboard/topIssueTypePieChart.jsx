@@ -56,9 +56,9 @@ const TopIssueTypePieChart = React.createClass({
   // 将statData转为echart option
   getOption() {
     let legend_data = [];
-    this.state.statsData.map(function(e) {
+    for (var e in this.state.statsData) {
       legend_data.push(e['name'])
-    });
+    }
     let testOption = {
         title : {
             text: 'Trace类型 TOP ' + this.props.cnt + "占比情况",

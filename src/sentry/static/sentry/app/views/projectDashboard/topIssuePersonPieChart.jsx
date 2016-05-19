@@ -56,19 +56,12 @@ const TopIssuePersonPieChart = React.createClass({
   // 将statData转为echart option
   getOption() {
     let legend_data = [];
-    this.state.statsData.map(function(e) {
+    for (var e in this.state.statsData) {
       legend_data.push(e['name'])
-    });
-    // [
-    //     {value:335, name:'直接访问'},
-    //     {value:310, name:'邮件营销'},
-    //     {value:234, name:'联盟广告'},
-    //     {value:135, name:'视频广告'},
-    //     {value:1548, name:'搜索引擎'}
-    // ]
+    }
     let testOption = {
         title : {
-            text: 'Trace类型 TOP ' + this.props.cnt + "占比情况",
+            text: 'Trace指派人 TOP ' + this.props.cnt + "占比情况",
             x:'center'
         },
         tooltip : {
@@ -82,7 +75,7 @@ const TopIssuePersonPieChart = React.createClass({
         },
         series : [
             {
-                name: 'Trace类型',
+                name: 'Trace指派人',
                 type: 'pie',
                 radius : '55%',
                 center: ['50%', '60%'],

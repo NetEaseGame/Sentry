@@ -8,6 +8,8 @@ import ProjectState from '../mixins/projectState';
 import ProjectChart from './projectDashboard/chart';
 import {t} from '../locale';
 
+import ECharts from 'react-echarts';
+
 const PERIOD_HOUR = '1h';
 const PERIOD_DAY = '1d';
 const PERIOD_WEEK = '1w';
@@ -117,6 +119,45 @@ const ProjectDashboard = React.createClass({
     let url = `/${orgId}/${projectId}/dashboard/`;
     let routeQuery = this.props.location.query;
 
+    let testOption = option = {
+        title : {
+            text: '某站点用户访问来源',
+            subtext: '纯属虚构',
+            x:'center'
+        },
+        tooltip : {
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c} ({d}%)"
+        },
+        legend: {
+            orient: 'vertical',
+            left: 'left',
+            data: ['直接访问','邮件营销','联盟广告','视频广告','搜索引擎']
+        },
+        series : [
+            {
+                name: '访问来源',
+                type: 'pie',
+                radius : '55%',
+                center: ['50%', '60%'],
+                data:[
+                    {value:335, name:'直接访问'},
+                    {value:310, name:'邮件营销'},
+                    {value:234, name:'联盟广告'},
+                    {value:135, name:'视频广告'},
+                    {value:1548, name:'搜索引擎'}
+                ],
+                itemStyle: {
+                    emphasis: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
+                }
+            }
+        ]
+    };
+
     return (
       <div>
         <div>
@@ -167,6 +208,15 @@ const ProjectDashboard = React.createClass({
             <EventList
                 title={t('New Issues')}
                 endpoint={this.getNewIssuesEndpoint(dateSince)} />
+          </div>
+        </div>
+
+        <div className="row">
+          <div className="col-md-6">
+            <ECharts option={testOption} />
+          </div>
+          <div className="col-md-6">
+            <ECharts option={testOption} />
           </div>
         </div>
       </div>

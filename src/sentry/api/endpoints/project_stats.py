@@ -19,6 +19,12 @@ def retrieve_event_counts_project(runner):
     )
 
 
+def dictFetchAll(cursor):
+    desc = cursor.description
+    return [
+        dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()
+    ]
+
 class ProjectStatsEndpoint(ProjectEndpoint, StatsMixin):
     doc_section = DocSection.PROJECTS
 
@@ -81,11 +87,11 @@ class ProjectStatsEndpoint(ProjectEndpoint, StatsMixin):
                 cnt = 15
 
             stats = []
-            cursor = connection.cursor(cursorclass = MySQLdb.cursors.DictCursor)
+            cursor = connection.cursor()
             # select
             raw_sql = "select id, substring_index(message, ': ',1) as issue_type, count(id) as cnt from sentry_groupedmessage where project_id = 2 group by issue_type order by cnt desc limit %s;"
-            cursor.execute(raw_sql ,[cnt])
-            raw_querySet = cursor.fetchall()
+            cursor.execute(raw_sql, [cnt])
+            raw_querySet = dictFetchAll(cursor)
             for s in raw_querySet:
                 print s
                 stats.append({'name': s.get('issue_type', ''), 'value': s.get('cnt', 0)})
@@ -100,11 +106,11 @@ class ProjectStatsEndpoint(ProjectEndpoint, StatsMixin):
                 cnt = 15
 
             stats = []
-            cursor = connection.cursor(cursorclass = MySQLdb.cursors.DictCursor)
+            cursor = connection.cursor()
             # select
             raw_sql = "select id, substring_index(message, ': ',1) as issue_type, count(id) as cnt from sentry_groupedmessage where project_id = 2 group by issue_type order by cnt desc limit %s;"
-            cursor.execute(raw_sql ,[cnt])
-            raw_querySet = cursor.fetchall()
+            cursor.execute(raw_sql, [cnt])
+            raw_querySet = dictFetchAll(cursor)
             for s in raw_querySet:
                 print s
                 stats.append({'name': s.get('issue_type', ''), 'value': s.get('cnt', 0)})

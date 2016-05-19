@@ -99,12 +99,20 @@ const TopIssuePersonPieChart = React.createClass({
     return testOption;
   },
 
+  // Top Person图表加事件
+  addClickEventToTopPersonChart(chart) {
+    console.log(chart);
+    chart.on('pieToggleSelect', function(params) {
+      console.log(params);
+    });
+  },
   render() {
     let option = this.getOption();
     return (
       <ReactEcharts
         height={400}
-        option={option} />
+        option={option}
+        onReady={this.addClickEventToTopPersonChart} />
     );
   }
 });

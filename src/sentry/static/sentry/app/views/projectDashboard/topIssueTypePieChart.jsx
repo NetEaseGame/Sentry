@@ -98,13 +98,21 @@ const TopIssueTypePieChart = React.createClass({
     };
     return testOption;
   },
+  // Top Type图表加事件
+  addClickEventToTopTypeChart(chart) {
+    console.log(chart);
+    chart.on('pieToggleSelect', function(params) {
+      console.log(params);
+    });
+  },
 
   render() {
     let option = this.getOption();
     return (
       <ReactEcharts
         height={400}
-        option={option} />
+        option={option} 
+        onReady={this.addClickEventToTopTypeChart} />
     );
   }
 });

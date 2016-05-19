@@ -57,9 +57,12 @@ const TopIssueTypePieChart = React.createClass({
   getOption() {
     let legend_data = [];
     let series_data = [];
+    let statsDict = {};
     for (var e in this.state.statsData) {
-      legend_data.push(e['name'])
-      series_data.push({'name': e['name'], 'value': e['value']})
+      e = this.state.statsData[e];
+      legend_data.push(e['name']);
+      series_data.push({'name': e['name'], 'value': e['value']});
+      statsDict[e['name']] = e['value'];
     }
     let testOption = {
         title : {
@@ -73,7 +76,10 @@ const TopIssueTypePieChart = React.createClass({
         legend: {
             orient: 'vertical',
             left: 'left',
-            data: legend_data
+            data: legend_data,
+            formatter: function (name) {
+                return '['+ statsDict[name] +'] ' + name;
+            }
         },
         series : [{
             name: 'Trace类型',

@@ -6,7 +6,7 @@ import {t} from '../../locale';
 
 import ReactEcharts from 'react-echarts-component';
 
-const TopIssueTypePieChart = React.createClass({
+const TopIssuePersonPieChart = React.createClass({
   propTypes: {
     endpoint: React.PropTypes.string.isRequired,
     cnt: React.PropTypes.string.isRequired
@@ -59,6 +59,13 @@ const TopIssueTypePieChart = React.createClass({
     this.state.statsData.map(function(e) {
       legend_data.push(e['name'])
     });
+    // [
+    //     {value:335, name:'直接访问'},
+    //     {value:310, name:'邮件营销'},
+    //     {value:234, name:'联盟广告'},
+    //     {value:135, name:'视频广告'},
+    //     {value:1548, name:'搜索引擎'}
+    // ]
     let testOption = {
         title : {
             text: 'Trace类型 TOP ' + this.props.cnt + "占比情况",
@@ -102,4 +109,4 @@ const TopIssueTypePieChart = React.createClass({
     );
   }
 });
-export default TopIssueTypePieChart;
+export default TopIssuePersonPieChart;

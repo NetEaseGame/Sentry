@@ -8,7 +8,7 @@ import ProjectState from '../mixins/projectState';
 import ProjectChart from './projectDashboard/chart';
 import {t} from '../locale';
 
-import ECharts from 'react-echarts';
+import ReactEcharts from 'react-echarts-component';
 
 const PERIOD_HOUR = '1h';
 const PERIOD_DAY = '1d';
@@ -213,10 +213,16 @@ const ProjectDashboard = React.createClass({
 
         <div className="row">
           <div className="col-md-6">
-            <ECharts option={testOption} />
+            <ReactEcharts
+              height={400}
+              option={testOption}
+              showLoading={true} />
           </div>
           <div className="col-md-6">
-            <ECharts option={testOption} />
+            <ReactEcharts
+              height={400}
+              option={testOption}
+              showLoading={true} />
           </div>
         </div>
       </div>

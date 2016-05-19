@@ -119,7 +119,7 @@ const ProjectDashboard = React.createClass({
     let url = `/${orgId}/${projectId}/dashboard/`;
     let routeQuery = this.props.location.query;
 
-    let testOption = option = {
+    let testOption = {
         title : {
             text: '某站点用户访问来源',
             subtext: '纯属虚构',

@@ -107,20 +107,10 @@ const TopIssuePersonPieChart = React.createClass({
   // Top Person图表加事件
   addClickEventToTopPersonChart(chart) {
     chart.on('click', function(params) {
-      function getEmailByName(name) {
-        for (let e in this.state.statsData) {
-          e = this.state.statsData[e];
-          if (e['name'] == name) {
-            return e['email'];
-          }
-        }
-        return null;
-      }
-
       if (params && params.name) {
         let option = chart.getOption();
         let statsData = option.ext.statsData;
-        
+
         let name = params.name;
         let email = null;
         

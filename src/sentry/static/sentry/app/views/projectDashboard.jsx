@@ -6,9 +6,9 @@ import EventList from './projectDashboard/eventList';
 import TeamStatsBar from './projectDashboard/statsBar';
 import ProjectState from '../mixins/projectState';
 import ProjectChart from './projectDashboard/chart';
+import TopIssueTypePieChart from './projectDashboard/topIssueTypePieChart';
 import {t} from '../locale';
 
-import ReactEcharts from 'react-echarts-component';
 
 const PERIOD_HOUR = '1h';
 const PERIOD_DAY = '1d';
@@ -101,12 +101,21 @@ const ProjectDashboard = React.createClass({
     return '/projects/' + params.orgId + '/' + params.projectId + '/issues/?' + qs;
   },
   // 统计分类数据
-  
   getTotalStatIssuesEndpoint() {
     let params = this.props.params;
     let qs = jQuery.param({
       action: 'stat',
       proj_id: params.projectId
+    });
+    return '/projects/' + params.orgId + '/' + params.projectId + '/stats/?' + qs;
+  },
+  // 统计出错的排行榜
+  getTopIssueTypesEndpoint(n) {
+    let params = this.props.params;
+    let qs = jQuery.param({
+      action: 'topIssueType',
+      proj_id: params.projectId,
+      cnt: n
     });
     return '/projects/' + params.orgId + '/' + params.projectId + '/stats/?' + qs;
   },
@@ -118,45 +127,6 @@ const ProjectDashboard = React.createClass({
     let {orgId, projectId} = this.props.params;
     let url = `/${orgId}/${projectId}/dashboard/`;
     let routeQuery = this.props.location.query;
-
-    let testOption = {
-        title : {
-            text: '某站点用户访问来源',
-            subtext: '纯属虚构',
-            x:'center'
-        },
-        tooltip : {
-            trigger: 'item',
-            formatter: "{a} <br/>{b} : {c} ({d}%)"
-        },
-        legend: {
-            orient: 'vertical',
-            left: 'left',
-            data: ['直接访问','邮件营销','联盟广告','视频广告','搜索引擎']
-        },
-        series : [
-            {
-                name: '访问来源',
-                type: 'pie',
-                radius : '55%',
-                center: ['50%', '60%'],
-                data:[
-                    {value:335, name:'直接访问'},
-                    {value:310, name:'邮件营销'},
-                    {value:234, name:'联盟广告'},
-                    {value:135, name:'视频广告'},
-                    {value:1548, name:'搜索引擎'}
-                ],
-                itemStyle: {
-                    emphasis: {
-                        shadowBlur: 10,
-                        shadowOffsetX: 0,
-                        shadowColor: 'rgba(0, 0, 0, 0.5)'
-                    }
-                }
-            }
-        ]
-    };
 
     return (
       <div>
@@ -198,6 +168,7 @@ const ProjectDashboard = React.createClass({
             resolution={resolution} />
         <TeamStatsBar
           endpoint={this.getTotalStatIssuesEndpoint()} />
+
         <div className="row">
           <div className="col-md-6">
             <EventList
@@ -213,16 +184,12 @@ const ProjectDashboard = React.createClass({
 
         <div className="row">
           <div className="col-md-6">
-            <ReactEcharts
-              height={400}
-              option={testOption}
-              showLoading={true} />
+            <TopIssueTypePieChart
+              endpoint={this.getTopIssueTypesEndpoint(15)} />
           </div>
           <div className="col-md-6">
-            <ReactEcharts
-              height={400}
-              option={testOption}
-              showLoading={true} />
+            <TopIssueTypePieChart
+              endpoint={this.getTopIssueTypesEndpoint(15)} />
           </div>
         </div>
       </div>

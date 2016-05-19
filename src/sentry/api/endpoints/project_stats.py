@@ -79,10 +79,12 @@ class ProjectStatsEndpoint(ProjectEndpoint, StatsMixin):
                 cnt = 15
 
             stats = []
-            from sentry.models import Group
-            #  select substring_index(message, ': ',1) as issue_type, count(id) as cnt from sentry_groupedmessage where project_id = 2 group by issue_type order by cnt desc limit 10;
-            raw_sql = "select substring_index(message, ': ',1) as issue_type, count(id) as cnt from sentry_groupedmessage where project_id = 2 group by issue_type order by cnt desc limit " + str(cnt) + ";"
-            raw_querySet = Group.objects.raw(raw_sql)
+            from django.db import connection,transaction
+            cursor = connection.cursor()
+            # select
+            raw_sql = "select id, substring_index(message, ': ',1) as issue_type, count(id) as cnt from sentry_groupedmessage where project_id = 2 group by issue_type order by cnt desc limit %s;"
+            cursor.execute(raw_sql ,[cnt])
+            raw_querySet = cursor.fetchall()
             for s in raw_querySet:
                 print s
                 stats.append({'name': s.get('issue_type', ''), 'value': s.get('cnt', 0)})
@@ -97,13 +99,16 @@ class ProjectStatsEndpoint(ProjectEndpoint, StatsMixin):
                 cnt = 15
 
             stats = []
-            from sentry.models import Group
-            #  select substring_index(message, ': ',1) as issue_type, count(id) as cnt from sentry_groupedmessage where project_id = 2 group by issue_type order by cnt desc limit 10;
-            raw_sql = "select substring_index(message, ': ',1) as issue_type, count(id) as cnt from sentry_groupedmessage where project_id = 2 group by issue_type order by cnt desc limit " + str(cnt) + ";"
-            raw_querySet = Group.objects.raw(raw_sql)
+            from django.db import connection,transaction
+            cursor = connection.cursor()
+            # select
+            raw_sql = "select id, substring_index(message, ': ',1) as issue_type, count(id) as cnt from sentry_groupedmessage where project_id = 2 group by issue_type order by cnt desc limit %s;"
+            cursor.execute(raw_sql ,[cnt])
+            raw_querySet = cursor.fetchall()
             for s in raw_querySet:
                 print s
                 stats.append({'name': s.get('issue_type', ''), 'value': s.get('cnt', 0)})
+
             return Response(stats)
 
         stat = request.GET.get('stat', 'received')

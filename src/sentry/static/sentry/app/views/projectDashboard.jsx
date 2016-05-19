@@ -183,19 +183,6 @@ const ProjectDashboard = React.createClass({
 
         <div className="row">
           <div className="col-md-6">
-            <TopIssueTypePieChart
-              endpoint={this.getTopIssueTypesEndpoint(10)}
-              cnt="10" />
-          </div>
-          <div className="col-md-6">
-            <TopIssuePersonPieChart
-              endpoint={this.getTopIssuePersonsEndpoint(10)}
-              cnt="10" />
-          </div>
-        </div>
-        
-        <div className="row">
-          <div className="col-md-6">
             <EventList
                 title={t('Trending Issues')}
                 endpoint={this.getTrendingIssuesEndpoint(dateSince)} />
@@ -204,6 +191,19 @@ const ProjectDashboard = React.createClass({
             <EventList
                 title={t('New Issues')}
                 endpoint={this.getNewIssuesEndpoint(dateSince)} />
+          </div>
+        </div>
+
+        <div className="row">
+          <div className="col-md-6">
+            <TopIssueTypePieChart
+              endpoint={this.getTopIssueTypesEndpoint(10)}
+              cnt="10" />
+          </div>
+          <div className="col-md-6">
+            <TopIssuePersonPieChart
+              endpoint={this.getTopIssuePersonsEndpoint(10)}
+              cnt="10" />
           </div>
         </div>
       </div>

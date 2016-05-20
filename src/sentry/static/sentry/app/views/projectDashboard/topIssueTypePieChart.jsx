@@ -66,13 +66,10 @@ const TopIssueTypePieChart = React.createClass({
       series_data.push({'name': e['name'], 'value': e['value']});
       statsDict[e['name']] = e['value'];
     }
+    
     let testOption = {
         ext: {
           'url': '/' + this.props.params.orgId + '/' + this.props.params.projectId + '/?'
-        },
-        title : {
-            text: 'Trace类型 TOP ' + this.props.cnt + "占比情况",
-            x:'center'
         },
         tooltip : {
             trigger: 'item',
@@ -118,11 +115,21 @@ const TopIssueTypePieChart = React.createClass({
 
   render() {
     let option = this.getOption();
+    let chartTitle = 'Trace类型 TOP ' + this.props.cnt + "占比情况";
     return (
-      <ReactEcharts
-        height={400}
-        option={option} 
-        onReady={this.addClickEventToTopTypeChart} />
+      <div className="box dashboard-widget">
+        <div className="box-header clearfix">
+          <div className="row">
+            <h3>{chartTitle}</h3>
+          </div>
+        </div>
+        <div className="box-content">
+          <ReactEcharts
+            height={400}
+            option={option} 
+            onReady={this.addClickEventToTopTypeChart} />
+          </div>
+      </div>
     );
   }
 });

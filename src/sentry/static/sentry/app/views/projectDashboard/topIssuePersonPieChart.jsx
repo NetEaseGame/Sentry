@@ -71,10 +71,6 @@ const TopIssuePersonPieChart = React.createClass({
           'url': '/' + this.props.params.orgId + '/' + this.props.params.projectId + '/?',
           'statsData': this.state.statsData
         },
-        title : {
-            text: 'Trace指派人 TOP ' + this.props.cnt + "占比情况",
-            x:'center'
-        },
         tooltip : {
             trigger: 'item',
             formatter: "{a} <br/>{b} : {c} ({d}%)"
@@ -132,11 +128,21 @@ const TopIssuePersonPieChart = React.createClass({
   },
   render() {
     let option = this.getOption();
+    let chartTitle = 'Trace指派人 TOP ' + this.props.cnt + "占比情况";
     return (
-      <ReactEcharts
-        height={400}
-        option={option}
-        onReady={this.addClickEventToTopPersonChart} />
+      <div className="box dashboard-widget">
+        <div className="box-header clearfix">
+          <div className="row">
+            <h3>{chartTitle}</h3>
+          </div>
+        </div>
+        <div className="box-content">
+          <ReactEcharts
+            height={400}
+            option={option} 
+            onReady={this.addClickEventToTopPersonChart} />
+          </div>
+      </div>
     );
   }
 });

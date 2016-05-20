@@ -120,7 +120,7 @@ const TopIssueTypePieChart = React.createClass({
       <div className="box dashboard-widget">
         <div className="box-header clearfix">
           <div className="row">
-            <h3>{chartTitle}</h3>
+            <center><h3>{chartTitle}</h3></center>
           </div>
         </div>
         <div className="box-content">

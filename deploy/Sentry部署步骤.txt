@@ -1,0 +1,6 @@
+1. pip install .
+2. sentry init
+3. 修改sentry.conf.py
+4. 导入数据库结构（mysql）
+5. sentry upgrade（指定配置文件，设置root用户，报错不用管的）
+6. sentry start

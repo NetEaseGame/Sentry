@@ -98,8 +98,7 @@ const TopIssuePersonPieChart = React.createClass({
   },
   // Top Person图表加事件
   onChartClicked(params, chart) {
-    console.log(params, params.dataIndex);
-    if (params && params.dataIndex) {
+    if (params && params.dataIndex >= 0) {
       let root_url = '/' + this.props.params.orgId + '/' + this.props.params.projectId + '/?';
       let email = this.state.statsData[params.dataIndex].email;
       if (email) {

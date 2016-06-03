@@ -109,7 +109,7 @@ const TopIssueTypePieChart = React.createClass({
         });
         window.open(option.ext.url + qs, "_blank");
       }
-  }
+  },
   render() {
     let option = this.getOption();
     let chartTitle = 'Trace类型 TOP ' + this.props.cnt + "占比情况";

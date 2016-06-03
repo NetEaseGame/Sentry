@@ -68,9 +68,6 @@ const TopIssueTypePieChart = React.createClass({
     }
     
     let testOption = {
-        ext: {
-          'url': '/' + this.props.params.orgId + '/' + this.props.params.projectId + '/?'
-        },
         tooltip : {
             trigger: 'item',
             formatter: "{a} <br/>{b} : {c} ({d}%)"
@@ -103,11 +100,11 @@ const TopIssueTypePieChart = React.createClass({
   // Top Type图表加事件
   onChartClicked(params, chart) {
     if (params && params.name) {
-        let option = chart.getOption();
+        let root_url = '/' + this.props.params.orgId + '/' + this.props.params.projectId + '/?';
         let qs = jQuery.param({
           query: params.name
         });
-        window.open(option.ext.url + qs, "_blank");
+        window.open(root_url + qs, "_blank");
       }
   },
   render() {

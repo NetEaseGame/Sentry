@@ -67,10 +67,6 @@ const TopIssuePersonPieChart = React.createClass({
       statsDict[e['name']] = e['value'];
     }
     let testOption = {
-        ext: {
-          'url': '/' + this.props.params.orgId + '/' + this.props.params.projectId + '/?',
-          'statsData': this.state.statsData
-        },
         tooltip : {
             trigger: 'item',
             formatter: "{a} <br/>{b} : {c} ({d}%)"
@@ -103,13 +99,13 @@ const TopIssuePersonPieChart = React.createClass({
   // Top Person图表加事件
   onChartClicked(params, chart) {
     if (params && params.dataIndex) {
-
+      let root_url = '/' + this.props.params.orgId + '/' + this.props.params.projectId + '/?';
       let email = this.state.statsData[params.dataIndex].email;
       if (email) {
         let qs = jQuery.param({
           query: "assigned:" + email
         });
-        window.open(option.ext.url + qs, "_blank");
+        window.open(root_url + qs, "_blank");
       }
     }
   },

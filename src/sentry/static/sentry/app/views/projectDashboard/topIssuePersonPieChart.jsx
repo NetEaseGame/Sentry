@@ -5,7 +5,7 @@ import LoadingError from '../../components/loadingError';
 import LoadingIndicator from '../../components/loadingIndicator';
 import {t} from '../../locale';
 
-import ReactEcharts from 'react-echarts-component';
+import ReactEcharts from 'echarts-for-react';
 
 const TopIssuePersonPieChart = React.createClass({
   propTypes: {
@@ -101,34 +101,25 @@ const TopIssuePersonPieChart = React.createClass({
     return testOption;
   },
   // Top Person图表加事件
-  addClickEventToTopPersonChart(chart) {
-    chart.on('click', function(params) {
-      if (params && params.name) {
-        let option = chart.getOption();
-        let statsData = option.ext.statsData;
+  onChartClicked(params, chart) {
+    if (params && params.dataIndex) {
 
-        let name = params.name;
-        let email = null;
-        
-        for (let e in statsData) {
-          e = statsData[e];
-          if (e['name'] == name) {
-            email = e['email'];
-            break;
-          }
-        }
-        if (email) {
-          let qs = jQuery.param({
-            query: "assigned:" + email
-          });
-          window.open(option.ext.url + qs, "_blank");
-        }
+      let email = this.state.statsData[params.dataIndex].email;
+      if (email) {
+        let qs = jQuery.param({
+          query: "assigned:" + email
+        });
+        window.open(option.ext.url + qs, "_blank");
       }
-    });
+    }
   },
   render() {
     let option = this.getOption();
     let chartTitle = 'Trace指派人 TOP ' + this.props.cnt + "占比情况";
+    let onEvents = {
+      'click': this.onChartClicked
+    };
+
     return (
       <div className="box dashboard-widget">
         <div className="box-header clearfix">
@@ -140,7 +131,7 @@ const TopIssuePersonPieChart = React.createClass({
           <ReactEcharts
             height={400}
             option={option} 
-            onReady={this.addClickEventToTopPersonChart} />
+            onEvents={onEvents} />
           </div>
       </div>
     );

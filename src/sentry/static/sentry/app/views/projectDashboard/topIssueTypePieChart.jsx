@@ -5,7 +5,7 @@ import LoadingError from '../../components/loadingError';
 import LoadingIndicator from '../../components/loadingIndicator';
 import {t} from '../../locale';
 
-import ReactEcharts from 'react-echarts-component';
+import ReactEcharts from 'echarts-for-react';
 
 const TopIssueTypePieChart = React.createClass({
   propTypes: {
@@ -101,21 +101,21 @@ const TopIssueTypePieChart = React.createClass({
     return testOption;
   },
   // Top Type图表加事件
-  addClickEventToTopTypeChart(chart) {
-    chart.on('click', function(params) {
-      if (params && params.name) {
+  onChartClicked(params, chart) {
+    if (params && params.name) {
         let option = chart.getOption();
         let qs = jQuery.param({
           query: params.name
         });
         window.open(option.ext.url + qs, "_blank");
       }
-    });
-  },
-
+  }
   render() {
     let option = this.getOption();
     let chartTitle = 'Trace类型 TOP ' + this.props.cnt + "占比情况";
+    let onEvents = {
+      'click': this.onChartClicked
+    };
     return (
       <div className="box dashboard-widget">
         <div className="box-header clearfix">
@@ -127,7 +127,7 @@ const TopIssueTypePieChart = React.createClass({
           <ReactEcharts
             height={400}
             option={option} 
-            onReady={this.addClickEventToTopTypeChart} />
+            onEvents={onEvents} />
           </div>
       </div>
     );

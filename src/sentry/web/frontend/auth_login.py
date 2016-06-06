@@ -10,7 +10,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.views.decorators.cache import never_cache
 
 from sentry import features
-from sentry.models import AuthProvider, Organization, OrganizationMember, Team
+from sentry.models import AuthProvider, Organization, OrganizationMember, OrganizationMemberTeam, Team
 from sentry.web.forms.accounts import AuthenticationForm, RegistrationForm
 from sentry.web.frontend.base import BaseView
 from sentry.utils import auth

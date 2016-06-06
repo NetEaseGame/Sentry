@@ -257,9 +257,10 @@ def openid_login_callback(request):
     # 如果不存在将这个人加入到组织member表中
     if not OrganizationMember.objects.filter(user=login_user, organization=Organization.get_default()).exists():
         # 同时给他们默认的trace收集
-        # 薄脆用户到组织中
+        # 将用户到组织中
         orgMember = OrganizationMember(user=login_user, organization=Organization.get_default())
-        orgMember = orgMember.save()
+        orgMember.save()
+        orgMember = OrganizationMember.objects.get(user=login_user, organization=Organization.get_default())
         # 保存组织者到第一个小组
         orgMemTeam = OrganizationMemberTeam(organizationmember=orgMember, team=Team.objects.get(id=1))
         orgMemTeam.save()

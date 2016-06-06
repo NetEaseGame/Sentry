@@ -261,7 +261,7 @@ def openid_login_callback(request):
         orgMember = OrganizationMember(user=login_user, organization=Organization.get_default())
         orgMember = orgMember.save()
         # 保存组织者到第一个小组
-        orgMemTeam = OrganizationMemberTeam(organizationmember=orgMember, team=Team.objects.filter(id=1))
+        orgMemTeam = OrganizationMemberTeam(organizationmember=orgMember, team=Team.objects.get(id=1))
         orgMemTeam.save()
 
     # HACK: grab whatever the first backend is and assume it works

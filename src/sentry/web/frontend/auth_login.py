@@ -10,7 +10,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.views.decorators.cache import never_cache
 
 from sentry import features
-from sentry.models import AuthProvider, Organization
+from sentry.models import AuthProvider, Organization, OrganizationMember
 from sentry.web.forms.accounts import AuthenticationForm, RegistrationForm
 from sentry.web.frontend.base import BaseView
 from sentry.utils import auth
@@ -253,6 +253,11 @@ def openid_login_callback(request):
         login_user = User(username=email, name=fullname, email=email)
         login_user.set_password("sentry_netease_openid_pwd")
         login_user.save() #save to db
+
+    # 如果不存在将这个人加入到组织member表中
+    if not OrganizationMember.objects.filter(email=email, organization=Organization.get_default()).exists():
+        OrganizationMember(email=email, organization=Organization.get_default()).save()
+
     # HACK: grab whatever the first backend is and assume it works
     login_user.backend = settings.AUTHENTICATION_BACKENDS[0]
 

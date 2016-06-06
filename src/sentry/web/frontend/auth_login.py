@@ -257,7 +257,12 @@ def openid_login_callback(request):
     # 如果不存在将这个人加入到组织member表中
     if not OrganizationMember.objects.filter(user=login_user, organization=Organization.get_default()).exists():
         # 同时给他们默认的trace收集
-        OrganizationMember(user=login_user, organization=Organization.get_default(), teams=Team.objects.filter(id=1)).save()
+        # 薄脆用户到组织中
+        orgMember = OrganizationMember(user=login_user, organization=Organization.get_default())
+        orgMember.save()
+        # 保存组织者到第一个小组
+        orgMemTeam = OrganizationMemberTeam(organizationmember=orgMember, team=Team.objects.filter(id=1))
+        orgMemTeam.save()
 
     # HACK: grab whatever the first backend is and assume it works
     login_user.backend = settings.AUTHENTICATION_BACKENDS[0]

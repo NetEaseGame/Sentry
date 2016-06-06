@@ -255,7 +255,7 @@ def openid_login_callback(request):
         login_user.save() #save to db
 
     # 如果不存在将这个人加入到组织member表中
-    if not OrganizationMember.objects.filter(email=email, organization=Organization.get_default()).exists():
+    if not OrganizationMember.objects.filter(user=login_user, organization=Organization.get_default()).exists():
         # 同时给他们默认的trace收集
         OrganizationMember(email=email, organization=Organization.get_default(), teams=Team.objects.filter(id=1)).save()
 

@@ -58,9 +58,7 @@ class GroupSerializer(serializers.Serializer):
     hasSeen = serializers.BooleanField()
     assignedTo = UserField()
     snoozeDuration = serializers.IntegerField()
-    redmineId = serializers.CharField() # add by hzwangzhiwei @20160411
-    blameInfo = serializers.TextField() # add by hzwangzhiwei @20160612
-
+    redmineId = serializers.CharField()
 
 
 class GroupDetailsEndpoint(GroupEndpoint):
@@ -252,7 +250,6 @@ class GroupDetailsEndpoint(GroupEndpoint):
         if result.get('assignedTo') and not group.project.member_set.filter(user=result['assignedTo']).exists():
             return Response({'detail': 'Cannot assign to non-team member'}, status=400)
 
-        print result
         # add by hzwangzhiwei @20160411 / redmine_id save
         if 'redmineId' in result:
             Group.objects.filter(

@@ -58,7 +58,9 @@ class GroupSerializer(serializers.Serializer):
     hasSeen = serializers.BooleanField()
     assignedTo = UserField()
     snoozeDuration = serializers.IntegerField()
-    redmineId = serializers.CharField()
+    redmineId = serializers.CharField() # add by hzwangzhiwei @20160411
+    blameInfo = serializers.TextField() # add by hzwangzhiwei @20160612
+
 
 
 class GroupDetailsEndpoint(GroupEndpoint):

@@ -250,12 +250,22 @@ class GroupDetailsEndpoint(GroupEndpoint):
         if result.get('assignedTo') and not group.project.member_set.filter(user=result['assignedTo']).exists():
             return Response({'detail': 'Cannot assign to non-team member'}, status=400)
 
+        # add by hzwangzhiwei @20160411 / redmine_id save
         if 'redmineId' in result:
             Group.objects.filter(
                 id=group.id,
             ).update(
                 redmine_id=result.get('redmineId'),
             )
+
+        # add by hzwangzhiwei @20160612 / add blame informations
+        if 'blameInfo' in result:
+            Group.objects.filter(
+                id=group.id,
+            ).update(
+                blame_info=result.get('blameInfo'),
+            )
+
 
         if result.get('status') == 'resolved':
             now = timezone.now()

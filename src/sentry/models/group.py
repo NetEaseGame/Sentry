@@ -124,6 +124,7 @@ class Group(Model):
     data = GzippedDictField(blank=True, null=True)
 
     redmine_id = models.CharField(max_length=8) # add by hzwangzhiwei @20160411
+    blame_info = models.TextField() # add by hzwangzhiwei @20160612
 
     objects = GroupManager()
 

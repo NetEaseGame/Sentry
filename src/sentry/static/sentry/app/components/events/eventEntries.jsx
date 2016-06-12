@@ -5,6 +5,7 @@ import EventDataSection from './eventDataSection';
 import EventErrors from './errors';
 import EventExtraData from './extraData';
 import EventPackageData from './packageData';
+import BlameInfoData from './blameInfoData';
 import EventTags from './eventTags';
 import EventMessage from './message';
 import EventUser from './user';
@@ -47,7 +48,6 @@ const EventEntries = React.createClass({
     let group = this.props.group;
     let evt = this.props.event;
     let isShare = this.props.isShare;
-
     let entries = evt.entries.map((entry, entryIdx) => {
       try {
         let Component = this.interfaces[entry.type];
@@ -80,6 +80,12 @@ const EventEntries = React.createClass({
     });
 
     let {orgId, projectId} = this.props;
+    let blameInfo = []
+    try {
+      blameInfo = JSON.parse(group.blame_info);
+    } catch (ex) {
+      blameInfo = [];
+    }
     return (
       <div>
         {evt.userReport &&
@@ -115,6 +121,10 @@ const EventEntries = React.createClass({
           <EventPackageData
             group={group}
             event={evt} />
+        }
+        {!utils.objectIsEmpty(blameInfo) &&
+          <BlameInfoData
+            blameInfo={blameInfo} />
         }
       </div>
     );

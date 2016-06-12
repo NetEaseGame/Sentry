@@ -125,7 +125,7 @@ const TopIssuePersonPieChart = React.createClass({
         </div>
         <div className="box-content">
           <ReactEcharts
-            style={height:'400px'}
+            style={{height:'400px'}}
             option={option} 
             onEvents={onEvents} />
           </div>

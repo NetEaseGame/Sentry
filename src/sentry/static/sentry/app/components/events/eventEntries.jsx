@@ -82,7 +82,7 @@ const EventEntries = React.createClass({
     let {orgId, projectId} = this.props;
     let blameInfo = []
     try {
-      blameInfo = JSON.parse(group.blame_info);
+      blameInfo = JSON.parse(group.blameInfo);
     } catch (ex) {
       blameInfo = [];
     }

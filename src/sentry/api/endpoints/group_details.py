@@ -59,7 +59,7 @@ class GroupSerializer(serializers.Serializer):
     assignedTo = UserField()
     snoozeDuration = serializers.IntegerField()
     redmineId = serializers.CharField() # add by hzwangzhiwei @20160411
-    blameInfo = serializers.TextField() # add by hzwangzhiwei @20160612
+    blameInfo = serializers.CharField() # add by hzwangzhiwei @20160612
 
 
 

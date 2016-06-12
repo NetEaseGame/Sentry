@@ -28,7 +28,7 @@ _LOGIN_URL = None
 
 def get_login_url(reset=False):
     global _LOGIN_URL
-    #update by hzwangzhiwei @20160113
+    # update by hzwangzhiwei @20160113
     # if _LOGIN_URL is None or reset:
     #     # if LOGIN_URL resolves force login_required to it instead of our own
     #     # XXX: this must be done as late as possible to avoid idempotent requirements

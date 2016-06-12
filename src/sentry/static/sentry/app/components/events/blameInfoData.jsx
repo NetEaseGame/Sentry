@@ -4,7 +4,7 @@ import {t} from '../../locale';
 
 const BlameInfoData = React.createClass({
   propTypes: {
-    blameInfo: React.PropTypes.object.isRequired
+    blameInfo: React.PropTypes.array.isRequired
   },
 
   render() {
@@ -30,13 +30,13 @@ const BlameInfoData = React.createClass({
               </thead>
               <tbody>
               {
-                this.props.blameInfo.map(function(info) {
+                this.props.blameInfo.map(function(info, i) {
                   return (
-                    <tr>
+                    <tr key={'blame_info_' + i}>
                       <td className="value"><pre>{info.log}</pre></td>
                       <td className="value"><pre>{info.version}</pre></td>
                       <td className="value"><pre>{info.user}</pre></td>
-                      <td className="key">{info.time}</td>
+                      <td className="value"><pre>{info.time}</pre></td>
                     </tr>
                   )
                 })

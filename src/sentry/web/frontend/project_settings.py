@@ -13,7 +13,7 @@ from sentry.models import (
     AuditLogEntry, AuditLogEntryEvent, Project, Team
 )
 from sentry.web.forms.fields import (
-    CustomTypedChoiceField, RangeField, OriginsField, IPNetworksField, ServerNameField
+    CustomTypedChoiceField, RangeField, OriginsField, IPNetworksField, ServerNameField, 
 )
 from sentry.web.frontend.base import ProjectView
 
@@ -77,7 +77,7 @@ class EditProjectForm(forms.ModelForm):
     )
 
     class Meta:
-        fields = ('name', 'team', 'slug', 'redmine')
+        fields = ('name', 'team', 'slug', 'redmine', 'allowed_servernames')
         model = Project
 
     def __init__(self, request, organization, team_list, data, instance, *args, **kwargs):

@@ -208,3 +208,32 @@ class CorpEmailField(CharField):
         else:
             # invalid user, give the tip
             raise ValidationError(_('Invalid Corp Email, must end with @corp.netease.com or @mesg.corp.netease.com'))
+
+# #845, add for server name filter, by hzwangzhiwei @20160802
+class ServerNameField(CharField):
+    # Special case origins that don't fit the normal regex pattern, but are valid
+    WHITELIST_SERVERNAME = ('*')
+
+    widget = Textarea(
+        attrs={
+            'placeholder': mark_safe(_('e.g. qa-server or dev-server')),
+            'class': 'span8',
+        },
+    )
+
+    def clean(self, value):
+        if not value:
+            return []
+        values = filter(bool, (v.strip() for v in value.split('\n')))
+        for value in values:
+            if not self.is_valid_servername(value):
+                raise ValidationError('%r is not an acceptable value' % value)
+        return values
+
+    def is_valid_servername(self, value):
+        if value in self.WHITELIST_SERVERNAME:
+            return True
+
+        if value is None or value.strip() == '':
+            return False
+        return True

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from __future__ import absolute_import
 
 from django import forms
@@ -12,7 +13,7 @@ from sentry.models import (
     AuditLogEntry, AuditLogEntryEvent, Project, Team
 )
 from sentry.web.forms.fields import (
-    CustomTypedChoiceField, RangeField, OriginsField, IPNetworksField,
+    CustomTypedChoiceField, RangeField, OriginsField, IPNetworksField, ServerNameField
 )
 from sentry.web.frontend.base import ProjectView
 
@@ -68,7 +69,12 @@ class EditProjectForm(forms.ModelForm):
         required=False,
     )
     blacklisted_ips = IPNetworksField(label=_('Blacklisted IP Addresses'), required=False,
-        help_text=_('Separate multiple entries with a newline.'))
+        help_text=_('Separate multiple entries with a newline.')
+    )
+    # for #845 add server_name filter, add by hzwangzhiwei @20160802
+    allowed_servername = ServerNameField(label=_('Allowed Server Names'), required=False,
+        help_text=_('允许发送Trace的Server Name白名单，每行一个。为空将接受不到任何Trace。')
+    )
 
     class Meta:
         fields = ('name', 'team', 'slug', 'redmine')
@@ -172,6 +178,7 @@ class ProjectSettingsView(ProjectView):
         return EditProjectForm(
             request, organization, team_list, request.POST or None,
             instance=project, initial={
+                'server_names': '\n'.join(project.get_option('sentry:server_names', ['*'])),
                 'origins': '\n'.join(project.get_option('sentry:origins', ['*'])),
                 'token': security_token,
                 'resolve_age': int(project.get_option('sentry:resolve_age', 0)),
@@ -189,7 +196,7 @@ class ProjectSettingsView(ProjectView):
 
         if form.is_valid():
             project = form.save()
-            for opt in ('origins', 'resolve_age', 'scrub_data', 'sensitive_fields',
+            for opt in ('server_names', 'origins', 'resolve_age', 'scrub_data', 'sensitive_fields',
                         'scrape_javascript', 'scrub_ip_address', 'token', 'blacklisted_ips'):
                 value = form.cleaned_data.get(opt)
                 if value is None:

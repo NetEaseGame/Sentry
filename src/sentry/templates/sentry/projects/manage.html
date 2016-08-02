@@ -62,6 +62,7 @@
         <h3>{% trans "Client Security" %}</h3>
       </div>
       <div class="box-content with-padding">
+        {{ form.allowed_servernames|as_crispy_field }}
         {% with form.origins as field %}
         <p>{% blocktrans with 'https://github.com/getsentry/raven-js' as link %}Configure origin URLs which Sentry should accept events from. This is used for communication with clients like <a href="{{ link }}">raven-js</a>.{% endblocktrans %}
         <br>

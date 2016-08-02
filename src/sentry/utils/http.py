@@ -186,3 +186,17 @@ def is_valid_ip(ip_address, project):
             return False
 
     return True
+
+
+def is_valid_servername(server_name, project):
+    """
+    Verify that a server name is in whitelist
+    for the given project.
+    """
+    whitelist = project.get_option('sentry:allowed_servernames')
+    if not whitelist:
+        return True
+
+    if server_name is not None and server_name.strip() in whitelist:
+        return True
+    return False

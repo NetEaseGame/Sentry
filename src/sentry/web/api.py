@@ -26,7 +26,7 @@ from sentry.quotas.base import RateLimit
 from sentry.utils import json, metrics
 from sentry.utils.data_scrubber import SensitiveDataFilter
 from sentry.utils.http import (
-    is_valid_origin, get_origins, is_same_domain, is_valid_ip,
+    is_valid_origin, get_origins, is_same_domain, is_valid_ip, is_valid_servername, 
 )
 from sentry.utils.safe import safe_execute
 from sentry.web.helpers import render_to_response
@@ -294,6 +294,19 @@ class StoreView(APIView):
             ])
             metrics.incr('events.blacklisted')
             raise APIForbidden('Blacklisted IP address: %s' % (remote_addr,))
+
+        # #845, add for server name filter, by hzwangzhiwei @20160802
+        server_name = data.get('server_name', '')  # TODO, how to get the server_name tag value ?
+        if not is_valid_servername(server_name, project):
+            # save nothing into server.
+            # app.tsdb.incr_multi([
+            #     (app.tsdb.models.project_total_received, project.id),
+            #     (app.tsdb.models.project_total_blacklisted, project.id),
+            #     (app.tsdb.models.organization_total_received, project.organization_id),
+            #     (app.tsdb.models.organization_total_blacklisted, project.organization_id),
+            # ])
+            # metrics.incr('events.blacklisted')
+            raise APIForbidden('Not in Whitelist Server name: %s' % (server_name,))
 
         # TODO: improve this API (e.g. make RateLimit act on __ne__)
         rate_limit = safe_execute(app.quotas.is_rate_limited, project=project,

@@ -211,7 +211,6 @@ class CorpEmailField(CharField):
 
 # #845, add for server name filter, by hzwangzhiwei @20160802
 class ServerNameField(CharField):
-    # Special case origins that don't fit the normal regex pattern, but are valid
     WHITELIST_SERVERNAME = ('*')
 
     widget = Textarea(

@@ -195,7 +195,8 @@ class ProjectSettingsView(ProjectView):
 
     def handle(self, request, organization, team, project):
         form = self.get_form(request, project)
-        print '===============', form.allowed_servernames
+        print '===============', type(form)
+        print '===============', form.redmine
 
         if form.is_valid():
             project = form.save()

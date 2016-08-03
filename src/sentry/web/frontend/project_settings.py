@@ -194,10 +194,7 @@ class ProjectSettingsView(ProjectView):
         )
 
     def handle(self, request, organization, team, project):
-        messages.error(request, "Your error message")
         form = self.get_form(request, project)
-        import pprint
-        pprint.pprint(dir(form))
 
         if form.is_valid():
             project = form.save()

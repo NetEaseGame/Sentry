@@ -79,7 +79,7 @@ class EditProjectForm(forms.ModelForm):
     )
 
     class Meta:
-        fields = ('name', 'team', 'slug', 'redmine', 'allowed_servernames')
+        fields = ('name', 'team', 'slug', 'redmine')
         model = Project
 
     def __init__(self, request, organization, team_list, data, instance, *args, **kwargs):
@@ -195,6 +195,7 @@ class ProjectSettingsView(ProjectView):
 
     def handle(self, request, organization, team, project):
         form = self.get_form(request, project)
+        print '===============', form.allowed_servernames
 
         if form.is_valid():
             project = form.save()

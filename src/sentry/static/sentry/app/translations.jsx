@@ -29,7 +29,6 @@ export function translationsExist(language) {
 function dirname_to_locale(dir_name) {
   if (dir_name.indexOf('_') >= 0) {
       let locale_array = dir_name.split('_');
-        console.log(locale_array);
       dir_name = locale_array[0] + '-' + locale_array[1].toLowerCase();
   }
   return dir_name

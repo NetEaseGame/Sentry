@@ -337,8 +337,9 @@ class StoreView(APIView):
 
         # #845, add for server name filter, by hzwangzhiwei @20160803
         print('=============server_name=============')
-        print(data.get('tags', {}))
-        server_name = data.get('tags', {}).get('server_name', '')
+        print(data)
+        print(data.get('tags', []))
+        server_name = data.get('tags', [])
         if not is_valid_servername(server_name, project):
             raise APIForbidden('Not in Whitelist Server name: %s' % (server_name,))
 

@@ -197,7 +197,7 @@ class ProjectSettingsView(ProjectView):
         form = self.get_form(request, project)
         print '===============', type(form)
         import pprint
-        pprint.pprint(form)
+        pprint.pprint(dir(form))
 
         if form.is_valid():
             project = form.save()

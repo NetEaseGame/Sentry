@@ -74,8 +74,15 @@ class EditProjectForm(forms.ModelForm):
         help_text=_('Separate multiple entries with a newline.')
     )
     # for #845 add server_name filter, add by hzwangzhiwei @20160802
-    allowed_servernames = ServerNameField(label=_('Allowed Server Names'), required=False,
-        help_text=_('允许发送Trace的Server Name白名单，每行一个。为空将接受不到任何Trace。')
+    allowed_servernames = forms.CharField(
+        label=_('Additional sensitive fields'),
+        help_text=_('Additional field names to match against when scrubbing data. Separate multiple entries with a newline.'),
+        widget=forms.Textarea(attrs={
+            'placeholder': mark_safe(_('e.g. email')),
+            'class': 'span8',
+            'rows': '3',
+        }),
+        required=False,
     )
 
     class Meta:

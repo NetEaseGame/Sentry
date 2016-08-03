@@ -211,29 +211,23 @@ class CorpEmailField(CharField):
 
 # #845, add for server name filter, by hzwangzhiwei @20160802
 class ServerNameField(CharField):
-    WHITELIST_SERVERNAME = ('*')
-
     widget = Textarea(
         attrs={
-            'placeholder': mark_safe(_('e.g. qa-server or dev-server')),
+            'placeholder': mark_safe(_('e.g. 127.0.0.1 or 10.0.0.0/8')),
             'class': 'span8',
-            'rows': '4',
         },
     )
 
     def clean(self, value):
         if not value:
-            return []
+            return None
+        value = value.strip()
+        if not value:
+            return None
         values = filter(bool, (v.strip() for v in value.split('\n')))
         for value in values:
-            if not self.is_valid_servername(value):
+            try:
+                IPNetwork(value)
+            except ValueError:
                 raise ValidationError('%r is not an acceptable value' % value)
         return values
-
-    def is_valid_servername(self, value):
-        if value in self.WHITELIST_SERVERNAME:
-            return True
-
-        if value is None or value.strip() == '':
-            return False
-        return True

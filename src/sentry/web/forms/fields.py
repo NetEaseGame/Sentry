@@ -217,6 +217,7 @@ class ServerNameField(CharField):
         attrs={
             'placeholder': mark_safe(_('e.g. qa-server or dev-server')),
             'class': 'span8',
+            'rows': '4',
         },
     )
 

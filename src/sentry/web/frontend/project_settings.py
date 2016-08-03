@@ -29,14 +29,16 @@ class EditProjectForm(forms.ModelForm):
         help_text=_('A unique ID used to identify this project.'),
     )
     team = CustomTypedChoiceField(choices=(), coerce=int, required=False)
+    # add by hzwangzhiwei @20160411
     redmine = forms.CharField(label=_("Redmine URL ( HOW to: <a href='http://qadoc.nie.netease.com/?/article/28' target='_blank'>http://qadoc.nie.netease.com/?/article/28</a> )"), max_length=200, required=False, 
-        widget=forms.TextInput(attrs={'placeholder': _('eg. http://h11.pm.netease.com/projects/h11-bugs/issues/new')})) # add by hzwangzhiwei @20160411
+        widget=forms.TextInput(attrs={'placeholder': _('eg. http://h11.pm.netease.com/projects/h11-bugs/issues/new')}))
     origins = OriginsField(label=_('Allowed Domains'), required=False,
         help_text=_('Separate multiple entries with a newline.'))
     token = forms.CharField(label=_('Security token'), required=True,
         help_text=_('Outbound requests matching Allowed Domains will have the header "X-Sentry-Token: {token}" appended.'))
+    # for #846 auto solve time, 30 days, add by hzwangzhiwei @20160803
     resolve_age = RangeField(label=_('Auto resolve'), required=False,
-        min_value=0, max_value=168, step_value=1,
+        min_value=0, max_value=720, step_value=1,
         help_text=_('Treat an event as resolved if it hasn\'t been seen for this amount of time.'))
     scrub_data = forms.BooleanField(
         label=_('Data Scrubber'),

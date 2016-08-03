@@ -68,7 +68,7 @@
         {% blocktrans %}This will restrict requests based on the <code>Origin</code> and <code>Referer</code> headers.{% endblocktrans %}</p>
         {{ field|as_crispy_field }}
         {% endwith %}
-        {{ form.allowed_servernames|as_crispy_field }}
+        {{ form.allowed_servernames }}
         {{ form.scrape_javascript|as_crispy_field }}
         {{ form.token|as_crispy_field }}
         {{ form.blacklisted_ips|as_crispy_field }}

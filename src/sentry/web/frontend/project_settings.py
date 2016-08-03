@@ -74,15 +74,8 @@ class EditProjectForm(forms.ModelForm):
         help_text=_('Separate multiple entries with a newline.')
     )
     # for #845 add server_name filter, add by hzwangzhiwei @20160802
-    allowed_servernames = forms.CharField(
-        label=_('Allowed Server Names'),
-        help_text=_('eeee'),
-        widget=forms.Textarea(attrs={
-            'placeholder': mark_safe(_('e.g. qa-server or dev-server')),
-            'class': 'span8',
-            'rows': '4',
-        }),
-        required=False,
+    allowed_servernames = ServerNameField(label=_('Allowed Server Names'), required=False,
+        help_text=_('Server name whitelist, only the trace which has server_name in WhiteList can be save to the server.')
     )
 
     class Meta:

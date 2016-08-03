@@ -196,7 +196,8 @@ class ProjectSettingsView(ProjectView):
     def handle(self, request, organization, team, project):
         form = self.get_form(request, project)
         print '===============', type(form)
-        print '===============', form.redmine
+        import pprint
+        pprint.pprint(form)
 
         if form.is_valid():
             project = form.save()

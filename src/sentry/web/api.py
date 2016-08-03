@@ -295,19 +295,6 @@ class StoreView(APIView):
             metrics.incr('events.blacklisted')
             raise APIForbidden('Blacklisted IP address: %s' % (remote_addr,))
 
-        # #845, add for server name filter, by hzwangzhiwei @20160802
-        server_name = data.get('server_name', '')  # TODO, how to get the server_name tag value ?
-        if not is_valid_servername(server_name, project):
-            # save nothing into server.
-            # app.tsdb.incr_multi([
-            #     (app.tsdb.models.project_total_received, project.id),
-            #     (app.tsdb.models.project_total_blacklisted, project.id),
-            #     (app.tsdb.models.organization_total_received, project.organization_id),
-            #     (app.tsdb.models.organization_total_blacklisted, project.organization_id),
-            # ])
-            # metrics.incr('events.blacklisted')
-            raise APIForbidden('Not in Whitelist Server name: %s' % (server_name,))
-
         # TODO: improve this API (e.g. make RateLimit act on __ne__)
         rate_limit = safe_execute(app.quotas.is_rate_limited, project=project,
                                   _with_transaction=False)
@@ -347,6 +334,12 @@ class StoreView(APIView):
 
         # mutates data
         data = helper.validate_data(project, data)
+
+        # #845, add for server name filter, by hzwangzhiwei @20160803
+        print 'server_name:', data.get('tags', {})
+        server_name = data.get('tags', {}).get('server_name', '')
+        if not is_valid_servername(server_name, project):
+            raise APIForbidden('Not in Whitelist Server name: %s' % (server_name,))
 
         # mutates data
         manager = EventManager(data, version=auth.version)

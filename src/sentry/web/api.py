@@ -339,7 +339,8 @@ class StoreView(APIView):
         print('=============server_name=============')
         print(data)
         print(data.get('tags', []))
-        server_name = data.get('tags', [])
+        server_name = data.get('server_name', '')
+        print(server_name)
         if not is_valid_servername(server_name, project):
             raise APIForbidden('Not in Whitelist Server name: %s' % (server_name,))
 

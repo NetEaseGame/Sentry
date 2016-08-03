@@ -535,7 +535,7 @@ class ProjectGroupIndexEndpoint(ProjectEndpoint):
             # primary_group = sorted(group_list, key=lambda x: -x.times_seen)[0]
             # for #847, by hzwangzhiwei @20160803. 
             # when merge trace, primary_group = max(group.redmine_id)
-            primary_group = sorted(group_list, key=lambda x: x.redmine_id and x.redmine_id.isdigit() and int(x.redmine_id) or -1)
+            primary_group = sorted(group_list, key=lambda x: x.redmine_id and x.redmine_id.isdigit() and int(x.redmine_id) or -1)[-1]
             children = []
             for group in group_list:
                 if group == primary_group:

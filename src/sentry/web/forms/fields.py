@@ -213,21 +213,17 @@ class CorpEmailField(CharField):
 class ServerNameField(CharField):
     widget = Textarea(
         attrs={
-            'placeholder': mark_safe(_('e.g. 127.0.0.1 or 10.0.0.0/8')),
+            'placeholder': mark_safe(_('e.g. qa-server or dev-server')),
             'class': 'span8',
+            'rows': '4',
         },
     )
 
     def clean(self, value):
         if not value:
-            return None
-        value = value.strip()
-        if not value:
-            return None
+            return []
         values = filter(bool, (v.strip() for v in value.split('\n')))
         for value in values:
-            try:
-                IPNetwork(value)
-            except ValueError:
-                raise ValidationError('%r is not an acceptable value' % value)
+            if value is None or value.strip() == '':
+                raise ValidationError('%s is not an acceptable value' % value)
         return values

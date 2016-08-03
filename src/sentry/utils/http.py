@@ -193,7 +193,7 @@ def is_valid_servername(server_name, project):
     Verify that a server name is in whitelist
     for the given project.
     """
-    whitelist = project.get_option('sentry:allowed_servernames') or []
+    whitelist = project.get_option('sentry:allowed_servernames', ['*'])
     # all can pass
     if '*' in whitelist:
         return True

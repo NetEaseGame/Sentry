@@ -74,7 +74,7 @@ class ProjectStatsEndpoint(ProjectEndpoint, StatsMixin):
             stats['RESOLVED'] = stats['RESOLVED'] + int(statsQuerySet.get('cnt', 0))
 
             # 2. search auto RESOLVED
-            resolve_age = int(project.get_option('sentry:resolve_age', None))
+            resolve_age = project.get_option('sentry:resolve_age', None)
             if resolve_age:
                 statsQuerySet = Group.objects.filter(project_id=project.id, status=GroupStatus.UNRESOLVED, last_seen__lte=(timezone.now()-timedelta(hours=int(resolve_age)))).aggregate(cnt=Count('id'))
                 stats['RESOLVED'] = stats['RESOLVED'] + int(statsQuerySet.get('cnt', 0))

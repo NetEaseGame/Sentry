@@ -63,11 +63,12 @@ class ProjectStatsEndpoint(ProjectEndpoint, StatsMixin):
         action = request.GET.get('action', '')
         if action == 'stat':
             # update by hzwangzhiwei @20160816 for #860
-            stats = {'TOTAL': 0, 'RESOLVED': 0} # result
+            stats = {'TOTAL': 0, 'RESOLVED': 0, 'MUTED': 0} # result
             from sentry.models import Group, GroupStatus
             from django.utils import timezone
             from datetime import timedelta
             from django.db.models import Count
+            # status_map = ['UNRESOLVED', 'RESOLVED', 'MUTED', 'PENDING_DELETION', 'DELETION_IN_PROGRESS', 'PENDING_MERGE']
 
             # 1. search status == 'RESOLVED'
             statsQuerySet = Group.objects.filter(project_id=project.id, status=GroupStatus.RESOLVED).aggregate(cnt=Count('id'))
@@ -83,6 +84,10 @@ class ProjectStatsEndpoint(ProjectEndpoint, StatsMixin):
             statsQuerySet = Group.objects.filter(project_id=project.id).aggregate(cnt=Count('id'))
             stats['TOTAL'] = stats['TOTAL'] + int(statsQuerySet.get('cnt', 0))
             
+            # 4. ignore count, MUTED
+            statsQuerySet = Group.objects.filter(project_id=project.id, status=GroupStatus.MUTED).aggregate(cnt=Count('id'))
+            stats['MUTED'] = int(statsQuerySet.get('cnt', 0))
+
             return Response(stats)
 
         elif action == 'topIssueType':

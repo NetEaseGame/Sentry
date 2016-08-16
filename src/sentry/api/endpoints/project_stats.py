@@ -62,21 +62,27 @@ class ProjectStatsEndpoint(ProjectEndpoint, StatsMixin):
         # if action is "stat", then get the stats category
         action = request.GET.get('action', '')
         if action == 'stat':
-            status_map = ['UNRESOLVED', 'RESOLVED', 'MUTED', 'PENDING_DELETION', 'DELETION_IN_PROGRESS', 'PENDING_MERGE']
-            stats = {'TOTAL': 0} # result
-            for x in status_map:
-                stats[x] = 0
-
-            from sentry.models import Group
+            # update by hzwangzhiwei @20160816 for #860
+            stats = {'TOTAL': 0, 'RESOLVED': 0} # result
+            from sentry.models import Group, GroupStatus
+            from django.utils import timezone
+            from datetime import timedelta
             from django.db.models import Count
-            statsQuerySet = Group.objects.filter(project_id=project.id).values('status').annotate(cnt=Count('status'))
-            total = 0
-            for r in statsQuerySet:
-                status = int(r.get('status', 0))
-                total += r.get('cnt', 0)
-                if status <= 5:
-                    stats[status_map[status]] = r.get('cnt', 0)
-            stats['TOTAL'] = total
+            
+            # 1. search status == 'RESOLVED'
+            statsQuerySet = Group.objects.filter(project_id=project.id, status=GroupStatus.RESOLVED).aggregate(cnt=Count('id'))
+            stats['RESOLVED'] = stats['RESOLVED'] + int(statsQuerySet.get('cnt', 0))
+
+            # 2. search auto RESOLVED
+            resolve_age = int(project.get_option('sentry:resolve_age', None))
+            if resolve_age:
+                statsQuerySet = Group.objects.filter(project_id=project.id, status=GroupStatus.UNRESOLVED, last_seen__lte=(timezone.now()-timedelta(hours=int(resolve_age))).aggregate(cnt=Count('id'))
+                stats['RESOLVED'] = stats['RESOLVED'] + int(statsQuerySet.get('cnt', 0))
+
+            # 3. search all count.
+            statsQuerySet = Group.objects.filter(project_id=project.id).aggregate(cnt=Count('id'))
+            stats['TOTAL'] = stats['TOTAL'] + int(statsQuerySet.get('cnt', 0))
+            
             return Response(stats)
 
         elif action == 'topIssueType':

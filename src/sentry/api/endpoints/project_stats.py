@@ -68,7 +68,7 @@ class ProjectStatsEndpoint(ProjectEndpoint, StatsMixin):
             from django.utils import timezone
             from datetime import timedelta
             from django.db.models import Count
-            
+
             # 1. search status == 'RESOLVED'
             statsQuerySet = Group.objects.filter(project_id=project.id, status=GroupStatus.RESOLVED).aggregate(cnt=Count('id'))
             stats['RESOLVED'] = stats['RESOLVED'] + int(statsQuerySet.get('cnt', 0))
@@ -76,7 +76,7 @@ class ProjectStatsEndpoint(ProjectEndpoint, StatsMixin):
             # 2. search auto RESOLVED
             resolve_age = int(project.get_option('sentry:resolve_age', None))
             if resolve_age:
-                statsQuerySet = Group.objects.filter(project_id=project.id, status=GroupStatus.UNRESOLVED, last_seen__lte=(timezone.now()-timedelta(hours=int(resolve_age))).aggregate(cnt=Count('id'))
+                statsQuerySet = Group.objects.filter(project_id=project.id, status=GroupStatus.UNRESOLVED, last_seen__lte=(timezone.now()-timedelta(hours=int(resolve_age)))).aggregate(cnt=Count('id'))
                 stats['RESOLVED'] = stats['RESOLVED'] + int(statsQuerySet.get('cnt', 0))
 
             # 3. search all count.

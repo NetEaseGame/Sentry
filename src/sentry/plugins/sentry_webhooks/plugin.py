@@ -45,6 +45,8 @@ class WebHooksPlugin(notify.NotificationPlugin):
     logger = logging.getLogger('sentry.plugins.webhooks')
     user_agent = 'sentry-webhooks/%s' % version
 
+    project_default_enabled = True  # add by hzwangzhiwei @20160817, default is open
+
     def is_configured(self, project, **kwargs):
         return bool(self.get_option('urls', project))
 

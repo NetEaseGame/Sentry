@@ -44,7 +44,8 @@ class MailPlugin(NotificationPlugin):
     version = sentry.VERSION
     author = "Sentry Team"
     author_url = "https://github.com/getsentry/sentry"
-    project_default_enabled = True
+    project_default_enabled = False  # update by hzwangzhiwei @20160817, default is closed
+
     project_conf_form = None
     subject_prefix = settings.EMAIL_SUBJECT_PREFIX
 

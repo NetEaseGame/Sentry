@@ -132,6 +132,7 @@ const ExpandedTeamList = React.createClass({
             createLink: <a href={this.urlPrefix() + '/teams/new/'} />
           })}
         </p>
+        <p>可以联系 gzwangjia@ 或者 hzwangzhiwei@ 开通小组权限。</p>
       );
 
     }
@@ -141,6 +142,7 @@ const ExpandedTeamList = React.createClass({
           link: <a href={this.urlPrefix() + '/teams/new/'} />
         })}
       </p>
+      <p>可以联系 gzwangjia@ 或者 hzwangzhiwei@ 开通小组权限。</p>
     );
   },
 

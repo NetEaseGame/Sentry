@@ -131,18 +131,19 @@ const ExpandedTeamList = React.createClass({
             joinLink: <a onClick={this.showAllTeams} />,
             createLink: <a href={this.urlPrefix() + '/teams/new/'} />
           })}
+        <br />
+        可以联系 gzwangjia@ 或者 hzwangzhiwei@ 开通小组权限。
         </p>
-        <p>可以联系 gzwangjia@ 或者 hzwangzhiwei@ 开通小组权限。</p>
       );
-
     }
     return (
       <p>
         {tct('You dont have any teams for this organization yet. Get started by [link:creating your first team].', {
           link: <a href={this.urlPrefix() + '/teams/new/'} />
         })}
+        <br />
+        可以联系 gzwangjia@ 或者 hzwangzhiwei@ 开通小组权限。
       </p>
-      <p>可以联系 gzwangjia@ 或者 hzwangzhiwei@ 开通小组权限。</p>
     );
   },
 

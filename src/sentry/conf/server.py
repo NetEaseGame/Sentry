@@ -257,6 +257,7 @@ INSTALLED_APPS = (
     'sentry.plugins.sentry_urls',
     'sentry.plugins.sentry_useragents',
     'sentry.plugins.sentry_webhooks',
+    'sentry.plugins.sentry_popo',
     'social_auth',
     'south',
     'sudo',

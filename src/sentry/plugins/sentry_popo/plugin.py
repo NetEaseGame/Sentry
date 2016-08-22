@@ -58,8 +58,13 @@ class PopoPlugin(notify.NotificationPlugin):
     def is_configured(self, project, **kwargs):
         return bool(self.get_option('popos', project))
 
-    def get_popo_message(self, group, event):
-        msg = "【Sentry 提醒】 " + group.project.name + '\n\n' + event.message + '\n> ' + group.culprit + '\n\n地址：' + group.get_absolute_url()
+    def get_popo_message(self, group, event, rule):
+        if rule:
+            rule_label = rule.label or ''
+        else:
+            rule_label = ''
+
+        msg = "【Sentry 提醒】\n\n规则：" + rule_label + "\n项目：" + group.project.name + '\n\n' + event.message + '\n> ' + group.culprit + '\n\n地址：' + group.get_absolute_url()
         return msg
 
     def get_popos(self, project):
@@ -68,15 +73,7 @@ class PopoPlugin(notify.NotificationPlugin):
             return ()
         return filter(bool, popos.strip().splitlines())
 
-    def send_webhook(self, url, payload):
-        return safe_urlopen(
-            url=url,
-            json=payload,
-            timeout=self.timeout,
-            verify_ssl=False,
-        )
-
-    def notify_users(self, group, event, fail_silently=False):
-        message = self.get_popo_message(group, event)
+    def notify_users(self, group, event, fail_silently=False, rule=None):
+        message = self.get_popo_message(group, event, rule)
         for popo in self.get_popos(group.project):
             POPO.send_to_user(popo, message, async='1')

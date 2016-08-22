@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+# add by 20160822, a popo notice plugin.
+
 from __future__ import absolute_import
 
 import logging
@@ -50,26 +52,13 @@ class PopoPlugin(notify.NotificationPlugin):
     conf_title = title
     conf_key = 'Popo'
     project_conf_form = PopoOptionsForm
-    logger = logging.getLogger('sentry.plugins.Popo')
+    logger = logging.getLogger('sentry.plugins.popo')
     project_default_enabled = True  # add by hzwangzhiwei @20160822, default is open
 
     def is_configured(self, project, **kwargs):
         return bool(self.get_option('popos', project))
 
     def get_popo_message(self, group, event):
-        # data = {
-        #     'id': str(group.id),
-        #     'project': group.project.slug,
-        #     'project_name': group.project.name,
-        #     'logger': group.logger,
-        #     'level': group.get_level_display(),
-        #     'culprit': group.culprit,
-        #     'message': event.message,
-        #     'url': group.get_absolute_url(),
-        # }
-        # data['event'] = dict(event.data or {})
-        # data['event']['tags'] = event.get_tags()
-
         msg = "【Sentry 提醒】 " + group.project.name + '\n\n' + event.message + '\n> ' + group.culprit + '\n\n地址：' + group.get_absolute_url()
         return msg
 

@@ -70,7 +70,7 @@ class PopoPlugin(notify.NotificationPlugin):
         # data['event'] = dict(event.data or {})
         # data['event']['tags'] = event.get_tags()
 
-        msg = "【Sentry 提醒】\n\n" + event.message + '\n' + group.culprit + '\n\n详细：' + group.get_absolute_url()
+        msg = "【Sentry 提醒】\n\n" + group.project.name + ': ' + event.message + '\n' + group.culprit + '\n\n地址：' + group.get_absolute_url()
         return msg
 
     def get_popos(self, project):

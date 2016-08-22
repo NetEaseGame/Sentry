@@ -84,8 +84,8 @@ const TeamStatsBar = React.createClass({
           <span className="count-label">{t('Total Count')}</span>
         </div>
         <div className="col-md-3 stat-column">
-          <span className="count">{this.state.statsData.RESOLVED || 0}</span>
-          <span className="count-label">{t('Solved Count')}</span>
+          <span className="count">{(this.state.statsData.TOTAL - this.state.statsData.RESOLVED) || 0}</span>
+          <span className="count-label">{t('Unsolved Count')}</span>
         </div>
         <div className="col-md-3 stat-column">
           <span className="count">{this.state.statsData.MUTED || 0}</span>

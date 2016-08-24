@@ -272,7 +272,7 @@ class GroupDetailsEndpoint(GroupEndpoint):
             Group.objects.filter(
                 id=group.id,
             ).update(
-                follower=User.objects.filter(id=result.get('followerId')),
+                follower=User.objects.get(id=result.get('followerId')),
             )
 
         if result.get('status') == 'resolved':

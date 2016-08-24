@@ -229,7 +229,7 @@ export class Client {
 
     return this._wrapRequest(path, {
       method: 'PUT',
-      data: {follower, params.follower},
+      data: {follower: params.follower},
       success: (response) => {
         GroupActions.followItSuccess(id, params.id, response);
       },

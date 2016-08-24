@@ -141,7 +141,7 @@ class Group(Model):
             ('project', 'first_release'),
         )
 
-    __repr__ = sane_repr('project_id')
+    __repr__ = sane_repr('project_id', 'follower_id')
 
     def __unicode__(self):
         return "(%s) %s" % (self.times_seen, self.error())

@@ -139,6 +139,7 @@ class GroupSerializer(Serializer):
             'redmineId': obj.redmine_id, # add by hzwangzhiwei @20160411 redmine id
             'blameInfo': obj.blame_info, # add by hzwangzhiwei @20160612 blame information
             'follower': {
+                'id': obj.follower and obj.follower.id,
                 'name': obj.follower and obj.follower.name,
                 'email': obj.follower and obj.follower.email 
             }, # add by hzwangzhiwei @201600824 follower information

@@ -24,8 +24,9 @@ const FollowIssue = React.createClass({
     let follower = {
       name: window.Raven._globalContext.user.name,
       email: window.Raven._globalContext.user.email,
+      id: window.Raven._globalContext.user.id,
     };
-    this.api.followIt({id: this.props.id, follower: follower});
+    this.api.followIt({id: this.props.id, follower: follower, follower_id: window.Raven._globalContext.user.id});
     this.setState({follower: follower});
   },
   render() {

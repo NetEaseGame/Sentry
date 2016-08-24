@@ -140,7 +140,6 @@ const StreamActions = React.createClass({
   onCopyToRedmine(evt) {
     let texts = '';
     this.actionSelectedGroups((itemIds) => {
-      console.log(itemIds);
       texts += itemIds;
     });
     evt.offsetParent.setAttribute("data-clipboard-text", texts);

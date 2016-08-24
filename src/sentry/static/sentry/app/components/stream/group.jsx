@@ -104,7 +104,6 @@ const StreamGroup = React.createClass({
     className += ' group_issue_row'; // add by hzwangzhiwei @20160412
     let {id, orgId, projectId} = this.props;
 
-    console.log(data);
     return (
       <li className={className} onClick={this.toggleSelect}>
         <div className="col-md-6 col-xs-8 event-details">

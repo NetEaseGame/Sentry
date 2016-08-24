@@ -1,5 +1,6 @@
 import React from 'react';
 import ApiMixin from '../mixins/apiMixin';
+import TooltipMixin from '../mixins/tooltip';
 
 const FollowIssue = React.createClass({
   propTypes: {
@@ -8,7 +9,10 @@ const FollowIssue = React.createClass({
   },
 
   mixins: [
-    ApiMixin
+    ApiMixin, TooltipMixin({
+      html: true,
+      selector: '.tip'
+    }),
   ],
   getInitialState() {
     return {
@@ -36,7 +40,7 @@ const FollowIssue = React.createClass({
     }
     return (
       <span>
-        <a onClick={this.followIt}><span title="我来跟进" className="icon fa fa-fort-awesome"></span></a>
+        <a className="tip" title="我来跟进" onClick={this.followIt}><span className="icon fa fa-fort-awesome"></span></a>
         <div className="assign_name_hzwangzhiwei">{username}</div>
       </span>
     );

@@ -36,4 +36,6 @@ class Notification(object):
     def rule(self):
         warnings.warn('Notification.rule is deprecated. Switch to Notification.rules.',
                       DeprecationWarning)
-        return self.rules[0]
+        if self.rules and len(self.rules) > 0:
+            return self.rules[0]
+        return None

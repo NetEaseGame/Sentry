@@ -60,7 +60,7 @@ class GroupSerializer(serializers.Serializer):
     snoozeDuration = serializers.IntegerField()
     redmineId = serializers.CharField() # add by hzwangzhiwei @20160411
     blameInfo = serializers.CharField() # add by hzwangzhiwei @20160612
-
+    followerId = serializers.IntegerField() # add by hzwangzhiwei @20160824
 
 
 class GroupDetailsEndpoint(GroupEndpoint):
@@ -269,7 +269,6 @@ class GroupDetailsEndpoint(GroupEndpoint):
             )
 
         # add by hzwangzhiwei @20160824 / add follower information, save to follower_id
-        print (result.get('followerId'))
         if 'followerId' in result:
             Group.objects.filter(
                 id=group.id,

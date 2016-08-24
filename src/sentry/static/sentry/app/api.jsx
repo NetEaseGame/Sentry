@@ -224,8 +224,6 @@ export class Client {
   followIt(params, options) {
     let path = '/issues/' + params.id + '/';
     let id = this.uniqueId();
-    console.log(params.follower);
-    
     GroupActions.followIt(id, params.id, {follower: params.follower, follower_id: params.follower.id});
 
     return this._wrapRequest(path, {

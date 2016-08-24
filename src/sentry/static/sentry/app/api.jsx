@@ -220,7 +220,7 @@ export class Client {
     }, options);
   }
 
-  // add by hzwangzhiwei @20160411
+  // add by hzwangzhiwei @20160824
   followIt(params, options) {
     let path = '/issues/' + params.id + '/';
     let id = this.uniqueId();
@@ -229,7 +229,7 @@ export class Client {
 
     return this._wrapRequest(path, {
       method: 'PUT',
-      data: {follower: params.follower, follower_id: params.follower.id},
+      data: {followerId: params.follower.id},
       success: (response) => {
         GroupActions.followItSuccess(id, params.id, response);
       },

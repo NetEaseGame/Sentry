@@ -19,6 +19,7 @@ from sentry.models import (
 from sentry.plugins import plugins
 from sentry.utils.safe import safe_execute
 from sentry.utils.apidocs import scenario, attach_scenarios
+from django.conf import settings
 
 
 @scenario('RetrieveAggregate')
@@ -244,7 +245,6 @@ class GroupDetailsEndpoint(GroupEndpoint):
             return Response(serializer.errors, status=400)
 
         result = serializer.object
-        print (result)
         acting_user = request.user if request.user.is_authenticated() else None
 
         # TODO(dcramer): we should allow assignment to anyone who has membership
@@ -273,7 +273,7 @@ class GroupDetailsEndpoint(GroupEndpoint):
             Group.objects.filter(
                 id=group.id,
             ).update(
-                follower_id=result.get('followerId'),
+                follower=settings.AUTH_USER_MODEL.object.filter(id=result.get('followerId')),
             )
 
         if result.get('status') == 'resolved':

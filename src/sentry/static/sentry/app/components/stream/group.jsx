@@ -5,6 +5,7 @@ import {Link} from 'react-router';
 
 import AssigneeSelector from '../assigneeSelector';
 import RedmineId from '../redmineId'; // add by hzwangzhiwei @20160411
+import FollowIssue from '../followIssue'; // add by hzwangzhiwei @20160824
 import Count from '../count';
 import GroupChart from './groupChart';
 import GroupCheckBox from './groupCheckBox';
@@ -81,7 +82,6 @@ const StreamGroup = React.createClass({
 
     SelectedGroupStore.toggleSelect(this.state.data.id);
   },
-
   render() {
     let data = this.state.data;
     // let userCount = data.userCount;
@@ -104,6 +104,7 @@ const StreamGroup = React.createClass({
     className += ' group_issue_row'; // add by hzwangzhiwei @20160412
     let {id, orgId, projectId} = this.props;
 
+    console.log(data);
     return (
       <li className={className} onClick={this.toggleSelect}>
         <div className="col-md-6 col-xs-8 event-details">
@@ -163,8 +164,7 @@ const StreamGroup = React.createClass({
           <AssigneeSelector id={data.id} />
         </div>
         <div className="event-assignee col-md-1 hidden-sm hidden-xs">
-          <span title="我来跟进" className="icon fa fa-fort-awesome"></span>
-          <div className="assign_name_hzwangzhiwei">王志伟</div>
+          <FollowIssue username="王志伟" />
         </div>
         <div className="col-md-2 hidden-sm hidden-xs event-graph align-right">
           <GroupChart id={data.id} statsPeriod={this.props.statsPeriod} />

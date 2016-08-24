@@ -244,7 +244,7 @@ class GroupDetailsEndpoint(GroupEndpoint):
             return Response(serializer.errors, status=400)
 
         result = serializer.object
-
+        print (result)
         acting_user = request.user if request.user.is_authenticated() else None
 
         # TODO(dcramer): we should allow assignment to anyone who has membership

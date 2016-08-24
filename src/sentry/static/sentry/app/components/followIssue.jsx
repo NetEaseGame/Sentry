@@ -29,10 +29,14 @@ const FollowIssue = React.createClass({
     this.setState({follower: follower});
   },
   render() {
+    let username = '暂无';
+    if (this.state.follower && this.state.follower.name) {
+      username = this.state.follower.name;
+    }
     return (
       <span>
         <a onClick={this.followIt}><span title="我来跟进" className="icon fa fa-fort-awesome"></span></a>
-        <div className="assign_name_hzwangzhiwei">{this.state.follower || this.state.follower.name || '暂无'}</div>
+        <div className="assign_name_hzwangzhiwei">{username}</div>
       </span>
     );
   }

@@ -164,7 +164,7 @@ const StreamGroup = React.createClass({
           <AssigneeSelector id={data.id} />
         </div>
         <div className="event-assignee col-md-1 hidden-sm hidden-xs">
-          <FollowIssue username="王志伟" />
+          <FollowIssue id={data.id} follower={data.follower} />
         </div>
         <div className="col-md-2 hidden-sm hidden-xs event-graph align-right">
           <GroupChart id={data.id} statsPeriod={this.props.statsPeriod} />

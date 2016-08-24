@@ -225,7 +225,7 @@ export class Client {
     let path = '/issues/' + params.id + '/';
     let id = this.uniqueId();
 
-    GroupActions.followIt(id, params.id, {follower: follower});
+    GroupActions.followIt(id, params.id, {follower: params.follower});
 
     return this._wrapRequest(path, {
       method: 'PUT',

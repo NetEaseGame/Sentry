@@ -14,12 +14,11 @@ from sentry.db.models.query import create_or_update
 from sentry.constants import STATUS_CHOICES
 from sentry.models import (
     Activity, Group, GroupAssignee, GroupBookmark, GroupSeen, GroupSnooze,
-    GroupStatus, GroupTagKey, GroupTagValue, Release, UserReport
+    GroupStatus, GroupTagKey, GroupTagValue, Release, UserReport, User
 )
 from sentry.plugins import plugins
 from sentry.utils.safe import safe_execute
 from sentry.utils.apidocs import scenario, attach_scenarios
-from django.conf import settings
 
 
 @scenario('RetrieveAggregate')
@@ -273,7 +272,7 @@ class GroupDetailsEndpoint(GroupEndpoint):
             Group.objects.filter(
                 id=group.id,
             ).update(
-                follower=settings.AUTH_USER_MODEL.object.filter(id=result.get('followerId')),
+                follower=User.objects.filter(id=result.get('followerId')),
             )
 
         if result.get('status') == 'resolved':

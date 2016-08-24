@@ -24,6 +24,7 @@ class GroupSerializer(Serializer):
         GroupMeta.objects.populate_cache(item_list)
 
         attach_foreignkey(item_list, Group.project)
+        attach_foreignkey(item_list, Group.follower)
 
         if user.is_authenticated() and item_list:
             bookmarks = set(GroupBookmark.objects.filter(
@@ -137,11 +138,11 @@ class GroupSerializer(Serializer):
             'isPublic': obj.is_public,
             'redmineId': obj.redmine_id, # add by hzwangzhiwei @20160411 redmine id
             'blameInfo': obj.blame_info, # add by hzwangzhiwei @20160612 blame information
-            # 'follower': {
-                # 'name': obj.follower and obj.follower.name,
-                # 'email': obj.follower and obj.follower.email 
-            # }, # add by hzwangzhiwei @201600824 follower information
-            'follower_id': obj.follower_id,
+            'follower': {
+                'name': obj.follower and obj.follower.name,
+                'email': obj.follower and obj.follower.email 
+            }, # add by hzwangzhiwei @201600824 follower information
+            'followerId': obj.follower_id,
             'project': {
                 'name': obj.project.name,
                 'slug': obj.project.slug,

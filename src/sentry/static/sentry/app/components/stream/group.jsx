@@ -106,7 +106,7 @@ const StreamGroup = React.createClass({
 
     return (
       <li className={className} onClick={this.toggleSelect}>
-        <div className="col-md-7 col-xs-8 event-details">
+        <div className="col-md-6 col-xs-8 event-details">
           {this.props.canSelect &&
             <div className="checkbox">
               <GroupCheckBox id={data.id} />
@@ -161,6 +161,10 @@ const StreamGroup = React.createClass({
         </div>
         <div className="event-assignee col-md-1 hidden-sm hidden-xs">
           <AssigneeSelector id={data.id} />
+        </div>
+        <div className="event-assignee col-md-1 hidden-sm hidden-xs">
+          <span title="我来跟进" className="icon fa fa-fort-awesome"></span>
+          <div className="assign_name_hzwangzhiwei">王志伟</div>
         </div>
         <div className="col-md-2 hidden-sm hidden-xs event-graph align-right">
           <GroupChart id={data.id} statsPeriod={this.props.statsPeriod} />

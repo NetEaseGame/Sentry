@@ -30,6 +30,7 @@ from sentry.db.models import (
 )
 from sentry.utils.http import absolute_uri
 from sentry.utils.strings import truncatechars, strip
+from django.conf import settings
 
 
 # TODO(dcramer): pull in enum library

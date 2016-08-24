@@ -269,13 +269,13 @@ class GroupDetailsEndpoint(GroupEndpoint):
             )
 
         # add by hzwangzhiwei @20160824 / add follower information, save to follower_id
+        print (result.get('followerId'))
         if 'followerId' in result:
             Group.objects.filter(
                 id=group.id,
             ).update(
                 follower_id=result.get('followerId'),
             )
-
 
         if result.get('status') == 'resolved':
             now = timezone.now()

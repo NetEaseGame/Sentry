@@ -142,11 +142,11 @@ class GroupSerializer(Serializer):
                 'email': obj.follower and obj.follower.email 
             }, # add by hzwangzhiwei @201600824 follower information
             'follower_id': obj.follower_id,
-            'project': {
-                'name': obj.project.name,
-                'slug': obj.project.slug,
-                'redmine': obj.project.redmine  # add by hzwangzhiwei @20160411 redmine URL
-            },
+            # 'project': {
+                # 'name': obj.project.name,
+                # 'slug': obj.project.slug,
+                # 'redmine': obj.project.redmine  # add by hzwangzhiwei @20160411 redmine URL
+            # },
             'numComments': obj.num_comments,
             'assignedTo': attrs['assigned_to'],
             'isBookmarked': attrs['is_bookmarked'],

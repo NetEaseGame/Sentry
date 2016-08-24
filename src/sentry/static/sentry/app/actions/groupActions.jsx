@@ -20,6 +20,10 @@ let GroupActions = Reflux.createActions([
   'updateRedmineId',
   'updateRedmineIdSuccess',
   'updateRedmineIdError',
+
+  'followIt',
+  'followItSuccess',
+  'followItError',
 ]);
 
 

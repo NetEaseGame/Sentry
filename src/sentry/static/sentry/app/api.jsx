@@ -220,6 +220,25 @@ export class Client {
     }, options);
   }
 
+  // add by hzwangzhiwei @20160411
+  followIt(params, options) {
+    let path = '/issues/' + params.id + '/';
+    let id = this.uniqueId();
+
+    GroupActions.followIt(id, params.id, {follower: follower});
+
+    return this._wrapRequest(path, {
+      method: 'PUT',
+      data: {follower, params.follower},
+      success: (response) => {
+        GroupActions.followItSuccess(id, params.id, response);
+      },
+      error: (error) => {
+        GroupActions.followItError(id, params.id, error);
+      }
+    }, options);
+  }
+
   joinTeam(params, options) {
     let path = '/organizations/' + params.orgId + '/members/' + (params.memberId || 'me') + '/teams/' + params.teamId + '/';
     let id = this.uniqueId();

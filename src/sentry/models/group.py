@@ -125,7 +125,7 @@ class Group(Model):
 
     redmine_id = models.CharField(max_length=8) # add by hzwangzhiwei @20160411
     blame_info = models.TextField() # add by hzwangzhiwei @20160612
-
+    follower = FlexibleForeignKey(settings.AUTH_USER_MODEL) # add by hzwangzhiwei @20160824
     objects = GroupManager()
 
     class Meta:

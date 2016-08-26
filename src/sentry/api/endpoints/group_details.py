@@ -269,10 +269,15 @@ class GroupDetailsEndpoint(GroupEndpoint):
 
         # add by hzwangzhiwei @20160824 / add follower information, save to follower_id
         if 'followerId' in result:
+            follower_id = result.get('followerId')
+            if (follower_id):
+                user = User.objects.get(id=result.get('followerId'))
+            else:
+                user = None
             Group.objects.filter(
                 id=group.id,
             ).update(
-                follower=User.objects.get(id=result.get('followerId')),
+                follower=user,
             )
 
         if result.get('status') == 'resolved':

@@ -25,11 +25,22 @@ const FollowIssue = React.createClass({
       });
   },
   followIt() {
-    let follower = {
-      name: window.Raven._globalContext.user.name,
-      email: window.Raven._globalContext.user.email,
-      id: window.Raven._globalContext.user.id,
-    };
+    let follower = this.state.follower;
+    if (follower && follower.id) {
+      // cancel
+      follower = {
+        name: '',
+        email: '',
+        id: null
+      }
+    }
+    else {
+      follower = {
+        name: window.Raven._globalContext.user.name,
+        email: window.Raven._globalContext.user.email,
+        id: window.Raven._globalContext.user.id,
+      };
+    }
     this.api.followIt({id: this.props.id, follower: follower, follower_id: window.Raven._globalContext.user.id});
     this.setState({follower: follower});
   },
@@ -40,7 +51,7 @@ const FollowIssue = React.createClass({
     }
     return (
       <span>
-        <a className="tip" title="我来跟进" onClick={this.followIt}><span className="icon fa fa-fort-awesome"></span></a>
+        <a className="tip" title="跟进 / 取消跟进" onClick={this.followIt}><span className="icon fa fa-flag-checkered"></span></a>
         <div className="assign_name_hzwangzhiwei">{username}</div>
       </span>
     );

@@ -26,7 +26,8 @@ const FollowIssue = React.createClass({
   },
   followIt() {
     let follower = this.state.follower;
-    if (follower && follower.id) {
+    // 已经设置跟进人，并且跟进人是当前登陆，那么点击就是清空
+    if (follower && follower.id && follower.id == window.Raven._globalContext.user.id) {
       // cancel
       follower = {
         name: '',
@@ -34,6 +35,7 @@ const FollowIssue = React.createClass({
         id: null
       }
     }
+    // 否则，点击就是设置当前人
     else {
       follower = {
         name: window.Raven._globalContext.user.name,

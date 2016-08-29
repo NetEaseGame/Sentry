@@ -36,7 +36,7 @@ class OrganizationMembersView(OrganizationView):
             organization=organization,
         ).select_related('user')
         print (team.id)
-        queryset = OrganizationMember.objects.raw('''SELECT sentry_organizationmember_teams.team_id, sentry_organizationmember.* 
+        queryset = OrganizationMember.objects.raw('''SELECT DISTINCT sentry_organizationmember.*, sentry_organizationmember_teams.team_id 
                                                         FROM sentry_organizationmember_teams 
                                                             join sentry_organizationmember 
                                                             on sentry_organizationmember_teams.organizationmember_id = sentry_organizationmember_teams.organizationmember_id 

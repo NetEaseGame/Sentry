@@ -38,13 +38,7 @@ class OrganizationMembersView(OrganizationView):
         )
 
         # 当前登陆人具有权限的小组
-        team_list = [
-            t for t in Team.objects.get_for_user(
-                organization=organization,
-                user=request.user,
-            )
-            if request.access.has_team_scope(t, self.required_scope)
-        ]
+        team_list = Team.objects.get_for_user(organization=organization, user=request.user)
         if not team_list:
             team_list = []
         print (team_list)

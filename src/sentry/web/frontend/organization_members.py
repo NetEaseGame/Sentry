@@ -47,15 +47,15 @@ class OrganizationMembersView(TeamView):
             return self.redirect(redirect_uri)
 
         # 查询当前这个小组内的成员
-        queryset = OrganizationMember.objects.filter(
-            Q(user__is_active=True) | Q(user__isnull=True),
-            organization=organization,
-        ).select_related('user')
-        print (team.id)
+        # queryset = OrganizationMember.objects.filter(
+        #     Q(user__is_active=True) | Q(user__isnull=True),
+        #     organization=organization,
+        # ).select_related('user')
+        # print (team.id)
         queryset = OrganizationMember.objects.raw('''SELECT DISTINCT sentry_organizationmember.*, sentry_organizationmember_teams.team_id 
                                                         FROM sentry_organizationmember_teams 
                                                             join sentry_organizationmember 
-                                                            on sentry_organizationmember_teams.organizationmember_id = sentry_organizationmember_teams.organizationmember_id 
+                                                            on sentry_organizationmember_teams.organizationmember_id = sentry_organizationmember.id 
                                                         where team_id = %s''' % (team.id, ))
         # 过滤组织中所有人，其中小组为 team 的成员
         queryset = sorted(queryset, key=lambda x: x.email or x.user.get_display_name())
@@ -67,7 +67,6 @@ class OrganizationMembersView(TeamView):
 
         member_list = []
         for om in queryset:
-            print (om.role)
             needs_sso = bool(auth_provider and not getattr(om.flags, 'sso:linked'))
             member_list.append((om, needs_sso))
 

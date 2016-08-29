@@ -302,21 +302,14 @@ class OrganizationView(BaseView):
             redirect_uri = self.get_no_permission_url(request, *args, **kwargs)
         return self.redirect(redirect_uri)
 
-    def convert_args(self, request, organization_slug=None, team_slug=None, *args, **kwargs):
+    def convert_args(self, request, organization_slug=None, *args, **kwargs):
         active_organization = self.get_active_organization(
             request=request,
             organization_slug=organization_slug,
         )
-        if active_organization:
-            active_team = self.get_active_team(
-                request=request,
-                team_slug=team_slug,
-                organization=active_organization,
-            )
-        else:
-            active_team = None
+
         kwargs['organization'] = active_organization
-        kwargs['team'] = active_team
+
         return (args, kwargs)
 
 

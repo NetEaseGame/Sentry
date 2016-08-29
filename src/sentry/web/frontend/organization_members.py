@@ -11,7 +11,23 @@ from sentry.web.frontend.base import OrganizationView
 from django.core.urlresolvers import reverse
 
 
-class OrganizationMembersView(OrganizationView):
+class OrganizationMembersIndexView(OrganizationView):
+    def handle(self, request, organization):
+        team_list = Team.objects.get_for_user(organization=organization, user=request.user)
+        if not team_list:
+            team_list = []
+
+        if len(team_list) > 0:
+            team = team_list[0]
+            # 当前登陆用户有小组，直接选择第一个小组，跳转过去
+            redirect_uri = reverse('sentry-organization-team-members', args=[organization.slug, team.slug])
+        else:
+            # 当前用不存在任何小组，那么，直接跳转到首页
+            redirect_to = reverse('sentry')
+        # 跳转
+        return self.redirect(redirect_uri)
+
+class OrganizationMembersView(TeamView):
     def handle(self, request, organization, team=None):
         # 当前登陆人具有权限的小组
         team_list = Team.objects.get_for_user(organization=organization, user=request.user)

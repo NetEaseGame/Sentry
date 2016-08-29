@@ -32,7 +32,7 @@ from sentry.web.frontend.organization_api_keys import OrganizationApiKeysView
 from sentry.web.frontend.organization_api_key_settings import OrganizationApiKeySettingsView
 from sentry.web.frontend.organization_audit_log import OrganizationAuditLogView
 from sentry.web.frontend.organization_auth_settings import OrganizationAuthSettingsView
-from sentry.web.frontend.organization_members import OrganizationMembersView
+from sentry.web.frontend.organization_members import OrganizationMembersView, OrganizationMembersIndexView
 from sentry.web.frontend.organization_member_settings import OrganizationMemberSettingsView
 from sentry.web.frontend.organization_settings import OrganizationSettingsView
 from sentry.web.frontend.create_organization import CreateOrganizationView
@@ -244,7 +244,7 @@ urlpatterns += patterns(
         name='sentry-organization-auth-settings'),
     url(r'^organizations/(?P<organization_slug>[\w_-]+)/audit-log/$', OrganizationAuditLogView.as_view(),
         name='sentry-organization-audit-log'),
-    url(r'^organizations/(?P<organization_slug>[\w_-]+)/members/$', OrganizationMembersView.as_view(),
+    url(r'^organizations/(?P<organization_slug>[\w_-]+)/members/$', OrganizationMembersIndexView.as_view(),
         name='sentry-organization-members'),
     url(r'^organizations/(?P<organization_slug>[\w_-]+)/teams/(?P<team_slug>[\w_-]+)/members/$', OrganizationMembersView.as_view(),
         name='sentry-organization-team-members'),

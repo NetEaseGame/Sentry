@@ -128,7 +128,7 @@
   <script>
   // selector2
   $('select#team_select_member').select2({});
-  $('select#team_select_member').on('select2:select', function (evt) {
+  $('select#team_select_member').on('select', function (evt) {
     console.log(evt);
     location.href = location.host + '/organizations/NetEase/teams/' + evt.value + '/members/';
   });

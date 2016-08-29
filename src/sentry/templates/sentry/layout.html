@@ -224,7 +224,10 @@
   {% block selectize %}
   <script>
   $(function() {
-    $('select').select2({placeholder: '--'});
+    // 非 member 页面
+    if (! location.pathname.match(/\/organizations\/NetEase\/teams\/\w{1,}\/members\//)) {
+      $('select').select2({placeholder: '--'});
+    }
   });
   </script>
   {% endblock %}

@@ -22,8 +22,8 @@
 
   <h3>{% trans "Members" %}</h3>
   <select class="js-example-basic-single">
-    {% for team in team_list %}
-      <option value="{{ team.slug }}">{{ team.name }}</option>
+    {% for team_temp in team_list %}
+      <option value="{{ team_temp.slug }}" selected="{{ team.id ==  team_temp.id and 'selected' or '' }}">{{ team_temp.name }}</option>
     {% endfor %} 
   </select>
   {% if request_list %}
@@ -127,7 +127,11 @@
   </style>
   <script>
   // selector2
-  $('select').select2({placeholder: 'All'});
+  $('select').select2({});
+  $('select').on('select2:select', function (evt) {
+    console.log(evt);
+    location.href = location.host + '/organizations/NetEase/teams/' + evt.value + '/members/';
+  });
 
   $('.remove-member').click(function(){
     var $this = $(this);

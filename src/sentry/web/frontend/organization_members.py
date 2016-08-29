@@ -42,7 +42,7 @@ class OrganizationMembersView(TeamView):
                 redirect_uri = reverse('sentry-organization-team-members', args=[organization.slug, team.slug])
             else:
                 # 当前用不存在任何小组，那么，直接跳转到首页
-                redirect_to = reverse('sentry-auth-organization', args=[organization.slug])
+                redirect_to = reverse('sentry')
             # 跳转
             return self.redirect(redirect_uri)
 
@@ -105,7 +105,8 @@ class OrganizationMembersView(TeamView):
             'can_add_members': can_add_members,
             'can_remove_members': can_remove_members,
             'member_can_leave': member_can_leave,
-            'team_list': team_list
+            'team_list': team_list,
+            'team': team
         }
 
         return self.respond('sentry/organization-members.html', context)

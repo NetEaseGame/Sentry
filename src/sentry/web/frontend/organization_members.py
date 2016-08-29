@@ -11,7 +11,13 @@ from sentry.web.frontend.base import OrganizationView
 
 
 class OrganizationMembersView(OrganizationView):
-    def handle(self, request, organization):
+    def handle(self, request, organization, team):
+        print (team)
+        # 当前登陆人具有权限的小组
+        team_list = Team.objects.get_for_user(organization=organization, user=request.user)
+        if not team_list:
+            team_list = []
+
         queryset = OrganizationMember.objects.filter(
             Q(user__is_active=True) | Q(user__isnull=True),
             organization=organization,
@@ -36,13 +42,6 @@ class OrganizationMembersView(OrganizationView):
                 and om.user != request.user
                 and om.user is not None)
         )
-
-        # 当前登陆人具有权限的小组
-        team_list = Team.objects.get_for_user(organization=organization, user=request.user)
-        if not team_list:
-            team_list = []
-        print (team_list)
-
 
         # TODO(dcramer): ideally member:write could approve
         can_approve_requests_globally = request.access.has_scope('org:write')

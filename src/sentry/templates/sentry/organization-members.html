@@ -23,7 +23,7 @@
   <h3>{% trans "Members" %}</h3>
   <select class="js-example-basic-single">
     {% for team in team_list %}
-      <option value="{{ team.slug }}">team.name</option>
+      <option value="{{ team.slug }}">{{ team.name }}</option>
     {% endfor %} 
   </select>
   {% if request_list %}

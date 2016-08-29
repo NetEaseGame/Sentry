@@ -246,6 +246,8 @@ urlpatterns += patterns(
         name='sentry-organization-audit-log'),
     url(r'^organizations/(?P<organization_slug>[\w_-]+)/members/$', OrganizationMembersView.as_view(),
         name='sentry-organization-members'),
+    url(r'^organizations/(?P<organization_slug>[\w_-]+)/teams/(?P<team_slug>[\w_-]+)/members/$', OrganizationMembersView.as_view(),
+        name='sentry-organization-team-members'),
     url(r'^organizations/(?P<organization_slug>[\w_-]+)/members/new/$', CreateOrganizationMemberView.as_view(),
         name='sentry-create-organization-member'),
     url(r'^organizations/(?P<organization_slug>[\w_-]+)/members/(?P<member_id>\d+)/$', OrganizationMemberSettingsView.as_view(),

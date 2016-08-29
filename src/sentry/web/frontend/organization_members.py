@@ -23,10 +23,10 @@ class OrganizationMembersView(OrganizationView):
                 team = team_list[0]
             if team:
                 # 当前登陆用户有小组，直接选择第一个小组，跳转过去
-                redirect_uri = reverse('sentry-organization-team-members', args=[organization.slug])
+                redirect_uri = reverse('sentry-organization-team-members', args=[organization.slug, team.slug])
             else:
                 # 当前用不存在任何小组，那么，直接跳转到首页
-                redirect_to = reverse('sentry-auth-organization', args=[kwargs['organization_slug']])
+                redirect_to = reverse('sentry-auth-organization', args=[organization.slug])
             # 跳转
             return self.redirect(redirect_uri)
 

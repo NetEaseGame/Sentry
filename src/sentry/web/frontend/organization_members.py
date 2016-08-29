@@ -7,10 +7,10 @@ from sentry import roles
 from sentry.models import (
     AuthProvider, OrganizationAccessRequest, OrganizationMember, Team
 )
-from sentry.web.frontend.base import TeamView
+from sentry.web.frontend.base import OrganizationView
 
 
-class OrganizationMembersView(TeamView):
+class OrganizationMembersView(OrganizationView):
     def handle(self, request, organization, team=None):
         print (team)
         # 当前登陆人具有权限的小组

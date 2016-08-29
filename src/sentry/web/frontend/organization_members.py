@@ -1,10 +1,11 @@
+# -*- coding: utf-8 -*-
 from __future__ import absolute_import
 
 from django.db.models import Q
 
 from sentry import roles
 from sentry.models import (
-    AuthProvider, OrganizationAccessRequest, OrganizationMember
+    AuthProvider, OrganizationAccessRequest, OrganizationMember, OrganizationMemberTeam
 )
 from sentry.web.frontend.base import OrganizationView
 
@@ -35,6 +36,13 @@ class OrganizationMembersView(OrganizationView):
                 and om.user != request.user
                 and om.user is not None)
         )
+
+        # 先找到当前登陆人的 OrganizationMember
+        login_om = OrganizationMember.objects.get(user=request.user)
+        print (login_om)
+        team_list = OrganizationMemberTeam.objects.filter(organizationmember=login_om)
+        print (team_list)
+
 
         # TODO(dcramer): ideally member:write could approve
         can_approve_requests_globally = request.access.has_scope('org:write')

@@ -21,7 +21,7 @@
   {% endif %}
 
   <h3>{% trans "Members" %}</h3>
-  <select class="js-example-basic-single">
+  <select id="team_select_member">
     {% for team_temp in team_list %}
       <option value="{{ team_temp.slug }}">{{ team_temp.slug }} - {{team_temp.name }}</option>
     {% endfor %} 
@@ -127,11 +127,11 @@
   </style>
   <script>
   // selector2
-  // $('select').select2({});
-  // $('select').on('select2:select', function (evt) {
-    // console.log(evt);
-    // location.href = location.host + '/organizations/NetEase/teams/' + evt.value + '/members/';
-  // });
+  $('select#team_select_member').select2({});
+  $('select#team_select_member').on('select2:select', function (evt) {
+    console.log(evt);
+    location.href = location.host + '/organizations/NetEase/teams/' + evt.value + '/members/';
+  });
 
   $('.remove-member').click(function(){
     var $this = $(this);
@@ -213,10 +213,3 @@
   $('.tip').tooltip();
   </script>
 {% endblock %}
-<script type="text/javascript">
-  
-  $('select').on('select2:select', function (evt) {
-  // Do something
-    console.log(evt);
-  });
-</script>

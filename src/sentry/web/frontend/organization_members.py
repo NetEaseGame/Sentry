@@ -5,23 +5,36 @@ from django.db.models import Q
 
 from sentry import roles
 from sentry.models import (
-    AuthProvider, OrganizationAccessRequest, OrganizationMember, Team
+    AuthProvider, OrganizationAccessRequest, OrganizationMember, Team, OrganizationMemberTeam
 )
 from sentry.web.frontend.base import OrganizationView
+from django.core.urlresolvers import reverse
 
 
 class OrganizationMembersView(OrganizationView):
     def handle(self, request, organization, team=None):
-        print (team)
         # 当前登陆人具有权限的小组
         team_list = Team.objects.get_for_user(organization=organization, user=request.user)
         if not team_list:
             team_list = []
 
-        queryset = OrganizationMember.objects.filter(
+        if team is None:
+            if len(team_list) > 0:
+                team = team_list[0]
+            if team:
+                # 当前登陆用户有小组，直接选择第一个小组，跳转过去
+                redirect_uri = reverse('sentry-organization-team-members', args=[organization.slug])
+            else:
+                # 当前用不存在任何小组，那么，直接跳转到首页
+                redirect_to = reverse('sentry-auth-organization', args=[kwargs['organization_slug']])
+            # 跳转
+            return self.redirect(redirect_uri)
+
+        # 查询当前这个小组内的成员
+        queryset = OrganizationMemberTeam.objects.filter(
             Q(user__is_active=True) | Q(user__isnull=True),
             organization=organization,
-        ).select_related('user')
+        ).select_related('organizationmember').select_related('user')
 
         queryset = sorted(queryset, key=lambda x: x.email or x.user.get_display_name())
 
@@ -32,6 +45,7 @@ class OrganizationMembersView(OrganizationView):
 
         member_list = []
         for om in queryset:
+            print (om.role)
             needs_sso = bool(auth_provider and not getattr(om.flags, 'sso:linked'))
             member_list.append((om, needs_sso))
 

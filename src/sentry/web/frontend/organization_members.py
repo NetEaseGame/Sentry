@@ -32,7 +32,6 @@ class OrganizationMembersView(OrganizationView):
 
         # 查询当前这个小组内的成员
         queryset = OrganizationMemberTeam.objects.filter(
-            Q(user__is_active=True) | Q(user__isnull=True),
             organization=organization,
         ).select_related('organizationmember__user')
 

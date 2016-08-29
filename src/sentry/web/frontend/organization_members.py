@@ -7,7 +7,7 @@ from sentry import roles
 from sentry.models import (
     AuthProvider, OrganizationAccessRequest, OrganizationMember, Team, OrganizationMemberTeam
 )
-from sentry.web.frontend.base import OrganizationView
+from sentry.web.frontend.base import OrganizationView, TeamView
 from django.core.urlresolvers import reverse
 
 

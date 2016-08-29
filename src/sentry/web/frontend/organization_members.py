@@ -5,7 +5,7 @@ from django.db.models import Q
 
 from sentry import roles
 from sentry.models import (
-    AuthProvider, OrganizationAccessRequest, OrganizationMember, OrganizationMemberTeam
+    AuthProvider, OrganizationAccessRequest, OrganizationMember, Team
 )
 from sentry.web.frontend.base import OrganizationView
 
@@ -37,10 +37,16 @@ class OrganizationMembersView(OrganizationView):
                 and om.user is not None)
         )
 
-        # 先找到当前登陆人的 OrganizationMember
-        login_om = OrganizationMember.objects.get(user=request.user)
-        print (login_om)
-        team_list = OrganizationMemberTeam.objects.filter(organizationmember=login_om)
+        # 当前登陆人具有权限的小组
+        team_list = [
+            t for t in Team.objects.get_for_user(
+                organization=organization,
+                user=request.user,
+            )
+            if request.access.has_team_scope(t, self.required_scope)
+        ]
+        if not team_list:
+            team_list = []
         print (team_list)
 
 
@@ -71,6 +77,7 @@ class OrganizationMembersView(OrganizationView):
             'can_add_members': can_add_members,
             'can_remove_members': can_remove_members,
             'member_can_leave': member_can_leave,
+            'team_list': team_list
         }
 
         return self.respond('sentry/organization-members.html', context)

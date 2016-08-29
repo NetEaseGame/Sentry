@@ -21,7 +21,11 @@
   {% endif %}
 
   <h3>{% trans "Members" %}</h3>
-
+  <select class="js-example-basic-single">
+    {% for team in team_list %}
+      <option value="{{ team.slug }}">team.name</option>
+    {% endfor %} 
+  </select>
   {% if request_list %}
   <table class="table" style="margin-bottom: 20px" id="access_request_list">
     <thead>
@@ -122,6 +126,9 @@
   }
   </style>
   <script>
+  // selector2
+  $('select').select2({placeholder: 'All'});
+
   $('.remove-member').click(function(){
     var $this = $(this);
     var msg = $this.data('message') || 'Are you sure you wish to remove this member?';

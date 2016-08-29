@@ -39,7 +39,7 @@ class OrganizationMembersView(OrganizationView):
         queryset = OrganizationMember.objects.raw('''SELECT sentry_organizationmember_teams.team_id, sentry_organizationmember.* 
                                                         FROM sentry_organizationmember_teams 
                                                             join sentry_organizationmember 
-                                                            on sentry_organizationmember_teams.organization_id = sentry_organizationmember_teams.organization_id 
+                                                            on sentry_organizationmember_teams.organizationmember_id = sentry_organizationmember_teams.organizationmember_id 
                                                         where team_id = %s''' % (team.id, ))
         # 过滤组织中所有人，其中小组为 team 的成员
         queryset = sorted(queryset, key=lambda x: x.email or x.user.get_display_name())

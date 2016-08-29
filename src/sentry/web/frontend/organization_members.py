@@ -11,7 +11,7 @@ from sentry.web.frontend.base import OrganizationView
 
 
 class OrganizationMembersView(OrganizationView):
-    def handle(self, request, organization, team):
+    def handle(self, request, organization, team=None):
         print (team)
         # 当前登陆人具有权限的小组
         team_list = Team.objects.get_for_user(organization=organization, user=request.user)

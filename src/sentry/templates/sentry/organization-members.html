@@ -127,10 +127,9 @@
   </style>
   <script>
   // selector2
-  $('select#team_select_member').select2({});
-  $('select#team_select_member').on('select', function (evt) {
-    console.log(evt);
-    location.href = location.host + '/organizations/NetEase/teams/' + evt.value + '/members/';
+  // $('select#team_select_member').select2({});
+  $('select#team_select_member').on('click', function (evt) {
+    location.href = location.host + '/organizations/NetEase/teams/' + $('select#team_select_member').val() + '/members/';
   });
 
   $('.remove-member').click(function(){

@@ -34,7 +34,7 @@ class OrganizationMembersView(OrganizationView):
         queryset = OrganizationMemberTeam.objects.filter(
             Q(user__is_active=True) | Q(user__isnull=True),
             organization=organization,
-        ).select_related('organizationmember').select_related('user')
+        ).select_related('organizationmember__user')
 
         queryset = sorted(queryset, key=lambda x: x.email or x.user.get_display_name())
 

@@ -345,7 +345,7 @@ class TeamView(OrganizationView):
             return False
         return True
 
-    def convert_args(self, request, organization_slug, team_slug, *args, **kwargs):
+    def convert_args(self, request, organization_slug, team_slug=None, *args, **kwargs):
         active_organization = self.get_active_organization(
             request=request,
             organization_slug=organization_slug,

@@ -213,3 +213,10 @@
   $('.tip').tooltip();
   </script>
 {% endblock %}
+<script type="text/javascript">
+  
+  $('select').on('select2:select', function (evt) {
+  // Do something
+    console.log(evt);
+  });
+</script>

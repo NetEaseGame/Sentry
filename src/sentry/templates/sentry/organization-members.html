@@ -20,7 +20,7 @@
     </a>
   {% endif %}
 
-  <h3>{% trans "Members" %}</h3>
+  <h3 style="display: inline;margin-right: 20px;">{% trans "Members" %}</h3>
   <select id="team_select_member">
     {% for team_temp in team_list %}
       <option value="{{ team_temp.slug }}">{{ team_temp.slug }} - {{team_temp.name }}</option>
@@ -127,10 +127,8 @@
   </style>
   <script>
   // selector2
-  // $('select#team_select_member').select2({});
+  $('select#team_select_member').val('{{team.slug}}');
   $('select#team_select_member').on('click', function (evt) {
-    console.log(evt);
-    console.log(location.host + '/organizations/NetEase/teams/' + $('select#team_select_member').val() + '/members/');
     location.href = 'http://' + location.host + '/organizations/NetEase/teams/' + $('select#team_select_member').val() + '/members/';
   });
 

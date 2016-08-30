@@ -44,15 +44,20 @@ class OrganizationMemberSettingsView(OrganizationView):
         context = {
             'member': member,
             'enabled_teams': set(member.teams.all()),
-            # 当前登陆人具有权限的小组
-            # update by hzwangzhiwei 20160830, only the teams which the request user in.
-            'all_teams': Team.objects.get_for_user(organization=organization, user=request.user),
+            'all_teams': Team.objects.filter(
+                organization=organization,
+            ),
             'role_list': roles.get_all(),
         }
 
         return self.respond('sentry/organization-member-details.html', context)
 
     def handle(self, request, organization, member_id):
+        # 当前登陆人具有权限的小组
+        team_list = Team.objects.get_for_user(organization=organization, user=request.user)
+        if not team_list:
+            team_list = []
+        team_list = [team.id for team in team_list]
         try:
             member = OrganizationMember.objects.get(
                 Q(user__is_active=True) | Q(user__isnull=True),
@@ -92,6 +97,7 @@ class OrganizationMemberSettingsView(OrganizationView):
             'member': member,
             'form': form,
             'role_list': roles.get_all(),
+            'team_list': team_list
         }
 
         return self.respond('sentry/organization-member-settings.html', context)

@@ -92,7 +92,7 @@ class OrganizationMemberSettingsView(OrganizationView):
                                args=[organization.slug, member.id])
 
             return self.redirect(redirect)
-
+        print (team_list)
         context = {
             'member': member,
             'form': form,

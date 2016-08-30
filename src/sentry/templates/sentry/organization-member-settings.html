@@ -95,7 +95,7 @@
       <div class="box-content with-padding">
         <fieldset class="team-choices row">
           {% for team_id, team_name in form.teams.field.choices %}
-            <div class="control-group col-md-4 {% if team_id in team_list %}hidden_hzwangzhiwei{% endif %}">
+            <div class="control-group col-md-4 {% if team_id in team_list %}hidden_hzwangzhiwei {{team_id}}{% endif %}">
               <div class="controls">
                 <label class="checkbox">
                   <input type="checkbox" name="teams" value="{{ team_id }}"

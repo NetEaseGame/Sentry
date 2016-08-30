@@ -46,12 +46,6 @@ class OrganizationMembersView(TeamView):
             # 跳转
             return self.redirect(redirect_uri)
 
-        # 查询当前这个小组内的成员
-        # queryset = OrganizationMember.objects.filter(
-        #     Q(user__is_active=True) | Q(user__isnull=True),
-        #     organization=organization,
-        # ).select_related('user')
-        # print (team.id)
         queryset = OrganizationMember.objects.raw('''SELECT DISTINCT sentry_organizationmember.*, sentry_organizationmember_teams.team_id 
                                                         FROM sentry_organizationmember_teams 
                                                             join sentry_organizationmember 

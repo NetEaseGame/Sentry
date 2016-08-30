@@ -78,7 +78,8 @@
             <li class="radio">
               <label>
                 <input type="radio" name="role" value="{{ role.id }}"
-                       {% if role.id == form.role.value %} checked{% endif %} />
+                       {% if role.id == form.role.value %} checked {% endif %} 
+                       {% if forloop.counter >= role_level %} disabled='true' {% endif %} />
                 {{ role.name }}
                 <div class="help-block">{{ role.desc|linebreaksbr }}</div>
               </label>

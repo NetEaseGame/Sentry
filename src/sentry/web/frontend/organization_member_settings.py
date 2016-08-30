@@ -73,11 +73,22 @@ class OrganizationMemberSettingsView(OrganizationView):
 
         can_admin = request.access.has_scope('member:delete')
 
+        role_level = 4 # max role level
         if can_admin and not request.is_superuser():
             acting_member = OrganizationMember.objects.get(
                 user=request.user,
                 organization=organization,
             )
+            if acting_member.role == 'owner':
+                role_level = 4
+            elif  acting_member.role == 'manager':
+                role_level = 3
+            elif  acting_member.role == 'admin':
+                role_level = 2
+            elif  acting_member.role == 'member':
+                role_level = 1
+            else:
+                role_level = 0
             can_admin = acting_member.can_manage_member(member)
 
         if member.user == request.user or not can_admin:
@@ -99,7 +110,8 @@ class OrganizationMemberSettingsView(OrganizationView):
             'member': member,
             'form': form,
             'role_list': roles.get_all(),
-            'team_list': team_list
+            'team_list': team_list,
+            'role_level': role_level
         }
 
         return self.respond('sentry/organization-member-settings.html', context)

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from __future__ import absolute_import
 
 from django.contrib import messages
@@ -43,9 +44,9 @@ class OrganizationMemberSettingsView(OrganizationView):
         context = {
             'member': member,
             'enabled_teams': set(member.teams.all()),
-            'all_teams': Team.objects.filter(
-                organization=organization,
-            ),
+            # 当前登陆人具有权限的小组
+            # update by hzwangzhiwei 20160830, only the teams which the request user in.
+            'all_teams': Team.objects.get_for_user(organization=organization, user=request.user),
             'role_list': roles.get_all(),
         }
 

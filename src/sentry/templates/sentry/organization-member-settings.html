@@ -14,7 +14,12 @@
       <br><small>Member Settings</small>
     </h2>
   </div>
-
+  <!-- add by hzwangzhiwei, rm admin role -->
+  <style type="text/css">
+    /*ul.member_roles li:nth-child(2) {
+      display: none;
+    }*/
+  </style>
   <form class="form-stacked" action="" method="post">
     {% csrf_token %}
 
@@ -68,7 +73,7 @@
         <h3>{% trans "Role" %}</h3>
       </div>
       <div class="box-content with-padding">
-        <ul class="radio-inputs">
+        <ul class="radio-inputs member_roles">
           {% for role in role_list %}
             <li class="radio">
               <label>

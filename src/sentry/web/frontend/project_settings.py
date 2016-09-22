@@ -32,6 +32,12 @@ class EditProjectForm(forms.ModelForm):
     # add by hzwangzhiwei @20160411
     redmine = forms.CharField(label=_("Redmine URL ( HOW to: <a href='http://qadoc.nie.netease.com/?/article/28' target='_blank'>http://qadoc.nie.netease.com/?/article/28</a> )"), max_length=200, required=False, 
         widget=forms.TextInput(attrs={'placeholder': _('eg. http://h11.pm.netease.com/projects/h11-bugs/issues/new')}))
+    # add by hzwangzhiwei @20160922
+    redmine_token = forms.CharField(label=_("RedmineAPI Token ( What: <a href='http://redmineapi.nie.netease.com/home/' target='_blank'>http://redmineapi.nie.netease.com/home/</a> )"), max_length=200, required=False, 
+        widget=forms.TextInput(attrs={'placeholder': _('eg. 70cfa944be845d3d9219a4a1c51bdba9')}))
+    redmine_host = forms.CharField(label=_("RedmineAPI Host ( What: <a href='http://redmineapi.nie.netease.com/home/' target='_blank'>http://redmineapi.nie.netease.com/home/</a> )"), max_length=200, required=False, 
+        widget=forms.TextInput(attrs={'placeholder': _('eg. hm1.pm.netease.com')}))
+
     origins = OriginsField(label=_('Allowed Domains'), required=False,
         help_text=_('Separate multiple entries with a newline.'))
     token = forms.CharField(label=_('Security token'), required=True,
@@ -79,7 +85,7 @@ class EditProjectForm(forms.ModelForm):
     )
 
     class Meta:
-        fields = ('name', 'team', 'slug', 'redmine')
+        fields = ('name', 'team', 'slug', 'redmine', 'redmine_token', 'redmine_host')
         model = Project
 
     def __init__(self, request, organization, team_list, data, instance, *args, **kwargs):
@@ -156,6 +162,18 @@ class EditProjectForm(forms.ModelForm):
         if not redmine.startswith('http://'): # TODO, url format
             raise forms.ValidationError('Redmine URL must a valid url. (http://qadoc.nie.netease.com/?/article/28)')
         return redmine
+
+    def clean_redmine_token(self):
+        redmine_token = self.cleaned_data.get('redmine_token')
+        if not redmine_token:
+            return 
+        return redmine_token
+
+    def clean_redmine_host(self):
+        redmine_host = self.cleaned_data.get('redmine_host')
+        if not redmine_host:
+            return 
+        return redmine_host
 
 
 class ProjectSettingsView(ProjectView):

@@ -75,7 +75,7 @@ const GroupActions = React.createClass({
     return false;
   },
 
-  // add by hzwangzhiwei @20140412 copy trace and open redmine URL
+  // add by hzwangzhiwei @20160412 copy trace and open redmine URL
   onCopyToRedmine(evt) {
     let redmine_url = this.getRedmineUrl();
     if (redmine_url) {
@@ -84,6 +84,11 @@ const GroupActions = React.createClass({
     else {
       // do thing
     }
+  },
+
+  // add by hzwangzhiwei @20160923, do redmine order.
+  onRedmineOrderClick(evt) {
+    console.log('need show the dialog.');
   },
 
   onSnooze(duration) {
@@ -206,6 +211,13 @@ const GroupActions = React.createClass({
              title={t('Copy Trace to Redmine')}
              data-clipboard-text={copyTraceText}
              onClick={this.onCopyToRedmine}>
+            <span className="fa fa-clipboard" />
+          </a>
+        </div>
+        <div className="btn-group">
+          <a className={'btn btn-default btn-sm tip'}
+             title={t('Redmine 提单')}
+             onClick={this.onRedmineOrderClick}>
             <span className="fa fa-share-square-o" />
           </a>
         </div>

@@ -263,11 +263,12 @@ const GroupActions = React.createClass({
         }
         
         <Modal style={{'padding': '0'}}
+               containerStyle={{'padding': '0'}}
                closeOnOuterClick={true}
                show={this.state.showRedmineModel}
-               onClose={this.closeRedmineModal}
-               transitionSpeed={100}>
+               onClose={this.closeRedmineModal}>
           <a key="close" style={closeStyle} onClick={this.closeRedmineModal}>X</a>
+          
           <form className="form-stacked">
             <div className="box">
               <div className="box-header">
@@ -278,7 +279,7 @@ const GroupActions = React.createClass({
                   <label className="control-label ">Project 项目</label>
                   <select className="select form-control" ref="project_selector" tabIndex="-1">
                     <option value="10">Dante (dante)</option>
-                    <option value="3" selected="selected">EP (ep)</option>
+                    <option value="3">EP (ep)</option>
                     <option value="9">F (f)</option>
                   </select>
                 </div>
@@ -286,7 +287,7 @@ const GroupActions = React.createClass({
                   <label className="control-label ">Tracker 跟踪</label>
                   <select className="select form-control" ref="tracker_selector" tabIndex="-1">
                     <option value="10">Dante (dante)</option>
-                    <option value="3" selected="selected">EP (ep)</option>
+                    <option value="3">EP (ep)</option>
                     <option value="9">F (f)</option>
                   </select>
                 </div>
@@ -294,7 +295,7 @@ const GroupActions = React.createClass({
                   <label className="control-label ">Version 周版本</label>
                   <select className="select form-control" ref="version_selector" tabIndex="-1">
                     <option value="10">Dante (dante)</option>
-                    <option value="3" selected="selected">EP (ep)</option>
+                    <option value="3">EP (ep)</option>
                     <option value="9">F (f)</option>
                   </select>
                 </div>

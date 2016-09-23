@@ -9,6 +9,8 @@ import LinkWithConfirmation from '../../components/linkWithConfirmation';
 import TooltipMixin from '../../mixins/tooltip';
 import {t} from '../../locale';
 
+import Modal, {closeStyle} from 'simple-react-modal';
+
 const Snooze = {
   // all values in minutes
   '30MINUTES': 30,
@@ -88,9 +90,11 @@ const GroupActions = React.createClass({
 
   // add by hzwangzhiwei @20160923, do redmine order.
   onRedmineOrderClick(evt) {
-    console.log('need show the dialog.');
+    this.setState({showRedmineModel: true});
   },
-
+  closeRedmineModal() {
+    this.setState({showRedmineModel: false});
+  },
   onSnooze(duration) {
     this.onUpdate({
       status: 'muted',
@@ -245,6 +249,14 @@ const GroupActions = React.createClass({
             </DropdownLink>
           </div>
         }
+        
+        <Modal style={{background: 'red'}}
+               containerStyle={{background: 'blue'}}
+               closeOnOuterClick={true}
+               show={this.state.showRedmineModel}
+               onClose={this.closeRedmineModal.bind(this)}>
+          <div>hey</div>
+        </Modal>
       </div>
     );
   }

@@ -40,7 +40,8 @@
     "style-loader": "0.12.4",
     "underscore": "1.8.3",
     "url-loader": "0.5.6",
-    "webpack": "1.12.4"
+    "webpack": "1.12.4",
+    "simple-react-modal": "0.5.1"
   },
   "private": true,
   "APIMethod": "stub",

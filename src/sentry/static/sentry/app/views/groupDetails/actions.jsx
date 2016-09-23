@@ -254,12 +254,10 @@ const GroupActions = React.createClass({
           </div>
         }
         
-        <Modal style={{background: 'red'}}
-               containerStyle={{background: 'blue'}}
-               closeOnOuterClick={true}
+        <Modal closeOnOuterClick={true}
                show={this.state.showRedmineModel}
-               onClose={this.closeRedmineModal.bind(this)}>
-          <div>hey</div>
+               onClose={this.closeRedmineModal}>
+          <div>hey, will show redmine form.</div>
         </Modal>
       </div>
     );

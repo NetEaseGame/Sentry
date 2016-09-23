@@ -275,24 +275,24 @@ const GroupActions = React.createClass({
               </div>
               <div className="box-content with-padding">
                 <div className="form-group">
-                  <label for="project_selector" className="control-label ">Project 项目</label>
-                  <select className="select form-control" id="project_selector" ref="project_selector" tabindex="-1">
+                  <label className="control-label ">Project 项目</label>
+                  <select className="select form-control" ref="project_selector" tabIndex="-1">
                     <option value="10">Dante (dante)</option>
                     <option value="3" selected="selected">EP (ep)</option>
                     <option value="9">F (f)</option>
                   </select>
                 </div>
                 <div className="form-group">
-                  <label for="tracker_selector" className="control-label ">Tracker 跟踪</label>
-                  <select className="select form-control" id="tracker_selector" ref="tracker_selector" tabindex="-1">
+                  <label className="control-label ">Tracker 跟踪</label>
+                  <select className="select form-control" ref="tracker_selector" tabIndex="-1">
                     <option value="10">Dante (dante)</option>
                     <option value="3" selected="selected">EP (ep)</option>
                     <option value="9">F (f)</option>
                   </select>
                 </div>
                 <div className="form-group">
-                  <label for="version_selector" className="control-label ">Version 周版本</label>
-                  <select className="select form-control" id="version_selector" ref="version_selector" tabindex="-1">
+                  <label className="control-label ">Version 周版本</label>
+                  <select className="select form-control" ref="version_selector" tabIndex="-1">
                     <option value="10">Dante (dante)</option>
                     <option value="3" selected="selected">EP (ep)</option>
                     <option value="9">F (f)</option>

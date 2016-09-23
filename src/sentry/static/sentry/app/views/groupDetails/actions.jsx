@@ -99,6 +99,14 @@ const GroupActions = React.createClass({
   closeRedmineModal() {
     this.setState({showRedmineModel: false});
   },
+  submitRedmineOrder() {
+    console.log(this.refs.project_selector.value);
+    console.log(this.refs.tracker_selector.value);
+    console.log(this.refs.version_selector.value);
+    // do ajax, if success, then close modal, or else alert
+    // this.setState({showRedmineModel: false});
+  },
+
   onSnooze(duration) {
     this.onUpdate({
       status: 'muted',
@@ -254,10 +262,48 @@ const GroupActions = React.createClass({
           </div>
         }
         
-        <Modal closeOnOuterClick={true}
+        <Modal style={{'padding': '0'}}
+               closeOnOuterClick={true}
                show={this.state.showRedmineModel}
-               onClose={this.closeRedmineModal}>
-          <div>hey, will show redmine form.</div>
+               onClose={this.closeRedmineModal}
+               transitionSpeed={100}>
+          <a key="close" style={closeStyle} onClick={this.closeRedmineModal}>X</a>
+          <form className="form-stacked">
+            <div className="box">
+              <div className="box-header">
+                <h3>Redmine 自动提单</h3>
+              </div>
+              <div className="box-content with-padding">
+                <div className="form-group">
+                  <label for="project_selector" className="control-label ">Project 项目</label>
+                  <select className="select form-control" id="project_selector" ref="project_selector" tabindex="-1">
+                    <option value="10">Dante (dante)</option>
+                    <option value="3" selected="selected">EP (ep)</option>
+                    <option value="9">F (f)</option>
+                  </select>
+                </div>
+                <div className="form-group">
+                  <label for="tracker_selector" className="control-label ">Tracker 跟踪</label>
+                  <select className="select form-control" id="tracker_selector" ref="tracker_selector" tabindex="-1">
+                    <option value="10">Dante (dante)</option>
+                    <option value="3" selected="selected">EP (ep)</option>
+                    <option value="9">F (f)</option>
+                  </select>
+                </div>
+                <div className="form-group">
+                  <label for="version_selector" className="control-label ">Version 周版本</label>
+                  <select className="select form-control" id="version_selector" ref="version_selector" tabindex="-1">
+                    <option value="10">Dante (dante)</option>
+                    <option value="3" selected="selected">EP (ep)</option>
+                    <option value="9">F (f)</option>
+                  </select>
+                </div>
+              </div>
+              <div className="form-actions">
+                <button type="button" onClick={this.submitRedmineOrder} className="btn btn-primary btn-sm">确认提单</button>
+              </div>
+            </div>
+          </form>
         </Modal>
       </div>
     );

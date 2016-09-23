@@ -28,7 +28,11 @@ const GroupActions = React.createClass({
       container: 'body',
     }),
   ],
-
+  getInitialState() {
+    return {
+      showRedmineModel: false
+    };
+  },
   onDelete() {
     let group = this.getGroup();
     let project = this.getProject();

@@ -267,8 +267,7 @@ const GroupActions = React.createClass({
                closeOnOuterClick={true}
                show={this.state.showRedmineModel}
                onClose={this.closeRedmineModal}>
-          <a key="close" style={closeStyle} onClick={this.closeRedmineModal}>X</a>
-          
+
           <form className="form-stacked">
             <div className="box">
               <div className="box-header">
@@ -299,9 +298,9 @@ const GroupActions = React.createClass({
                     <option value="9">F (f)</option>
                   </select>
                 </div>
-              </div>
-              <div className="form-actions">
-                <button type="button" onClick={this.submitRedmineOrder} className="btn btn-primary btn-sm">确认提单</button>
+                <div className="form-actions">
+                  <button type="button" onClick={this.submitRedmineOrder} className="btn btn-primary btn-sm">确认提单</button>
+                </div>
               </div>
             </div>
           </form>

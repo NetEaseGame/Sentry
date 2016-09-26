@@ -100,6 +100,7 @@ const GroupActions = React.createClass({
   // add by hzwangzhiwei @20160923, do redmine order.
   // 打开remine提单窗口
   onRedmineOrderClick(evt) {
+    this.xhr.setAsync(false);
     let project = this.getProject();
     if (!project.redmineToken || !project.redmineHost) {
       alert('请先到项目 Setting / 设置 中配置 Redmine API 相关内容！');
@@ -147,7 +148,9 @@ const GroupActions = React.createClass({
   // 当选中某一个redmine项目时，更新周版本
   onProjectSelected(evt, redmineProject) {
     let project = this.getProject();
+    if (! redmineProject) redmineProject = this.refs.project_selector.value;
     let versions = [];
+    this.xhr.setAsync(true);
     this.xhr.get('http://redmineapi.nie.netease.com/api/version', {
       'token': project.redmineToken, 
       'host': project.redmineHost,
@@ -169,12 +172,44 @@ const GroupActions = React.createClass({
     this.setState({showRedmineModel: false});
   },
   submitRedmineOrder() {
-    console.log(this.refs.project_selector.value);
-    console.log(this.refs.tracker_selector.value);
-    console.log(this.refs.version_selector.value);
-    // do ajax, if success, then close modal, or else alert
-    // this.setState({showRedmineModel: false});
-    console.log(this.getProject());
+    let project = this.getProject();
+    let group = this.getGroup();
+
+    let redmineProject = this.refs.project_selector.value;
+    let redmineTracker = this.refs.tracker_selector.value;
+    let redmineVersion = this.refs.version_selector.value;
+
+    if (redmineProject && redmineTracker && redmineVersion) {
+      this.xhr.setAsync(true); // async
+      this.xhr.post('http://redmineapi.nie.netease.com/api/create_issue ', {
+        token: project.redmineToken, 
+        host: project.redmineHost,
+        project: redmineProject,
+        tracker: redmineTracker,
+        version: redmineVersion,
+        subject: subject, // todo
+        description: description, // todo
+        author_mail: author_mail, // todo
+        assigned_to_mail: author_mail, // todo
+        follows: follows, //todo array
+      }, function(r) {
+        r = r.json(); // get the json result.
+        if (r.success) {
+          // 提单成功，获取单号，放到redmineID中
+          let redmine_id = r.data.id;
+          this.api.updateRedmineId({id: group.id, redmineId: redmine_id});
+          // 关闭界面
+          this.setState({showRedmineModel: false});
+        }
+        else {
+          alert('Redmine 提单失败【'+ r.api_error_msg +'】，检查是否 Redmine API 先关配置有误！');
+          return;
+        }
+      });
+    }
+    else {
+      alert('请先选择提单的“项目”，“跟踪”，“周版本”，然后再提单！');
+    }
   },
 
   onSnooze(duration) {
@@ -183,7 +218,9 @@ const GroupActions = React.createClass({
       snoozeDuration: duration,
     });
   },
-
+  componentWillUnmount() {
+    this.xhr.abort();
+  },
   render() {
     let group = this.getGroup();
 
@@ -346,7 +383,7 @@ const GroupActions = React.createClass({
               <div className="box-content with-padding">
                 <div className="form-group">
                   <label className="control-label ">Project 项目</label>
-                  <select className="select form-control" ref="project_selector" onChange={this.onProjectSelected.bind(this.refs.project_selector.value)} tabIndex="-1">
+                  <select className="select form-control" ref="project_selector" onChange={this.onProjectSelected} tabIndex="-1">
                     { this.state.redmineProjects.map(function(project, i) {
                         return (<option key={i} value={project}>{project}</option>);
                       })

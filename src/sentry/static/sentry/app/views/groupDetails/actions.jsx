@@ -194,8 +194,11 @@ const GroupActions = React.createClass({
       return;
     }
     
-    description = description + '\n\nSentry地址：' + group.permalink
-
+    description = description + '\n\nSentry地址：' + group.permalink;
+    let follows = [];
+    if (group.follower && group.follower.email) {
+      follows.push(group.follower.email);
+    }
     if (redmineProject && redmineTracker && redmineVersion) {
       this.xhr.post('http://redmineapi.nie.netease.com/api/create_issue ', {
         token: project.redmineToken, 
@@ -207,7 +210,7 @@ const GroupActions = React.createClass({
         description: description,
         author_mail: Raven._globalContext.user.email,
         assigned_to_mail: group.assignedTo.email,
-        follows: [group.follows.email],
+        follows: follows,
       }, function(r) {
         r = r.json(); // get the json result.
         if (r.success) {

@@ -1,3 +1,9 @@
+Version 2016-09-23
+-------------
+
+- 数据表sentry_project增加字段 redmine_token， redmine_host varchar(64)
+
+
 Version 2016-08-03 #847
 -------------
 

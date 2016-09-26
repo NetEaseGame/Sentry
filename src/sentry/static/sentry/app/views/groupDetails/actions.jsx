@@ -10,6 +10,7 @@ import TooltipMixin from '../../mixins/tooltip';
 import {t} from '../../locale';
 
 import Modal, {closeStyle} from 'simple-react-modal';
+import XHR from 'xhr.js';
 
 const Snooze = {
   // all values in minutes
@@ -28,9 +29,13 @@ const GroupActions = React.createClass({
       container: 'body',
     }),
   ],
+  xhr: new XHR(false),
   getInitialState() {
     return {
-      showRedmineModel: false
+      showRedmineModel: false,
+      redmineProjects: [],
+      redmineTrackers: [],
+      redmineVersions: []
     };
   },
   onDelete() {
@@ -93,9 +98,70 @@ const GroupActions = React.createClass({
   },
 
   // add by hzwangzhiwei @20160923, do redmine order.
+  // 打开remine提单窗口
   onRedmineOrderClick(evt) {
-    this.setState({showRedmineModel: true});
+    let project = this.getProject();
+    if (!project.redmineToken || !project.redmineHost) {
+      alert('请先到项目 Setting / 设置 中配置 Redmine API线管内容！');
+      return;
+    }
+    let projects = trackers = [];
+    // 请求redmine api，获取该项目的projects、trackers、versions
+    this.xhr.get('http://redmineapi.nie.netease.com/api/project', {
+      'token': project.redmineToken, 
+      'host': project.redmineHost
+    }, function(r) {
+      r = r.json(); // get the json result.
+      if (r.success) {
+        for (var i in r.data) projects.push(i);
+      }
+      else {
+        alert('拉取“项目列表”失败，检查是否 Redmine API 先关配置有误！');
+        return;
+      }
+    });
+    // 拉取tracker 
+    this.xhr.get('http://redmineapi.nie.netease.com/api/tracker', {
+      'token': project.redmineToken, 
+      'host': project.redmineHost
+    }, function(r) {
+      r = r.json(); // get the json result.
+      if (r.success) {
+        trackers = r.data;
+      }
+      else {
+        alert('拉取“跟踪列表”失败，检查是否 Redmine API 先关配置有误！');
+        return;
+      }
+    });
+    // 更新界面
+    this.setState({
+      showRedmineModel: true, 
+      redmineProjects: projects,
+      redmineTrackers: trackers
+    });
   },
+  // 当选中某一个redmine项目时，更新周版本
+  onProjectSelected() {
+    let redmineProject = this.refs.project_selector.value;
+    let versions = [];
+    this.xhr.get('http://redmineapi.nie.netease.com/api/version', {
+      'token': project.redmineToken, 
+      'host': project.redmineHost,
+      'project': redmineProject
+    }, function(r) {
+      r = r.json(); // get the json result.
+      if (r.success) {
+        versions = r.data;
+      }
+      else {
+        alert('拉取项目“周版本”失败，检查是否 Redmine API 先关配置有误！');
+        return;
+      }
+      this.setState({redmineVersions: versions});
+    });
+  },
+  // 关闭redmine提单弹出框
   closeRedmineModal() {
     this.setState({showRedmineModel: false});
   },
@@ -105,6 +171,7 @@ const GroupActions = React.createClass({
     console.log(this.refs.version_selector.value);
     // do ajax, if success, then close modal, or else alert
     // this.setState({showRedmineModel: false});
+    console.log(this.getProject());
   },
 
   onSnooze(duration) {
@@ -276,26 +343,26 @@ const GroupActions = React.createClass({
               <div className="box-content with-padding">
                 <div className="form-group">
                   <label className="control-label ">Project 项目</label>
-                  <select className="select form-control" ref="project_selector" tabIndex="-1">
-                    <option value="10">Dante (dante)</option>
-                    <option value="3">EP (ep)</option>
-                    <option value="9">F (f)</option>
+                  <select className="select form-control" ref="project_selector" onChange={this.onProjectSelected} tabIndex="-1">
+                    this.state.redmineProjects.map(function(project) {
+                      return <option value={project}>{project}</option>
+                    })
                   </select>
                 </div>
                 <div className="form-group">
                   <label className="control-label ">Tracker 跟踪</label>
                   <select className="select form-control" ref="tracker_selector" tabIndex="-1">
-                    <option value="10">Dante (dante)</option>
-                    <option value="3">EP (ep)</option>
-                    <option value="9">F (f)</option>
+                    this.state.redmineTrackers.map(function(tracker) {
+                      return <option value={tracker}>{tracker}</option>
+                    })
                   </select>
                 </div>
                 <div className="form-group">
                   <label className="control-label ">Version 周版本</label>
                   <select className="select form-control" ref="version_selector" tabIndex="-1">
-                    <option value="10">Dante (dante)</option>
-                    <option value="3">EP (ep)</option>
-                    <option value="9">F (f)</option>
+                    this.state.redmineVersions.map(function(version) {
+                      return <option value={version}>{version}</option>
+                    })
                   </select>
                 </div>
                 <div className="form-actions">

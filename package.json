@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "echarts-for-react": "^1.1.0",
+    "xhr.js": "^1.0.2",
     "bootstrap": "3.3.5",
     "classnames": "2.2.0",
     "crypto-js": "3.1.5",

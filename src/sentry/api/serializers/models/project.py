@@ -24,5 +24,7 @@ class ProjectSerializer(Serializer):
             'isPublic': obj.public,
             'dateCreated': obj.date_added,
             'firstEvent': obj.first_event,
+            'redmineToken': obj.redmine_token, # add by hzwangzhiwei@20160926 add redmine api info.
+            'redmineHost': obj.redmine_host,
             'features': feature_list,
         }

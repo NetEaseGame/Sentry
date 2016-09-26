@@ -102,10 +102,11 @@ const GroupActions = React.createClass({
   onRedmineOrderClick(evt) {
     let project = this.getProject();
     if (!project.redmineToken || !project.redmineHost) {
-      alert('请先到项目 Setting / 设置 中配置 Redmine API线管内容！');
+      alert('请先到项目 Setting / 设置 中配置 Redmine API 相关内容！');
       return;
     }
-    let projects = trackers = [];
+    let projects = [];
+    let trackers = [];
     // 请求redmine api，获取该项目的projects、trackers、versions
     this.xhr.get('http://redmineapi.nie.netease.com/api/project', {
       'token': project.redmineToken, 
@@ -116,7 +117,7 @@ const GroupActions = React.createClass({
         for (var i in r.data) projects.push(i);
       }
       else {
-        alert('拉取“项目列表”失败，检查是否 Redmine API 先关配置有误！');
+        alert('拉取“项目列表”失败，检查是否 Redmine API 相关配置有误！');
         return;
       }
     });
@@ -130,7 +131,7 @@ const GroupActions = React.createClass({
         trackers = r.data;
       }
       else {
-        alert('拉取“跟踪列表”失败，检查是否 Redmine API 先关配置有误！');
+        alert('拉取“跟踪列表”失败，检查是否 Redmine API 相关配置有误！');
         return;
       }
     });
@@ -140,10 +141,12 @@ const GroupActions = React.createClass({
       redmineProjects: projects,
       redmineTrackers: trackers
     });
+    if (projects && projects.length > 0)
+      this.onProjectSelected(null, projects[0]);
   },
   // 当选中某一个redmine项目时，更新周版本
-  onProjectSelected() {
-    let redmineProject = this.refs.project_selector.value;
+  onProjectSelected(evt, redmineProject) {
+    let project = this.getProject();
     let versions = [];
     this.xhr.get('http://redmineapi.nie.netease.com/api/version', {
       'token': project.redmineToken, 
@@ -343,26 +346,29 @@ const GroupActions = React.createClass({
               <div className="box-content with-padding">
                 <div className="form-group">
                   <label className="control-label ">Project 项目</label>
-                  <select className="select form-control" ref="project_selector" onChange={this.onProjectSelected} tabIndex="-1">
-                    this.state.redmineProjects.map(function(project) {
-                      return <option value={project}>{project}</option>
-                    })
+                  <select className="select form-control" ref="project_selector" onChange={this.onProjectSelected.bind(this.refs.project_selector.value)} tabIndex="-1">
+                    { this.state.redmineProjects.map(function(project, i) {
+                        return (<option key={i} value={project}>{project}</option>);
+                      })
+                    }
                   </select>
                 </div>
                 <div className="form-group">
                   <label className="control-label ">Tracker 跟踪</label>
                   <select className="select form-control" ref="tracker_selector" tabIndex="-1">
-                    this.state.redmineTrackers.map(function(tracker) {
-                      return <option value={tracker}>{tracker}</option>
-                    })
+                    { this.state.redmineTrackers.map(function(tracker, i) {
+                        return (<option key={i} value={tracker}>{tracker}</option>);
+                      })
+                    }
                   </select>
                 </div>
                 <div className="form-group">
                   <label className="control-label ">Version 周版本</label>
                   <select className="select form-control" ref="version_selector" tabIndex="-1">
-                    this.state.redmineVersions.map(function(version) {
-                      return <option value={version}>{version}</option>
-                    })
+                    { this.state.redmineVersions.map(function(version, i) {
+                        return (<option key={i} value={version}>{version}</option>);
+                      })
+                    }
                   </select>
                 </div>
                 <div className="form-actions">

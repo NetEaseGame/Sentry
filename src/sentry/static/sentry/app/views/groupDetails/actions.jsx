@@ -11,6 +11,8 @@ import {t} from '../../locale';
 
 import Modal, {closeStyle} from 'simple-react-modal';
 import XHR from 'xhr.js';
+import rawStacktraceContent from '../../components/events/interfaces/rawStacktraceContent';
+
 
 const Snooze = {
   // all values in minutes
@@ -100,7 +102,6 @@ const GroupActions = React.createClass({
   // add by hzwangzhiwei @20160923, do redmine order.
   // 打开remine提单窗口
   onRedmineOrderClick(evt) {
-    this.xhr.setAsync(false);
     let project = this.getProject();
     if (!project.redmineToken || !project.redmineHost) {
       alert('请先到项目 Setting / 设置 中配置 Redmine API 相关内容！');
@@ -150,7 +151,6 @@ const GroupActions = React.createClass({
     let project = this.getProject();
     if (! redmineProject) redmineProject = this.refs.project_selector.value;
     let versions = [];
-    this.xhr.setAsync(true);
     this.xhr.get('http://redmineapi.nie.netease.com/api/version', {
       'token': project.redmineToken, 
       'host': project.redmineHost,
@@ -164,8 +164,8 @@ const GroupActions = React.createClass({
         alert('拉取项目“周版本”失败，检查是否 Redmine API 先关配置有误！');
         return;
       }
-      this.setState({redmineVersions: versions});
     });
+    this.setState({redmineVersions: versions});
   },
   // 关闭redmine提单弹出框
   closeRedmineModal() {
@@ -179,15 +179,31 @@ const GroupActions = React.createClass({
     let redmineTracker = this.refs.tracker_selector.value;
     let redmineVersion = this.refs.version_selector.value;
 
+    let redmine_id = null;
+    let description = '';
+
+    if (window.hzwangzhiwei_currentEvent && window.hzwangzhiwei_currentEvent.entries && window.hzwangzhiwei_currentEvent.entries.length > 0) {
+      window.hzwangzhiwei_currentEvent.entries[0].data.values.map((exc, excIdx) => {
+        if (exc.stacktrace) {
+          description = description + rawStacktraceContent(exc.stacktrace, window.hzwangzhiwei_currentEvent.platform, exc) + '\n';
+        }
+      });
+    }
+    else {
+      alert('没有找到 Trace 基本信息，无法提单！');
+      return;
+    }
+    
+    description = description + '\n\nSentry地址：' + group.permalink
+
     if (redmineProject && redmineTracker && redmineVersion) {
-      this.xhr.setAsync(true); // async
       this.xhr.post('http://redmineapi.nie.netease.com/api/create_issue ', {
         token: project.redmineToken, 
         host: project.redmineHost,
         project: redmineProject,
         tracker: redmineTracker,
         version: redmineVersion,
-        subject: '[Sentry] ' + group.title,
+        subject: '[Sentry] ' + window.hzwangzhiwei_currentEvent.message,
         description: description,
         author_mail: Raven._globalContext.user.email,
         assigned_to_mail: group.assignedTo.email,
@@ -196,10 +212,7 @@ const GroupActions = React.createClass({
         r = r.json(); // get the json result.
         if (r.success) {
           // 提单成功，获取单号，放到redmineID中
-          let redmine_id = r.data.id;
-          this.api.updateRedmineId({id: group.id, redmineId: redmine_id});
-          // 关闭界面
-          this.setState({showRedmineModel: false});
+          redmine_id = r.data.id;
         }
         else {
           alert('Redmine 提单失败【'+ r.api_error_msg +'】，检查是否 Redmine API 先关配置有误！');
@@ -209,6 +222,11 @@ const GroupActions = React.createClass({
     }
     else {
       alert('请先选择提单的“项目”，“跟踪”，“周版本”，然后再提单！');
+    }
+    if (redmine_id) {
+      this.api.updateRedmineId({id: group.id, redmineId: redmine_id});
+      // 关闭界面
+      this.setState({showRedmineModel: false});
     }
   },
 

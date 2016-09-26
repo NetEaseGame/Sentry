@@ -54,7 +54,7 @@ const GroupEventDetails = React.createClass({
           error: false,
           loading: false
         });
-
+        window.hzwangzhiwei_currentEvent = data; // add by hzwangzhiwei@20160926 for global var
         this.api.bulkUpdate({
           orgId: this.getOrganization().slug,
           projectId: this.getProject().slug,

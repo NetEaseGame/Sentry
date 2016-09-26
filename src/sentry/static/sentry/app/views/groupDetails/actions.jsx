@@ -187,11 +187,11 @@ const GroupActions = React.createClass({
         project: redmineProject,
         tracker: redmineTracker,
         version: redmineVersion,
-        subject: subject, // todo
-        description: description, // todo
-        author_mail: author_mail, // todo
-        assigned_to_mail: author_mail, // todo
-        follows: follows, //todo array
+        subject: '[Sentry] ' + group.title,
+        description: description,
+        author_mail: Raven._globalContext.user.email,
+        assigned_to_mail: group.assignedTo.email,
+        follows: [group.follows.email],
       }, function(r) {
         r = r.json(); // get the json result.
         if (r.success) {

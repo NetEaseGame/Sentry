@@ -59,7 +59,7 @@
     "babel-loader": "5.3.3",
     "chai": "3.4.1",
     "enzyme": "^1.1.0",
-    "eslint": "1.9.0",
+    "eslint": "6.5.1",
     "eslint-plugin-getsentry": "1.0.0",
     "eslint-plugin-react": "3.11.2",
     "gettext-parser": "1.1.1",
